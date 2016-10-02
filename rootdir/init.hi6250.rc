@@ -16,6 +16,7 @@ import /init.trace.rc
 import /init.51312.rc
 import /init.post-fs-data.rc
 import /init.huawei.rc
+import /init.hi6250.usb.rc
 
 on early-boot
 

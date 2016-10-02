@@ -55,6 +55,7 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.connectivity.rc:root/init.connectivity.rc \
         $(LOCAL_PATH)/rootdir/fstab.zram512m:root/fstab.zram512m \
         $(LOCAL_PATH)/rootdir/init.chip.usb.rc:root/init.chip.usb.rc \
+        $(LOCAL_PATH)/rootdir/init.hi6250.usb.rc:root/init.hi6250.usb.rc \
         $(LOCAL_PATH)/rootdir/ueventd.4871.rc:root/ueventd.4871.rc \
         $(LOCAL_PATH)/rootdir/init.device.rc:root/init.device.rc \
         $(LOCAL_PATH)/rootdir/ueventd.6193.rc:root/ueventd.6193.rc \
