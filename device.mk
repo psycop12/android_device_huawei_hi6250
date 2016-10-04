@@ -131,7 +131,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.com.google.locationfeatures=1 \
     ro.setupwizard.mode=OPTIONAL \
     ro.setupwizard.enable_bypass=1 \
-    ro.config.sync=yees
+    ro.config.sync=yees \
+    persist.sys.usb.config=mtp
 
 
 PRODUCT_PROPERTY_OVERRIDES += \
