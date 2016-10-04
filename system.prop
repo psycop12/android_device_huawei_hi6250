@@ -48,3 +48,4 @@ persist.radio.multisim.config=dsds
 persist.dsds.enabled=true
 rild.libpath=/system/lib64/libbalong-ril.so
 ro.config.modem_number=2
+audioril.lib=libhuawei-audio-ril.so
