@@ -420,6 +420,8 @@ service check_system /sbin/hw_crit_service_sys
 
 on property:sys.boot_completed=1
     start check_system
+    # Meticulus: start the modem!
+    write /sys/devices/platform/his_modem/modem_sysboot_start 1
 
 on property:service.bootanim.exit=1
 

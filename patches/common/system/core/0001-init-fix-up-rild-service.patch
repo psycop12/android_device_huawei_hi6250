@@ -1,0 +1,30 @@
+From 454e712a6005eb52df67e4e563e6d37a2316b32c Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Mon, 3 Oct 2016 07:52:39 -0500
+Subject: [PATCH] 0001-init-fix-up-rild-service
+
+Change-Id: I5dcc28ed8067c2eda42fc7a43802ae3c2150dcd3
+---
+ rootdir/init.rc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/rootdir/init.rc b/rootdir/init.rc
+index 1c6fca6..310d1c5 100644
+--- a/rootdir/init.rc
++++ b/rootdir/init.rc
+@@ -656,6 +656,12 @@ service debuggerd64 /system/bin/debuggerd64
+ service ril-daemon /system/bin/rild
+     class main
+     socket rild stream 660 root radio
++    socket rild-ims stream 660 root radio
++    socket rildm2 stream 660 root radio
++    socket rildm3 stream 660 root radio
++    socket rildc1 stream 660 radio system
++    socket rildc2 stream 660 radio system
++    socket rildc3 stream 660 radio system
+     socket sap_uim_socket1 stream 660 bluetooth bluetooth
+     socket rild-debug stream 660 radio system
+     user root
+-- 
+1.9.1
+
