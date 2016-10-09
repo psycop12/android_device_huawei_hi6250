@@ -432,10 +432,12 @@ on property:service.bootanim.exit=1
 
     write /sys/class/devfreq/ddrfreq/max_freq 933000000
     write /sys/class/devfreq/ddrfreq/min_freq 533000000
+    write /sys/class/devfreq/ddrfreq/polling_internval 50
     write /sys/class/devfreq/ddr/freq/governor mali-ondemand
 
     write /sys/class/devfreq/ddrfreq_up_threshold/max_freq 933000000
     write /sys/class/devfreq/ddrfreq_up_threshold/min_freq 533000000
+    write /sys/class/devfreq/ddrfreq_up_threshold/polling_internval 50
     write /sys/class/devfreq/ddrfreq_up_threshold/governor mali-ondemand
 
 #Meticulus:
@@ -443,6 +445,7 @@ on property:service.bootanim.exit=1
 
     write /sys/class/devfreq/gpufreq/max_freq 900000000
     write /sys/class/devfreq/gpufreq/min_freq 480000000
+    write /sys/class/devfreq/gpufreq/polling_internval 50
     write /sys/class/devfreq/gpufreq/governor mali-ondemand
 
     write /sys/devices/e8970000.mali/max_pool_max_size 131072
