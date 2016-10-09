@@ -1,13 +1,13 @@
-From 2d143a5596ad8ba3d5ca055654d72431d809b529 Mon Sep 17 00:00:00 2001
+From 05b3186609157240e4b99c239f7c6996c6ea0d6f Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 3 Oct 2016 09:13:37 -0500
+Date: Sun, 9 Oct 2016 13:54:58 -0500
 Subject: [PATCH] 0002-liblog-add-missing-hi-print-symbol
 
-Change-Id: Idd06310b05f935aaa0b7a4cb95a7e0e41f679eb6
+Change-Id: Ia1717a93b223cdd9f98b984b87b289ac8c7b2c9d
 ---
- liblog/Android.mk   | 6 +++---
- liblog/logd_write.c | 9 +++++++++
- 2 files changed, 12 insertions(+), 3 deletions(-)
+ liblog/Android.mk   |  6 +++---
+ liblog/logd_write.c | 12 ++++++++++++
+ 2 files changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/liblog/Android.mk b/liblog/Android.mk
 index 6714498..ecf7620 100644
@@ -39,16 +39,19 @@ index 6714498..ecf7620 100644
  # TODO: This is to work around b/19059885. Remove after root cause is fixed
  LOCAL_LDFLAGS_arm := -Wl,--hash-style=both
 diff --git a/liblog/logd_write.c b/liblog/logd_write.c
-index 7f772af..f6c7948 100644
+index 7f772af..b676639 100644
 --- a/liblog/logd_write.c
 +++ b/liblog/logd_write.c
-@@ -552,3 +552,12 @@ void __attribute__((weak)) __xlog_buf_printf(__unused int bufid, const struct xl
+@@ -552,3 +552,15 @@ void __attribute__((weak)) __xlog_buf_printf(__unused int bufid, const struct xl
      return;
  }
  #endif
 +
 +
 +extern int __hi_log_print() __attribute__((alias("__android_log_print")));
++extern int __android_janklog_print() {
++    return 0;
++}
 +extern int __android_logPower_print() {
 +    return 0;
 +}
