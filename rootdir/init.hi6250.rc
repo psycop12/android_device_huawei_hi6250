@@ -355,15 +355,6 @@ on boot
 	chown system nfc /sys/nfc/nfc_age_test_flag_state
 	chmod 0640 /sys/nfc/nfc_age_test_flag_state
 
-on property:ro.runmode=*
-    start telemntncat
-
-service telemntncat /system/bin/dmesgcat -i /proc/telemntn -e b -r 10240 -z 3 -n 1 -f /data/hisi_logs/running_trace/telemntncat-log
-    class late_start
-    user root
-    group system
-    disabled
-
 
 on post-fs-data
     setprop camera.dis.flag 2
@@ -379,22 +370,6 @@ on post-fs-data
     chmod 770 /data/img
 
     mkdir /data/media 0770 media_rw media_rw
-
-    service shlogd /system/bin/shs
-    class late_start
-    user root
-    group system
-    disabled
-
-    service shex /system/bin/shex -p
-    user root
-    group system
-    disabled
-    oneshot
-    on property:sys.shlogd=0
-    stop shlogd
-    on property:sys.shlogd=1
-    start shlogd
 
 service perfhub /system/bin/perfhub
     class core
@@ -460,16 +435,4 @@ on property:ro.boot.ddrsize=2
 on property:ro.boot.ddrsize=3
     write /sys/block/zram0/comp_algorithm lz4
     swapon_all fstab.zram512m
-	
-on property:persist.sys.huawei.debug.on=0
-    chown system system /sys/class/sensors/sensorhub_dump
-    chmod 0660 /sys/class/sensors/sensorhub_dump
-on property:persist.sys.huawei.debug.on=1
-    chown system system /sys/class/sensors/sensorhub_dump
-    chmod 0664 /sys/class/sensors/sensorhub_dump
-	
-on property:persist.sys.huawei.debug.on=1
-    start shex
-    start shlogd
-on property:persist.sys.huawei.debug.on=0
-    stop shlogd
+

@@ -196,112 +196,6 @@ service hiscoutmanager /system/bin/hiscoutmanager
     oneshot
     seclabel u:r:hiscoutmanager:s0
 
-service logserver /system/bin/logserver
-    class late_start
-    user root
-    group system
-    oneshot
-    seclabel u:r:logserver:s0
-
-service logctl_service /sbin/logctl_service -m 1
-    class late_start
-    user root
-    group system
-    oneshot
-    seclabel u:r:hisilogcat:s0
-
-service logcat_service /sbin/logctl_service -m 1 -t 1
-    class late_start
-    user root
-    group system
-    oneshot
-    seclabel u:r:hisilogcat:s0
-
-service fac_log_service /system/bin/factory_log_service -m 1
-    class late_start
-    user root
-    group system
-    disabled
-    oneshot
-    seclabel u:r:hisilogcat:s0
-
-service applogcat /system/bin/logcat -v threadtime -r4096 -z 10 -n 5 -f /data/android_logs/applogcat-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service hilogcat /system/bin/hilogcat -r16 -z 10 -n 5 -f /data/android_logs/hilogcat-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service rillogcat /system/bin/logcat -b radio -v threadtime -r4096 -z 5 -n 5 -f /data/android_logs/rillogcat-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service kmsglogcat /sbin/kmsgcat -l -r 4096 -z 5 -n 5 -f /data/android_logs/kmsgcat-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service isplogcat /system/bin/isplogcat
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service inputlogcat /system/bin/eventcat -lrt -k 1024 -z 5 -m 5 -f /data/hwzd_logs/input-log/input-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service chargelogcat /system/bin/chargelogcat -r 4096 -n 5 -z 4 -t 5 -p /data/android_logs/
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service sleeplogcat /system/bin/sleeplogcat -t 2 -p /data/android_logs/sleeplog/ -f /system/etc/pwrlog.cfg
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service eventslogcat /system/bin/logcat -b events -v threadtime -r4096 -z 2 -n 2 -f /data/android_logs/eventslogcat-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service modemlogcat /system/bin/modemlogcat_lte -z -l
-    class late_start
-    user root
-    group system
-    disabled
-    oneshot
-
-service modematserver /system/bin/modemlogcat_lte -f hidp
-    class late_start
-    user root
-    group system
-    disabled
-    oneshot
-
 service dumptool /system/bin/dumptool
     class late_start
     seclabel u:r:logserver:s0
@@ -363,9 +257,6 @@ service mapper /system/bin/sh /system/bin/mappersh
     user root
     group system
     disabled
-
-on property:persist.sys.huawei.debug.on=*
-    restart logcat_service
 
 on property:ro.logsystem.usertype=*
     write /proc/log-usertype ${ro.logsystem.usertype}
