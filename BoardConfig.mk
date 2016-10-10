@@ -69,8 +69,6 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
 # RIL
 BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
 SIM_COUNT := 2
-#libbinder
-#COMMON_GLOBAL_CFLAGS += -DDISABLE_ASHMEM_TRACKING
 
 # Graphics
 USE_OPENGL_RENDERER := true
