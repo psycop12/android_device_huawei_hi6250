@@ -103,6 +103,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/etc/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
+# Wifi
+PRODUCT_PACKAGES += \
+    hostapd
 
 # Permissions
 PRODUCT_COPY_FILES += \
