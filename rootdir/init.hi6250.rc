@@ -431,6 +431,9 @@ on property:service.bootanim.exit=1
     write /sys/devices/e8970000.mali/max_pool_max_size 131072
     write /sys/devices/e8970000.mali/mem_pool_size 125560
 
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 807000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 1402000
+
     write /proc/balong/stats/boot_time 1
 
 on property:ro.boot.ddrsize=2
