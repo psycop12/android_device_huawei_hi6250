@@ -57,7 +57,7 @@ service macaddr /system/bin/mac_addr_normalization
     group root bluetooth net_bt_stack wifi
     oneshot
 
-on property:setup_hi110x_modules=success && property:ro.product.locale.region=CN
+on property:setup_hi110x_modules=success
     start chr_logd
     write /dev/kmsg "chr_logd has started"
 
