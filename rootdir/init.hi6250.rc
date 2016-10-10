@@ -412,12 +412,12 @@ on property:service.bootanim.exit=1
 
     write /sys/class/devfreq/ddrfreq/max_freq 933000000
     write /sys/class/devfreq/ddrfreq/min_freq 533000000
-    write /sys/class/devfreq/ddrfreq/polling_internval 50
-    write /sys/class/devfreq/ddr/freq/governor mali-ondemand
+    write /sys/class/devfreq/ddrfreq/polling_interval 50
+    write /sys/class/devfreq/ddrfreq/governor mali-ondemand
 
     write /sys/class/devfreq/ddrfreq_up_threshold/max_freq 933000000
     write /sys/class/devfreq/ddrfreq_up_threshold/min_freq 533000000
-    write /sys/class/devfreq/ddrfreq_up_threshold/polling_internval 50
+    write /sys/class/devfreq/ddrfreq_up_threshold/polling_interval 50
     write /sys/class/devfreq/ddrfreq_up_threshold/governor mali-ondemand
 
 #Meticulus:
@@ -425,14 +425,14 @@ on property:service.bootanim.exit=1
 
     write /sys/class/devfreq/gpufreq/max_freq 900000000
     write /sys/class/devfreq/gpufreq/min_freq 480000000
-    write /sys/class/devfreq/gpufreq/polling_internval 50
+    write /sys/class/devfreq/gpufreq/polling_interval 50
     write /sys/class/devfreq/gpufreq/governor mali-ondemand
 
-    write /sys/devices/e8970000.mali/max_pool_max_size 131072
+    write /sys/devices/e8970000.mali/mem_pool_max_size 131072
     write /sys/devices/e8970000.mali/mem_pool_size 125560
 
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 807000
-    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_min_freq 1402000
+    write /sys/devices/system/cpu/cpu4/cpufreq/scaling_governor ondemand
+    write /sys/devices/system/cpu/cpu4/cpufreq/ondemand/powersave_bias 300
 
     write /proc/balong/stats/boot_time 1
 
