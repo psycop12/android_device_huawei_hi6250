@@ -8,6 +8,9 @@ if [[ "$ROM" == "" ]]; then
 	sleep 1
 	ROM="cm"
 fi
+if [[ "$ROM" == "cm" ]]; then
+./clearpatches.sh $ROM
+fi
 echo $TOPDIR
 cd $ROM
 for LINE in $(find -name *.patch | sort )
@@ -22,6 +25,11 @@ do
 	REPO=$(dirname $LINE)
 	echo "repo = $REPO"
 	cd $TOPDIR
+	if [[ ! -e $REPO ]]; then
+		echo "WARNING: $REPO does not exist; skipping..."
+		cd $THISDIR
+		continue
+	fi
 	cd $REPO
 	RESULT=$(patch -p1 --follow-symlinks --no-backup-if-mismatch < $PATCH)
 	echo -e "${RESULT}"
@@ -73,6 +81,11 @@ do
 	REPO=$(dirname $LINE)
 	echo "repo = $REPO"
 	cd $TOPDIR
+	if [[ ! -e $REPO ]]; then
+		echo "WARNING: $REPO does not exist; skipping..."
+		cd $THISDIR
+		continue
+	fi
 	cd $REPO
 	RESULT=$(git apply --whitespace=nowarn -v $PATCH 2>&1)
 	echo -e "${RESULT}"

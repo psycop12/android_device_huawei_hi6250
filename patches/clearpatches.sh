@@ -19,6 +19,11 @@ do
   	REPO=$(dirname $LINE)
 	echo "repo = $TOPDIR$REPO"
 	cd $TOPDIR
+	if [[ ! -e $REPO ]]; then
+		echo "WARNING: $REPO does not exist; skipping..."
+		cd $THISDIR
+		continue
+	fi
 	cd $REPO
 	git add .
 	git stash
