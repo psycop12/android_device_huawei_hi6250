@@ -379,18 +379,6 @@ service goldeneye /system/bin/goldeneye
     user root
     group root
 
-service kmsgcat_cp /sbin/kmsgcat -r 4096 -n 25 -i /dev/cshell_log -f /data/hwzd_logs/cp_log/modemlog/modemkmsg-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service check_system /sbin/hw_crit_service_sys
-    class main
-    oneshot
-    seclabel u:r:check_system:s0
-
 on property:sys.boot_completed=1
     start check_system
     # Meticulus: start the modem!
