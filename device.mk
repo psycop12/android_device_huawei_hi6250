@@ -38,9 +38,7 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.51312.rc:root/init.51312.rc \
         $(LOCAL_PATH)/rootdir/init.post-fs-data.rc:root/init.post-fs-data.rc \
         $(LOCAL_PATH)/rootdir/init.balong_modem.rc:root/init.balong_modem.rc \
-        $(LOCAL_PATH)/rootdir/init.performance.rc:root/init.performance.rc \
         $(LOCAL_PATH)/rootdir/init.tee.rc:root/init.tee.rc \
-        $(LOCAL_PATH)/rootdir/init.protocol.rc:root/init.protocol.rc \
         $(LOCAL_PATH)/rootdir/init.manufacture.rc:root/init.manufacture.rc \
         $(LOCAL_PATH)/rootdir/init.huawei.rc:root/init.huawei.rc \
         $(LOCAL_PATH)/rootdir/init.audio.rc:root/init.audio.rc \
@@ -54,7 +52,6 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.connectivity.gps.rc:root/init.connectivity.gps.rc \
         $(LOCAL_PATH)/rootdir/init.connectivity.rc:root/init.connectivity.rc \
         $(LOCAL_PATH)/rootdir/fstab.zram512m:root/fstab.zram512m \
-        $(LOCAL_PATH)/rootdir/init.chip.usb.rc:root/init.chip.usb.rc \
         $(LOCAL_PATH)/rootdir/init.hi6250.usb.rc:root/init.hi6250.usb.rc \
         $(LOCAL_PATH)/rootdir/ueventd.4871.rc:root/ueventd.4871.rc \
         $(LOCAL_PATH)/rootdir/init.device.rc:root/init.device.rc \
