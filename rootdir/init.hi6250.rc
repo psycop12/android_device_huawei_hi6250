@@ -112,7 +112,10 @@ on property:sys.boot_completed=1
 	rm /data/hisi_logs/reboot_times.log
 
 on charger
+    
     mount_all /fstab.hi6250
+    start adbd
+    start charger 
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
     restorecon_recursive /sys/devices/system/cpu/cpu0/cpufreq/interactive
     write /sys/devices/system/cpu/cpu0/cpufreq/interactive/hispeed_freq 807000
@@ -427,3 +430,9 @@ on property:ro.boot.ddrsize=3
     write /sys/block/zram0/comp_algorithm lz4
     swapon_all fstab.zram512m
 
+
+service charger healthd -c
+   class charger
+   user root
+   group root
+   disabled
