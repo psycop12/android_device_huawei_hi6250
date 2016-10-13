@@ -177,6 +177,7 @@ on post-fs-data
     mkdir /data/share 0770 media_rw media_rw
     chown media_rw media_rw /data/share
 
+    setprop sys.userdata_is_ready 1
 
 on init
 
