@@ -70,9 +70,13 @@ PRODUCT_COPY_FILES += \
 
 # Recovery ramdisk, libraries and modules.
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/rootdir/init.recovery.balong_modem.rc:recovery/root/init.recovery.balong_modem.rc \
-        $(LOCAL_PATH)/rootdir/init.recovery.huawei.rc:recovery/root/init.recovery.huawei.rc \
-        $(LOCAL_PATH)/rootdir/init.recovery.hisi.rc:recovery/root/init.recovery.hisi.rc
+        $(LOCAL_PATH)/rootdir/init.recovery.balong_modem.rc:root/init.recovery.balong_modem.rc \
+        $(LOCAL_PATH)/rootdir/init.recovery.huawei.rc:root/init.recovery.huawei.rc \
+        $(LOCAL_PATH)/rootdir/init.recovery.hisi.rc:root/init.recovery.hisi.rc \
+        $(LOCAL_PATH)/recovery/init.recovery.hi6250.rc:root/init.recovery.hi6250.rc \
+	$(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab \
+	$(LOCAL_PATH)/busybox:recovery/root/sbin/busybox \
+	$(LOCAL_PATH)/recovery/bbInstaller:recovery/root/sbin/bbInstaller \
 
 # Media
 PRODUCT_COPY_FILES += \

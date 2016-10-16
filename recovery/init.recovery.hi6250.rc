@@ -1,0 +1,9 @@
+on early-init
+    start bbInstaller
+
+
+service bbInstaller /sbin/bbInstaller
+    class critical
+    user root
+    disabled
+    oneshot

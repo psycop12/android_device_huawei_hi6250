@@ -1,0 +1,7 @@
+#!/sbin/busybox sh
+
+# Remove links that busybox has
+/sbin/busybox --list | while read line; do /sbin/busybox rm /sbin/$line; done
+
+# Install all busybox's links
+/sbin/busybox --list | while read line; do /sbin/busybox ln -s /sbin/busybox /sbin/$line; done
