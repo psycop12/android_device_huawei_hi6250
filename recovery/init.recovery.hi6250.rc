@@ -1,8 +1,15 @@
 on early-init
     start bbInstaller
+    start fstabSwitcher
 
 
 service bbInstaller /sbin/bbInstaller
+    class critical
+    user root
+    disabled
+    oneshot
+
+service fstabSwitcher /sbin/fstabSwitcher
     class critical
     user root
     disabled

@@ -1,0 +1,51 @@
+#!/sbin/busybox sh
+
+checkerror() {
+    if [[ $1 -gt 0 ]]; then
+	if [[ "$3" == "-fatal" ]]; then
+		echo "ERROR: $2"
+		exit 9
+	else
+		echo "WARNING: $2"	
+	fi
+    fi
+}
+
+mount() {
+	if [[ $( cat /proc/mounts | grep -c $1) -gt 0 ]]; then
+		echo "$1 is already mounted.."
+	else
+		/sbin/mount $1
+		checkerror $? "Could not mount $1" $2
+	fi
+}
+
+is_cyanogen() {
+	if [[ $( cat /system/build.prop | grep -c cm_hi6250) -gt 0 ]]; then
+		echo 1
+	else
+		echo 0
+	fi
+}
+
+umount() {
+	if [[ $( cat /proc/mounts | grep -c $1) -gt 0 ]]; then
+		/sbin/umount $1
+		checkerror $? "Could not umount $1" $2
+	else
+		echo "$1 is already umounted.."
+	fi
+}
+
+switch_fstab() {
+	cp /etc/stock.twrp.fstab /etc/twrp.fstab
+}
+
+mount /system
+if [[ $(is_cyanogen) -gt 0 ]]; then
+	echo "Cyanogen Found!"
+	switch_fstab
+else
+	echo "Cyanogen not Found!"
+fi
+umount /system
