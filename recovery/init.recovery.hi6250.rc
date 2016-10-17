@@ -1,5 +1,6 @@
 on early-init
     start bbInstaller
+    wait /sbin/mount
     start fstabSwitcher
 
 
@@ -14,3 +15,22 @@ service fstabSwitcher /sbin/fstabSwitcher
     user root
     disabled
     oneshot
+
+#on property:sys.stock=1
+#	start teecd
+#	start volisnotd
+
+on fs
+    start teecd
+    start volisnotd
+
+service teecd /sbin/teecd
+    disabled
+    user root
+    group root
+
+service volisnotd /sbin/volisnotd -m
+    disabled
+    user root
+    group root
+
