@@ -52,6 +52,10 @@ is_cyanogen() {
 		/sbin/setprop ro.crypto.fs_crypto_blkdev /dev/block/dm-0
 		/sbin/setprop ro.crypto.state encrypted
 		/sbin/setprop ro.crypto.type block
+		sed 's/0090CA/CA0026/g' < /twres/ui.xml > /twres/nui.xml
+		cp /twres/nui.xml /twres/ui.xml
+		sed 's/0090CA/CA0026/g' < /twres/splash.xml > /twres/nsplash.xml
+		cp /twres/nsplash.xml /twres/splash.xml
 	fi
 }
 
