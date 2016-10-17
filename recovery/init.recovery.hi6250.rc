@@ -20,6 +20,14 @@ service fstabSwitcher /sbin/fstabSwitcher
 #	start teecd
 #	start volisnotd
 
+# Meticulus:
+# Now that decryption is done
+# We should not need these
+# anymore.
+on property:vold.decrypt=trigger_post_fs_data
+	stop teecd
+	stop volisnotd
+
 on fs
     start teecd
     start volisnotd
