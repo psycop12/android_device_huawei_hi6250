@@ -16,21 +16,12 @@ service fstabSwitcher /sbin/fstabSwitcher
     disabled
     oneshot
 
-#on property:sys.stock=1
-#	start teecd
-#	start volisnotd
-
-# Meticulus:
-# Now that decryption is done
-# We should not need these
-# anymore.
-on property:vold.decrypt=trigger_post_fs_data
-	stop teecd
-	stop volisnotd
-
-on fs
+on property:sys.stock=1
     start teecd
     start volisnotd
+
+on boot
+    start recovery
 
 service teecd /sbin/teecd
     disabled
@@ -41,4 +32,10 @@ service volisnotd /sbin/volisnotd -m
     disabled
     user root
     group root
+    oneshot
+
+service_redefine recovery /sbin/recovery
+    user root
+    group root
+    disabled
 

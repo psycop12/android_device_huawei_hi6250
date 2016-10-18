@@ -3,7 +3,7 @@
 BLOCK="/dev/block/platform/hi_mci.0/by-name"
 
 mecho() {
-	echo $1 >> /tmp/recovery.log
+	echo "fstabSwitcher: $1" >> /tmp/recovery.log
 }
 
 checkerror() {
@@ -35,6 +35,10 @@ umount() {
 	fi
 }
 
+wait_umounted() {
+	while [[ $( cat /proc/mounts | grep -c $1) -gt 0 ]]; do sleep 0.1;umount $1;done 
+}
+
 switch_fstab() {
 	cp /etc/stock.twrp.fstab /etc/twrp.fstab
 	checkerror $? "Could not overwrite stab!" -fatal
@@ -45,20 +49,22 @@ switch_fstab() {
 is_cyanogen() {
 	if [[ $( cat /system/build.prop | grep -c cm_hi6250) -gt 0 ]]; then
 		mecho "Fstab Mode CyanogenMod"
+		wait_umounted /system
+		/sbin/setprop sys.stock 0
 	else
 		mecho "Fstab Mode Stock"
 		switch_fstab
-		/sbin/setprop sys.stock 1
+		sed 's/0090CA/CA0026/g' < /twres/splash.xml > /twres/nsplash.xml
+		cp /twres/nsplash.xml /twres/splash.xml
+		sed 's/0090CA/CA0026/g' < /twres/ui.xml > /twres/nui.xml
+		cp /twres/nui.xml /twres/ui.xml
 		/sbin/setprop ro.crypto.fs_crypto_blkdev /dev/block/dm-0
 		/sbin/setprop ro.crypto.state encrypted
 		/sbin/setprop ro.crypto.type block
-		sed 's/0090CA/CA0026/g' < /twres/ui.xml > /twres/nui.xml
-		cp /twres/nui.xml /twres/ui.xml
-		sed 's/0090CA/CA0026/g' < /twres/splash.xml > /twres/nsplash.xml
-		cp /twres/nsplash.xml /twres/splash.xml
+		wait_umounted /system
+		/sbin/setprop sys.stock 1
 	fi
 }
 
-mount /system -fatal
+mount /system
 is_cyanogen
-umount /system
