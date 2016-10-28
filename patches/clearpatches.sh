@@ -1,38 +1,38 @@
 #!/bin/bash
+
 THISDIR=$PWD
-ROM=${1}
-UNATTENDED=${2}
 TOPDIR="$THISDIR/../../../../"
-echo $TOPDIR
-if [[ "$ROM" == "" ]]; then
-	echo "ROM not specified, assuming cm!"
-	sleep 1
-	ROM="cm"
-fi
-cd $ROM
+CLEARED=""
+
+clear_set() {
+cd $1
 for LINE in $(echo $(find -name *.patch); echo $(find -name *.apply))
 do
-	if [[ $UNATTENDED -ne 1 ]]; then
-		clear
-	fi
-	echo "clearing = $LINE"
   	REPO=$(dirname $LINE)
-	echo "repo = $TOPDIR$REPO"
+	if [[ $(echo $CLEARED | grep -c "$REPO") -gt 0 ]]; then
+		continue
+	fi 
+
 	cd $TOPDIR
 	if [[ ! -e $REPO ]]; then
 		echo "WARNING: $REPO does not exist; skipping..."
+		CLEARED="$CLEARED|$REPO|"
 		cd $THISDIR
 		continue
 	fi
+	echo "Clearing: $REPO"
 	cd $REPO
-	git add .
-	git stash
+	git add . > /dev/null
+	git stash > /dev/null
 	find -name *.orig | while read LINE; do rm $LINE; done
 	find -name *.rej | while read LINE; do rm $LINE; done
-	git clean -f
-	git stash clear
+	git clean -f > /dev/null
+	git stash clear > /dev/null
+	CLEARED="$CLEARED|$REPO|"
 	cd $THISDIR
 done
-if [[ "$ROM" !=  "common" ]]; then
-	./clearpatches.sh common
-fi
+}
+
+clear_set meticulus
+clear_set cm
+clear_set common

@@ -1,29 +1,27 @@
 #!/bin/bash
 THISDIR=$PWD
 ROM=${1}
-UNATTENDED=${2}
+CLEAR=${2}
 TOPDIR="$THISDIR/../../../../"
 if [[ "$ROM" == "" ]]; then
 	echo "ROM not specified, assuming cm!"
 	sleep 1
 	ROM="cm"
 fi
-if [[ "$ROM" == "cm" ]]; then
-./clearpatches.sh $ROM
+if [[ "$CLEAR" == "" ]]; then
+	./clearpatches.sh $ROM
 fi
-echo $TOPDIR
+
 cd $ROM
 for LINE in $(find -name *.patch | sort )
 do
-	if [[ $UNATTENDED -ne 1 ]]; then
-		clear
-	fi
-	echo "------------------------------------------------------------------------"
-	echo "patch = $THISDIR/$LINE"
-	echo "------------------------------------------------------------------------"
+
+	
 	PATCH=$THISDIR/$ROM/$LINE
 	REPO=$(dirname $LINE)
-	echo "repo = $REPO"
+
+	echo "Applying patch: $ROM - $LINE"	
+
 	cd $TOPDIR
 	if [[ ! -e $REPO ]]; then
 		echo "WARNING: $REPO does not exist; skipping..."
@@ -32,7 +30,7 @@ do
 	fi
 	cd $REPO
 	RESULT=$(patch -p1 --follow-symlinks --no-backup-if-mismatch < $PATCH)
-	echo -e "${RESULT}"
+	#echo -e "${RESULT}"
 	if [[ $(echo $RESULT | grep -c FAILED) -gt 0 ]] ; then
 		echo ""
 		echo "Fail!"
@@ -71,15 +69,10 @@ done
 cd $ROM
 for LINE in $(find -name *.apply | sort )
 do
-	if [[ $UNATTENDED -ne 1 ]]; then
-		clear
-	fi
-	echo "------------------------------------------------------------------------"
-	echo "patch = $THISDIR/$LINE"
-	echo "------------------------------------------------------------------------"
 	PATCH=$THISDIR/$ROM/$LINE
 	REPO=$(dirname $LINE)
-	echo "repo = $REPO"
+	echo "Applying patch: $ROM - $LINE"	
+	
 	cd $TOPDIR
 	if [[ ! -e $REPO ]]; then
 		echo "WARNING: $REPO does not exist; skipping..."
@@ -88,7 +81,7 @@ do
 	fi
 	cd $REPO
 	RESULT=$(git apply --whitespace=nowarn -v $PATCH 2>&1)
-	echo -e "${RESULT}"
+	
 	if [[ $(echo $RESULT | grep -c error:) -gt 0 ]] ; then
 		echo ""
 		echo "Fail!"
@@ -103,6 +96,8 @@ do
 	cd $THISDIR
 done
 cd $THISDIR
-if [[ "$ROM" != "common" ]];then
-	./patch.sh common
+if [[ "$ROM" == "cm" ]];then
+	./patch.sh common false
+elif [[ "$ROM" == "meticulus" ]]; then
+	./patch.sh cm false
 fi
