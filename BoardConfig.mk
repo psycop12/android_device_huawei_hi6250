@@ -93,8 +93,13 @@ BOARD_USES_ALSA_AUDIO := true
 PRODUCT_AAPT_CONFIG := normal xxhdpi
 PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 
+# Charger 
+BOARD_CHARGER_DISABLE_INIT_BLANK := true
+BACKLIGHT_PATH := "/sys/class/leds/lcd_backlight0/brightness"
+HEALTHD_BACKLIGHT_LEVEL := 200
 # Recovery
 TARGET_RECOVERY_FSTAB := device/huawei/hi6250/rootdir/fstab.hi6250
+TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 
 # TWRP Recovery defines
 # RECOVERY_VARIANT := twrp
