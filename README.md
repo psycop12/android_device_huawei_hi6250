@@ -28,6 +28,11 @@ Now read this: http://source.android.com/source/initializing.html
 
 NOTE: When I say "read", I mean read and comprehend.
 
+In addition to Android's build prerequisites CyanogenMod requires "maven"
+```bash
+sudo apt-get install maven2
+```
+
 NOTE: Read through the topics here as well: http://wiki.cyanogenmod.org/w/Development
 ### Step 2: Downloading the Source.
 
@@ -78,7 +83,11 @@ Execute the following commands in a linux terminal:
 cd /home/$USER/cm/device/huawei/hi6250/patches
 ./patch.sh
 ```
-
+NOTE: If you are going to be offline while you are building, you will need download some prebuilts first.
+```bash
+cd /home/$USER/cm
+make fetchprebuilts
+```
 NOTE: Now you have everything that you need to build CyanogenMod for your Huawei P9 Lite. Build times depend on you PC performance specifications. In the following terminal command "-j8" represents the number of concurrent tasks to execute. For low specs machines (such as mine) lowering the value to "-j3" may help speed things up. For high spec'd machines raising the value may speed things up.
 
 NOTE: It may take anywhere from 5 hours to 15 hours depending on system specs for a complete build.
