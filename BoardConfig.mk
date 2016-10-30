@@ -97,7 +97,7 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 TARGET_RECOVERY_FSTAB := device/huawei/hi6250/rootdir/fstab.hi6250
 
 # TWRP Recovery defines
-RECOVERY_VARIANT := twrp
+# RECOVERY_VARIANT := twrp
 DEVICE_RESOLUTION := 1080x1920
 TW_THEME := portrait_mdpi
 TW_CUSTOM_BATTERY_PATH := "/sys/devices/battery.5/power_supply/Battery" 
