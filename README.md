@@ -99,4 +99,33 @@ lunch cm_hi6250-userdebug
 make -j8 bacon
 ```
 
-### Please let me know if there are mistakes or typos in these instructions by creating an "issue".
+# Build TWRP ( optional )
+
+NOTE: Currently TWRP can only be built after a successful build of CyanogenMod 13.
+
+### Step 1: Setup build env for TWRP
+Clone OMNI's recovery (TWRP) into the build system.
+```bash
+cd /home/$USER/cm
+git clone https://github.com/omnirom/android_bootable_recovery.git -b android-6.0 bootable/recovery-twrp
+```
+
+Open the BoardConfig.mk file and remove the comment "#" before the line "RECOVERY_VARIANT := twrp" and Save BoardConfig.mk
+
+Re-run patch.sh to patch bootable/recovery-twrp
+```bash
+cd /home/$USER/cm/device/huawei/hi6250/patches
+./patch.sh
+```
+### Step 2: Build TWRP
+
+```bash
+cd /home/$USER/cm
+. build/envsetup.sh
+lunch cm_hi6250-userdebug
+make -j8 recoveryimage
+```
+
+NOTE: remember to re-add the "#" before "RECOVERY_VARIANT := twrp" in the BoardConfig.mk before doing a clean build or it will fail!
+
+### Please let me know if there are mistakes,typos, mis/outdated - information in these instructions by creating an "issue".
