@@ -3,32 +3,14 @@
 on early-init
     start ueventd
 
-on init
-    write /sys/class/android_usb/android0/bDeviceClass 0
-    write /sys/class/android_usb/android0/iManufacturer Huawei
-    write /sys/class/android_usb/android0/iProduct P9-lite
-    write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor 04E8
-    write /sys/class/android_usb/android0/idProduct 6860
-    write /sys/class/android_usb/android0/f_acm/instances 1
-    write /sys/class/android_usb/android0/functions mtp,adb
-    write /sys/class/android_usb/android0/enable 1
-    start adbd
-	setprop sys.usb.state $sys.usb.config
+on init 
     write /sys/devices/virtual/graphics/fb0/mode "U:1080x1920p-0"
     start charger
 
 service charger /sbin/healthd -c
    class default
    user root
-   group root
-
-service adbd /sbin/adbd --root_seclabel=u:r:su:s0
-    class default
-    user root
-    group root
-    socket adbd stream 660 system system
-    seclabel u:r:adbd:s0
+   group root 
 
 service ueventd /sbin/ueventd
     class core
