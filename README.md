@@ -53,6 +53,8 @@ WARNING: There may be times, towards the end when it seem like, the download is 
 
 The local manifest is different for every device. It contains those repos that are device specific, where as the ROM code you just "repo sync'd" is code that is general to any device.
 
+NOTE: Meticulus Development also builds some extra features and functions into its builds and we include the source for those builds in this tree as well. If you would like to include those "extras", then when asked to issue the "./patch.sh" command, include the keyword "meticulus" after it e.g. "./patch.sh meticulus". We respectfully ask that you do not publish or distribute these builds.
+
 Execute the following commands in a linux terminal:
 ```bash
 mkdir /home/$USER/cm/.repo/local_manifests
@@ -67,6 +69,19 @@ Copy the following into hi6250.xml, save and close.
   <project name="Meticulus/android_vendor_huawei_hi6250" path="vendor/huawei/hi6250" remote="github" revision="master"/>
 </manifest>
 ```
+
+Alternatively, if you would like to include Meticulus Development's "extras" then copy the following into hi6250.xml, save and close.
+```bash
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest>
+  <project name="Meticulus/android_kernel_huawei_hi6250" path="kernel/huawei/hi6250" remote="github" revision="master"/>
+  <project name="Meticulus/android_device_huawei_hi6250" path="device/huawei/hi6250" remote="github" revision="master"/>
+  <project name="Meticulus/android_vendor_huawei_hi6250" path="vendor/huawei/hi6250" remote="github" revision="master"/>
+  <project name="Meticulus/android_packages_CodinalteParts" path="packages/apps/CodinalteParts" remote="github" revision="master"/>
+  <project name="omnirom/android_packages_PerformanceControl" path="packages/apps/PerformanceControl" remote="github" revision="android-4.4"/>
+</manifest>
+```
+
 Execute the following commands in a linux terminal:
 ```bash
 cd /home/$USER/cm
