@@ -1,0 +1,31 @@
+From f447b7c37ee326b2dafa4dc2279b9834011b1f63 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Wed, 2 Nov 2016 10:13:00 -0500
+Subject: [PATCH] fix_hw_key_store
+
+Change-Id: I9a8f5713882f77c6cbf4c861f802b0f2688fc32c
+---
+ soft_keymaster_device.cpp | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/soft_keymaster_device.cpp b/soft_keymaster_device.cpp
+index 9f3418e..437309a 100644
+--- a/soft_keymaster_device.cpp
++++ b/soft_keymaster_device.cpp
+@@ -71,6 +71,13 @@ static keymaster_error_t add_digests(keymaster1_device_t* dev, keymaster_algorit
+                                      keymaster_purpose_t purpose, DigestMap* map) {
+     auto key = std::make_pair(algorithm, purpose);
+ 
++    LOG_E("Meticulus: algorithm %d purpose %d",algorithm, purpose);
++
++    if(algorithm == 1 && purpose == 0)
++	return KM_ERROR_OK;
++    else if (algorithm == 1 && purpose == 1)
++	return KM_ERROR_OK;
++
+     keymaster_digest_t* digests;
+     size_t digests_length;
+     keymaster_error_t error =
+-- 
+1.9.1
+
