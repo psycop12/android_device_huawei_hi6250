@@ -25,6 +25,10 @@ on early-boot
     mkdir /mnt/media_rw 0750 media_rw media_rw
     mkdir /data/samba 0755 media_rw media_rw
 
+on early-init
+    write /sys/devices/virtual/graphics/fb0/mode "U:1080x1920p-0"
+    write /sys/devices/virtual/graphics/fb0/bits_per_pixel 32
+
 on init
     verity_load_state
 
@@ -407,7 +411,7 @@ on property:service.bootanim.exit=1
 # Let's set the gpu freq stuff too!
 
     write /sys/class/devfreq/gpufreq/max_freq 900000000
-    write /sys/class/devfreq/gpufreq/min_freq 480000000
+    write /sys/class/devfreq/gpufreq/min_freq 680000000
     write /sys/class/devfreq/gpufreq/polling_interval 50
 
     write /sys/devices/e8970000.mali/mem_pool_max_size 131072
