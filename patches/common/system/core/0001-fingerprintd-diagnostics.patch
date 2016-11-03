@@ -88,7 +88,7 @@ index beb95de..0b662a6 100644
      const hw_auth_token_t* authToken = reinterpret_cast<const hw_auth_token_t*>(token);
 +
 +    ALOGE("hat: user_id=%lu authenticator_id=%lu authenticator_type=%d timestamp=%lu",
-+		authToken->user_id,authtoken->authenticator_id,authToken->authenticator_type,authToken->timestamp);
++		authToken->user_id,authToken->authenticator_id,authToken->authenticator_type,authToken->timestamp);
 + 
 +    char hmac[255];
 +
