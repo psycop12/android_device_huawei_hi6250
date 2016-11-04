@@ -48,7 +48,6 @@ ro.config.hw_dsda=false
 rild.libargs1=-m modem1
 ro.config.is_start_commril=true
 ro.config.dsds_mode=umts_gsm
-persist.radio.multisim.config=dsds
 persist.dsds.enabled=true
 rild.libpath=/system/lib64/libbalong-ril.so
 ro.config.modem_number=2
