@@ -16,23 +16,11 @@
          As of Honeycomb, blurring is not supported anymore. -->
     <bool name="config_sf_slowBlur">true</bool>
 
-    <!-- The duration (in milliseconds) of a short animation. -->
-    <integer name="config_shortAnimTime">100</integer>
-
-    <!-- The duration (in milliseconds) of a medium-length animation. -->
-    <integer name="config_mediumAnimTime">200</integer>
-
-    <!-- The duration (in milliseconds) of a long animation. -->
-    <integer name="config_longAnimTime">250</integer>
-
-    <integer name="config_activityShortDur">75</integer>
-    <integer name="config_activityDefaultDur">110</integer>
-
     <!-- Duration for the dim animation behind a dialog.  This may be either
          a percentage, which is relative to the duration of the enter/open
          animation of the window being shown that is dimming behind, or it may
          be an integer for a constant duration. -->
-    <fraction name="config_dimBehindFadeDuration">50%</fraction>
+    <fraction name="config_dimBehindFadeDuration">10%</fraction>
 
     <!-- List of regexpressions describing the interface (if any) that represent tetherable
          USB interfaces.  If the device doesn't want to support tething over USB this should
@@ -143,5 +131,15 @@
          For example, a device with Home, Back and Menu keys would set this
          config to 7. -->
     <integer name="config_deviceHardwareWakeKeys">64</integer>
+
+    <!-- If Voice Radio Technology is RIL_RADIO_TECHNOLOGY_LTE:14 or
+         RIL_RADIO_TECHNOLOGY_UNKNOWN:0 this is the value that should be used instead.
+         A configuration value of RIL_RADIO_TECHNOLOGY_UNKNOWN:0 means
+         there is no replacement value and that the default assumption
+         for phone type (GSM) should be used. -->
+    <integer name="config_volte_replacement_rat">14</integer>
+
+    <!-- Flag specifying whether VoLTE is available on device -->
+    <bool name="config_device_volte_available">true</bool>
 
 </resources>
