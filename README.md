@@ -77,7 +77,7 @@ Alternatively, if you would like to include Meticulus Development's "extras" the
   <project name="Meticulus/android_kernel_huawei_hi6250" path="kernel/huawei/hi6250" remote="github" revision="master"/>
   <project name="Meticulus/android_device_huawei_hi6250" path="device/huawei/hi6250" remote="github" revision="master"/>
   <project name="Meticulus/android_vendor_huawei_hi6250" path="vendor/huawei/hi6250" remote="github" revision="master"/>
-  <project name="Meticulus/android_packages_CodinalteParts" path="packages/apps/CodinalteParts" remote="github" revision="master"/>
+  <project name="Meticulus/android_packages_CodinalteParts" path="packages/apps/CodinalteParts" remote="github" revision="hi6250"/>
   <project name="omnirom/android_packages_PerformanceControl" path="packages/apps/PerformanceControl" remote="github" revision="android-4.4"/>
 </manifest>
 ```
