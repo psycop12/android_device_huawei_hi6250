@@ -1,0 +1,39 @@
+From aa5e17ad37f6ec27b95fa08f511cd27d2d602d1b Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Sat, 5 Nov 2016 10:05:18 -0500
+Subject: [PATCH] no_cm_updater
+
+Change-Id: I374cbb813bb80c6c824d07c4ec98ebfaed66ae48
+---
+ config/common.mk | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index 1276b5f..48129bf 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -165,7 +165,6 @@ PRODUCT_PACKAGES += \
+     CMFileManager \
+     Eleven \
+     LockClock \
+-    CMUpdater \
+     CyanogenSetupWizard \
+     CMSettingsProvider \
+     ExactCalculator \
+@@ -312,11 +311,11 @@ ifdef CM_BUILDTYPE
+     endif
+ else
+     # If CM_BUILDTYPE is not defined, set to UNOFFICIAL
+-    CM_BUILDTYPE := UNOFFICIAL
++    CM_BUILDTYPE := METICULUS
+     CM_EXTRAVERSION :=
+ endif
+ 
+-ifeq ($(CM_BUILDTYPE), UNOFFICIAL)
++ifeq ($(CM_BUILDTYPE), METICULUS)
+     ifneq ($(TARGET_UNOFFICIAL_BUILD_ID),)
+         CM_EXTRAVERSION := -$(TARGET_UNOFFICIAL_BUILD_ID)
+     endif
+-- 
+1.9.1
+
