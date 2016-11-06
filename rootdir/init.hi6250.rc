@@ -26,8 +26,6 @@ on early-boot
     mkdir /data/samba 0755 media_rw media_rw
 
 on early-init
-    write /sys/devices/virtual/graphics/fb0/mode "U:1080x1920p-0"
-    write /sys/devices/virtual/graphics/fb0/bits_per_pixel 32
 
 on init
     verity_load_state
@@ -175,6 +173,8 @@ on boot
 
 
 on post-fs-data
+    write /sys/devices/virtual/graphics/fb0/mode "U:1080x1920p-0"
+
     mkdir /data/nfc
     chown nfc nfc /data/nfc
 
