@@ -1,15 +1,15 @@
-From aa5e17ad37f6ec27b95fa08f511cd27d2d602d1b Mon Sep 17 00:00:00 2001
+From b3c03add1140c4bef941c71b74b42f43561c3b2b Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Sat, 5 Nov 2016 10:05:18 -0500
+Date: Sun, 6 Nov 2016 07:30:42 -0600
 Subject: [PATCH] no_cm_updater
 
-Change-Id: I374cbb813bb80c6c824d07c4ec98ebfaed66ae48
+Change-Id: Icfdd30da2bff9df7f167596dde2be4d289dd9134
 ---
- config/common.mk | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ config/common.mk | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/config/common.mk b/config/common.mk
-index 1276b5f..48129bf 100644
+index 1276b5f..d2a8796 100644
 --- a/config/common.mk
 +++ b/config/common.mk
 @@ -165,7 +165,6 @@ PRODUCT_PACKAGES += \
@@ -20,20 +20,6 @@ index 1276b5f..48129bf 100644
      CyanogenSetupWizard \
      CMSettingsProvider \
      ExactCalculator \
-@@ -312,11 +311,11 @@ ifdef CM_BUILDTYPE
-     endif
- else
-     # If CM_BUILDTYPE is not defined, set to UNOFFICIAL
--    CM_BUILDTYPE := UNOFFICIAL
-+    CM_BUILDTYPE := METICULUS
-     CM_EXTRAVERSION :=
- endif
- 
--ifeq ($(CM_BUILDTYPE), UNOFFICIAL)
-+ifeq ($(CM_BUILDTYPE), METICULUS)
-     ifneq ($(TARGET_UNOFFICIAL_BUILD_ID),)
-         CM_EXTRAVERSION := -$(TARGET_UNOFFICIAL_BUILD_ID)
-     endif
 -- 
 1.9.1
 
