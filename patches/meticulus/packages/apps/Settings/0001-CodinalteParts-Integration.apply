@@ -196,7 +196,7 @@ index 24deb20..bffed12 100644
 +            android:id="@+id/meticulus_devlopment"
 +            android:title="@string/header_category_meticulus" >
 +
-+     /*<dashboard-tile
++     <dashboard-tile
 +            android:id="@+id/meticulus_options"
 +            android:title="@string/meticulus_mods_title"
 +            android:icon="@drawable/ic_meticulus">
@@ -204,7 +204,7 @@ index 24deb20..bffed12 100644
 +                android:action="android.intent.action.MAIN"
 +                android:targetPackage="com.android.settings"
 +                android:targetClass="com.meticulus.codinalteparts.app.MainActivity" />
-+        </dashboard-tile>*/
++        </dashboard-tile>
 +        
 +	<dashboard-tile
 +            android:id="@+id/meticulus_sponsors"
