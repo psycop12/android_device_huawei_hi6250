@@ -1,17 +1,17 @@
-From a3db46ea3041853614909961fc43ec228abcfc9b Mon Sep 17 00:00:00 2001
+From 407aafb89ee446097db52edd82d76f916350cb84 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 12 Sep 2016 10:47:01 -0500
-Subject: [PATCH 1/2] CodinalteParts Integration
+Date: Tue, 8 Nov 2016 13:55:17 -0600
+Subject: [PATCH] 0001-CodinalteParts-Integration
 
-Change-Id: Iee6cb86c00c6541f2204dace0733f969c7b4379f
+Change-Id: I4068209641abcd5b92e57db639bcc36d1c43f4a7
 ---
  Android.mk                         |  10 ++++++++--
- AndroidManifest.xml                |  32 ++++++++++++++++++++++++++++++++
+ AndroidManifest.xml                |   8 ++++++++
  res/drawable-hdpi/ic_meticulus.png | Bin 0 -> 1400 bytes
  res/drawable-hdpi/ic_sponsors.png  | Bin 0 -> 1031 bytes
  res/values/meticulus_string.xml    |  22 ++++++++++++++++++++++
  res/xml/dashboard_categories.xml   |  26 ++++++++++++++++++++++++++
- 6 files changed, 88 insertions(+), 2 deletions(-)
+ 6 files changed, 64 insertions(+), 2 deletions(-)
  create mode 100644 res/drawable-hdpi/ic_meticulus.png
  create mode 100644 res/drawable-hdpi/ic_sponsors.png
  create mode 100644 res/values/meticulus_string.xml
@@ -46,46 +46,22 @@ index 78c561c..6c25979 100644
  include frameworks/opt/setupwizard/library/common.mk
  include frameworks/base/packages/SettingsLib/common.mk
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index 700c93c..af81a3b 100755
+index 700c93c..482b4e1 100755
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -2939,6 +2939,38 @@
+@@ -2939,6 +2939,14 @@
                  <category android:name="com.android.settings.SHORTCUT" />
              </intent-filter>
          </activity>
 +        <!-- Meticulus Application Methods -->
 +        <activity android:name="com.meticulus.codinalteparts.app.MainActivity" />
 +	<activity android:name="com.meticulus.codinalteparts.app.Sponsors" />
-+
+ 
 +	<receiver android:name="com.meticulus.codinalteparts.app.bootreceiver" >
 +            <intent-filter>
 +                <action android:name="android.intent.action.BOOT_COMPLETED" />
 +            </intent-filter>
 +        </receiver>
-+        <receiver android:name="com.meticulus.codinalteparts.app.bluetoothreceiver" >
-+            <intent-filter>
-+                <action android:name="android.bluetooth.adapter.action.CONNECTION_STATE_CHANGED" />
-+		<action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
-+            </intent-filter>
-+        </receiver>
-+	<receiver android:name="com.meticulus.codinalteparts.app.wifireceiver" >
-+            <intent-filter>
-+                <action android:name="android.net.wifi.STATE_CHANGE" />
-+            </intent-filter>
-+        </receiver>
-+
-+
-+        <service
-+            android:name="com.meticulus.codinalteparts.app.InCallAudioService"
-+            android:enabled="true"
-+            android:exported="true" >
-+        </service>
-+        <service
-+            android:name="com.meticulus.codinalteparts.app.ClockFreezeMonitor"
-+            android:enabled="true"
-+            android:exported="true" >
-+        </service>
- 
      </application>
  </manifest>
 diff --git a/res/drawable-hdpi/ic_meticulus.png b/res/drawable-hdpi/ic_meticulus.png
