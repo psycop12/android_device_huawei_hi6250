@@ -1,16 +1,16 @@
-From 6f55c6a412d514aa1a0be69a0dfcae4c3fca4a0a Mon Sep 17 00:00:00 2001
+From 51f8be55ef417494bffefd3f35c7a9d4b8374a44 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 12 Sep 2016 11:20:27 -0500
-Subject: [PATCH 2/2] PerformanceControl Integration
+Date: Wed, 9 Nov 2016 11:50:11 -0600
+Subject: [PATCH] 0002-PerformanceControl-Integration
 
-Change-Id: I44756634f32ed49e691cbd00fec395deab547afe
+Change-Id: I57307029b6bb7c17b225b369da54d572fd59d9fd
 ---
  Android.mk                                    |  11 ++++--
- AndroidManifest.xml                           |  50 ++++++++++++++++++++++++++
+ AndroidManifest.xml                           |  51 ++++++++++++++++++++++++++
  res/drawable-hdpi/ic_settings_performance.png | Bin 0 -> 416 bytes
  res/values/meticulus_string.xml               |   2 +-
  res/xml/dashboard_categories.xml              |  11 ++++++
- 5 files changed, 70 insertions(+), 4 deletions(-)
+ 5 files changed, 71 insertions(+), 4 deletions(-)
  create mode 100644 res/drawable-hdpi/ic_settings_performance.png
 
 diff --git a/Android.mk b/Android.mk
@@ -45,13 +45,14 @@ index 6c25979..1cfb9d9 100644
  include frameworks/opt/setupwizard/navigationbar/common.mk
  include frameworks/opt/setupwizard/library/common.mk
 diff --git a/AndroidManifest.xml b/AndroidManifest.xml
-index af81a3b..dbef011 100755
+index 482b4e1..fb5b49c 100755
 --- a/AndroidManifest.xml
 +++ b/AndroidManifest.xml
-@@ -2972,5 +2972,55 @@
-             android:exported="true" >
-         </service>
- 
+@@ -2948,5 +2948,56 @@
+                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+             </intent-filter>
+         </receiver>
++
 +        <!-- PerformanceControl activities -->
 +
 +        <activity android:name="com.brewcrewfoo.performance.activities.MainActivity"/>
