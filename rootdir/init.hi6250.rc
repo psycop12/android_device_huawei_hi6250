@@ -386,6 +386,8 @@ service perfhub /system/bin/perfhub
     class core
     user system
     group system
+    onrestart restart HwCamCfgSvr
+    onrestart restart media
 
 service goldeneye /system/bin/goldeneye
     class main
