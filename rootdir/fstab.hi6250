@@ -19,6 +19,6 @@
 /dev/block/mmcblk0p18         				/modem_log      ext4      rw,nosuid,nodev,noatime,noauto_da_alloc,data=ordered wait,verify
 
 # External Storage
-/devices/hi_mci.1/mmc_host/mmc1/*                       auto            auto      defaults                                      voldmanaged=sdcard:1,noemulatedsd
+/devices/hi_mci.1/mmc_host/mmc1/*                       auto            auto      defaults                                      voldmanaged=sdcard:auto,noemulatedsd
 /devices/hisi-usb-otg/usb1/*                            auto            auto      defaults                                      voldmanaged=usbotg:auto
 
