@@ -20,5 +20,5 @@
 
 # External Storage
 /devices/hi_mci.1/mmc_host/mmc1/*                       auto            auto      defaults                                      voldmanaged=sdcard:1,noemulatedsd
-/devices/hisi-usb-otg/usb1/*                            auto            auto      defaults                                      voldmanaged=usbotg:1
+/devices/hisi-usb-otg/usb1/*                            auto            auto      defaults                                      voldmanaged=usbotg:auto
 
