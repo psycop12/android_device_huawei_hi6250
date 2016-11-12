@@ -98,6 +98,10 @@ PRODUCT_PACKAGES += \
     audio.a2dp.default \
     audio.r_submix.default
 
+# Hardware
+PRODUCT_PACKAGES += \
+    power.hi6250
+
 # Hack for adb
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/busybox:root/sbin/sh
