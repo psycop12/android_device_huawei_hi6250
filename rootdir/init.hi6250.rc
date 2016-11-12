@@ -50,6 +50,8 @@ on init
     chmod 664 /sys/class/devfreq/gpufreq/min_freq
     chown system system /sys/class/devfreq/gpufreq/cur_freq
     chmod 664 /sys/class/devfreq/gpufreq/cur_freq
+    chown system system /sys/class/devfreq/gpufreq/polling_interval
+    chmod 664 /sys/class/devfreq/gpufreq/polling_interval
     chown system system /sys/class/devfreq/gpufreq/available_frequencies
     chmod 664 /sys/class/devfreq/gpufreq/available_frequencies
     chown system system /sys/class/devfreq/gpufreq/mali_ondemand/animation_boost
@@ -65,6 +67,8 @@ on init
     chmod 664 /sys/class/devfreq/ddrfreq/ddr_bandwidth
     chown system system /sys/class/devfreq/ddrfreq/cur_freq
     chmod 664 /sys/class/devfreq/ddrfreq/cur_freq
+    chown system system /sys/class/devfreq/ddrfreq/polling_interval
+    chmod 664 /sys/class/devfreq/ddrfreq/polling_interval
     chown system system /sys/class/devfreq/ddrfreq/available_frequencies
     chmod 664 /sys/class/devfreq/ddrfreq/available_frequencies
     chown system system /sys/kernel/set_hmp_thresholds/policy
