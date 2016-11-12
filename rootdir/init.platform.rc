@@ -34,9 +34,6 @@ on post-fs
     chmod 0440 /dev/log/system_boot
     chmod 0440 /dev/log/radio_boot
 
-on charger
-    class_start core
-
 on post-fs-data
 
     mkdir /data/hwzd_logs
