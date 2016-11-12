@@ -89,6 +89,9 @@ on init
     chown system system /sys/kernel/perfhub/cpuaffinity
     chmod 0660 /sys/kernel/perfhub/cpuaffinity
 
+    chown system system /sys/devices/virtual/graphics/fb0/mode
+    chmod 0660 /sys/devices/virtual/graphics/fb0/mode
+    
     write /proc/sys/kernel/hung_task_panic 1
     write /proc/sys/kernel/hung_task_timeout_secs 120
     write /sys/kernel/hungtask/monitorlist "whitelist,system_server,surfaceflinger"
@@ -151,7 +154,6 @@ on boot
 
 
 on post-fs-data
-    write /sys/devices/virtual/graphics/fb0/mode "U:1080x1920p-0"
 
     mkdir /data/nfc
     chown nfc nfc /data/nfc
