@@ -100,7 +100,8 @@ PRODUCT_PACKAGES += \
 
 # Hardware
 PRODUCT_PACKAGES += \
-    power.hi6250
+    power.hi6250 \
+    hwcomposer.hi6250
 
 # Hack for adb
 PRODUCT_COPY_FILES += \
