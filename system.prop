@@ -59,3 +59,10 @@ persist.radio.multisim.config=single
 # Graphics
 #
 ro.bq.gpu_to_cpu_unsupported=1
+
+#
+# TWRP
+# This is here so TWRP knows
+# this is not stock.
+#
+ro.config.twrp=non-stock
