@@ -1,0 +1,28 @@
+From 2e001c78180fdc2e54bf0455e8e12c121c31a516 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Mon, 28 Nov 2016 10:40:43 -0600
+Subject: [PATCH] nfc_config_how_does_that_work
+
+Change-Id: I2cf2830af14d20a92c7ce6685d4d121b408605b1
+---
+ src/adaptation/NfcAdaptation.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/adaptation/NfcAdaptation.cpp b/src/adaptation/NfcAdaptation.cpp
+index 841c04a..a6690fb 100644
+--- a/src/adaptation/NfcAdaptation.cpp
++++ b/src/adaptation/NfcAdaptation.cpp
+@@ -312,8 +312,8 @@ void NfcAdaptation::InitializeHalDeviceContext ()
+     int ret = 0; //0 means success
+     if ( !GetStrValue ( NAME_NCI_HAL_MODULE, nci_hal_module, sizeof ( nci_hal_module) ) )
+     {
+-        ALOGE("No HAL module specified in config, falling back to BCM2079x");
+-        strlcpy (nci_hal_module, "nfc_nci.bcm2079x", sizeof(nci_hal_module));
++        ALOGE("No HAL module specified in config, falling back to PN54x");
++        strlcpy (nci_hal_module, "nfc_nci.pn54x", sizeof(nci_hal_module));
+     }
+     const hw_module_t* hw_module = NULL;
+ 
+-- 
+1.9.1
+
