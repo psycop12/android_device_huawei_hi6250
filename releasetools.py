@@ -48,7 +48,6 @@ def FullOTA_Assertions(info):
 
 def FullOTA_InstallEnd(info):
   info.script.AppendExtra('package_extract_dir("override", "/system");')
-  info.script.AppendExtra('symlink("/system/lib64/libcopybit_wrapper.so", "/system/lib64/hw/copybit.hi6250.so");')
 
 # We have to reset all permissions after install blobs on system and this is the only way I could find to do it.
 # It would be better if FullOTA_InstallEnd(info) was called before system permissions are set
