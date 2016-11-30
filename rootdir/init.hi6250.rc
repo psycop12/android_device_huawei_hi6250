@@ -343,6 +343,8 @@ on boot
 	chmod 0444 /sys/nfc/nfc_single_channel
 	chown system nfc /sys/nfc/nfc_age_test_flag_state
 	chmod 0640 /sys/nfc/nfc_age_test_flag_state
+	chown system system /dev/pn544
+	chmod 0666 /dev/pn544
 
 
 on post-fs-data
