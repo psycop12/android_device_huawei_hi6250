@@ -114,6 +114,9 @@
          config to 7. -->
     <integer name="config_deviceHardwareWakeKeys">64</integer>
 
+    <!-- Is the device capable of hot swapping an UICC Card -->
+    <bool name="config_hotswapCapable">true</bool>
+
     <!-- If Voice Radio Technology is RIL_RADIO_TECHNOLOGY_LTE:14 or
          RIL_RADIO_TECHNOLOGY_UNKNOWN:0 this is the value that should be used instead.
          A configuration value of RIL_RADIO_TECHNOLOGY_UNKNOWN:0 means
@@ -126,4 +129,8 @@
     
     <!-- Whether to persist the notification for when a usb drive device is plugged in -->
     <bool name="config_persistUsbDriveNotification">true</bool>
+
+    <!-- Does the battery LED support multiple colors?
+         Used to decide if the user can change the colors -->
+    <bool name="config_multiColorBatteryLed">true</bool>
 </resources>
