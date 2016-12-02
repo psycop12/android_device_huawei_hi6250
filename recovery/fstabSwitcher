@@ -47,7 +47,7 @@ switch_fstab() {
 }
 
 is_cyanogen() {
-	if [[ $( cat /system/build.prop | grep -c "ro.config.twrp=non-stock") -gt 0 ]]; then
+	if [[ $( cat /system/build.prop | grep -c cm_hi6250) -gt 0 ]]; then
 		mecho "Fstab Mode CyanogenMod"
 		wait_umounted /system
 		/sbin/setprop sys.stock 0
