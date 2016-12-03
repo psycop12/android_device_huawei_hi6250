@@ -26,7 +26,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <fcntl.h>
-
+#include <time.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 
@@ -52,6 +52,12 @@ char const *const BLUE_DELAYOFF_FILE = "/sys/class/leds/blue/delay_off";
 
 char const *const BACKLIGHT_FILE = "/sys/class/leds/lcd_backlight0/brightness";
 
+char const *const USB_ONLINE ="/sys/devices/battery.5/power_supply/USB/online";
+
+static pthread_t hthread;
+static pthread_attr_t attr;
+static int holiday_thread_run = 0;
+
 /** Write integer to file **/
 static int write_int(char const *path, int value)
 {
@@ -67,6 +73,25 @@ static int write_int(char const *path, int value)
 	} else {
 		if (already_warned == -1) {
 			ALOGE("write_int failed to open %s\n", path);
+			already_warned = 1;
+		}
+		return -errno;
+	}
+}
+static int read_int(char const *path)
+{
+	int fd;
+	static int already_warned = -1;
+	fd = open(path, O_RDWR);
+	if (fd >= 0) {
+		char buffer[20];
+		int bytes = read(fd,buffer,20);
+		int amt = atoi(buffer);
+		close(fd);
+		return amt;
+	} else {
+		if (already_warned == -1) {
+			ALOGE("read_int failed to open %s\n", path);
 			already_warned = 1;
 		}
 		return -errno;
@@ -144,11 +169,69 @@ static void set_state(struct light_state_t const * state) {
     }
 }
 
-static int set_light_notifications(struct light_device_t* dev, struct light_state_t const* state)
+static void *holiday_thread(void * arg) {
+
+    int retval = 0;
+    while(holiday_thread_run) {
+	write_int(RED_BRIGHTNESS_FILE, 255);
+	write_int(GREEN_BRIGHTNESS_FILE,0);
+	write_int(BLUE_BRIGHTNESS_FILE, 0);
+	sleep(1);
+	if(!holiday_thread_run)
+            break;
+	write_int(RED_BRIGHTNESS_FILE, 0);
+	write_int(GREEN_BRIGHTNESS_FILE,255);
+	write_int(BLUE_BRIGHTNESS_FILE, 0);
+	sleep(1);
+	if(!holiday_thread_run)
+            break;
+	write_int(RED_BRIGHTNESS_FILE, 0);
+	write_int(GREEN_BRIGHTNESS_FILE,0);
+	write_int(BLUE_BRIGHTNESS_FILE, 255);
+	sleep(1);
+  }
+
+  if(read_int(USB_ONLINE))
+	write_int(GREEN_BRIGHTNESS_FILE,255);
+	
+  return &retval;
+}
+
+static void set_holiday_state(struct light_state_t const * state) {
+   int color = state->color;
+   if(color == 0xff000000) {
+	holiday_thread_run = 0;
+	set_state(state);
+   } else {
+	holiday_thread_run = 1;
+	pthread_attr_init(&attr);
+	pthread_create(&hthread,&attr,&holiday_thread,NULL);
+   }
+
+}
+
+
+static int set_light_battery(struct light_device_t* dev, struct light_state_t const* state)
 {
     int err = 0;
     pthread_mutex_lock(&g_lock);
     set_state(state);
+    pthread_mutex_unlock(&g_lock);
+    return err;
+}
+static int set_light_notifications(struct light_device_t* dev, struct light_state_t const* state)
+{
+    int err = 0;
+    pthread_mutex_lock(&g_lock);
+    time_t now = time(NULL);
+    struct tm *nowtm = localtime(&now);
+    /* its December... lots of holidays at this time */
+    int month = nowtm->tm_mon;
+    if(month == 11) {
+        ALOGI("Happy Holidays!");
+	set_holiday_state(state);
+    } else
+    	set_state(state);
     pthread_mutex_unlock(&g_lock);
     return err;
 }
@@ -174,9 +257,7 @@ static int open_lights(const struct hw_module_t *module, char const *name, struc
 	else if (0 == strcmp(LIGHT_ID_NOTIFICATIONS, name))
         	set_light = set_light_notifications;
 	else if (0 == strcmp(LIGHT_ID_BATTERY, name))
-        	set_light = set_light_notifications;
-	else if (0 == strcmp(LIGHT_ID_ATTENTION, name))
-        	set_light = set_light_notifications;
+        	set_light = set_light_battery;
 	else
 		return -EINVAL;
 

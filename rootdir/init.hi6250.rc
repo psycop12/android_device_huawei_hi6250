@@ -96,6 +96,9 @@ on init
     chown system system /sys/devices/virtual/graphics/fb0/mode
     chmod 0660 /sys/devices/virtual/graphics/fb0/mode
     
+    chown system system /sys/devices/battery.5/power_supply/USB/online
+    chmod 0660 /sys/devices/battery.5/power_supply/USB/online
+
     write /proc/sys/kernel/hung_task_panic 1
     write /proc/sys/kernel/hung_task_timeout_secs 120
     write /sys/kernel/hungtask/monitorlist "whitelist,system_server,surfaceflinger"
