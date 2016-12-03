@@ -124,11 +124,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     hostapd
 
-# Nfc
-PRODUCT_PACKAGES += \
-    NfcNci \
-    libnfc-nci 
-
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
