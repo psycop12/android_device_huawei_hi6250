@@ -55,12 +55,3 @@ service fingerprintd /system/bin/fingerprintd
     user system
     group input
 
-# vendor audio blobs need to be able to
-# set process priority, so media needs
-# to run as root.
-service_redefine media /system/bin/mediaserver
-    class main
-    user root
-    group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm qcom_diag
-    ioprio rt 4
-
