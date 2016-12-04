@@ -78,6 +78,10 @@ BOARD_EGL_CFG := device/huawei/hi6250/egl.cfg
 # Surfaceflinger
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 6
 
+# NFC
+BOARD_NFC_CHIPSET := pn548
+TARGET_USES_NQ_NFC := true
+
 # OTA
 BLOCK_BASED_OTA := false
 
