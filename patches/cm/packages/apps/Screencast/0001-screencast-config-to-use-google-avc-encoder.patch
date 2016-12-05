@@ -1,0 +1,45 @@
+From c5514d1c422882634b2187a4183f178b5c5759f6 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Mon, 5 Dec 2016 09:48:51 -0600
+Subject: [PATCH] screencast: config to use google avc encoder
+
+-For cases when hw encoders do not work well with
+Screencast.
+
+Change-Id: I4826809eb7dfc173771062a9f774dd3d6c87260b
+---
+ res/values/config.xml                             | 3 +++
+ src/org/cyanogenmod/screencast/EncoderDevice.java | 5 ++++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/res/values/config.xml b/res/values/config.xml
+index e42fa2e..4389d22 100644
+--- a/res/values/config.xml
++++ b/res/values/config.xml
+@@ -18,4 +18,7 @@
+     <!-- maximum encoding size. leave -1 for unrestricted (display size) -->
+     <!-- Use the _small_ side. IOW, for 720p (1280x720) use "720" -->
+     <integer name="config_maxDimension" translatable="false">-1</integer>
++
++    <!-- Use the google h264 video/avc encoder for screen recording -->
++    <bool name="config_google_avc_encoder" translatable="false">false</bool>
+ </resources>
+diff --git a/src/org/cyanogenmod/screencast/EncoderDevice.java b/src/org/cyanogenmod/screencast/EncoderDevice.java
+index 64715c2..da411bf 100644
+--- a/src/org/cyanogenmod/screencast/EncoderDevice.java
++++ b/src/org/cyanogenmod/screencast/EncoderDevice.java
+@@ -307,7 +307,10 @@ public abstract class EncoderDevice {
+         // create a surface from the encoder
+         Log.i(LOGTAG, "Starting encoder at " + width + "x" + height);
+         try {
+-            venc = MediaCodec.createEncoderByType("video/avc");
++	    if(context.getResources().getBoolean(R.bool.config_google_avc_encoder))
++		venc = MediaCodec.createByCodecName("OMX.google.h264.encoder");
++	    else
++		venc = MediaCodec.createEncoderByType("video/avc");
+         } catch (IOException e) {
+             Log.wtf(LOGTAG, "Can't create AVC encoder!", e);
+         }
+-- 
+1.9.1
+
