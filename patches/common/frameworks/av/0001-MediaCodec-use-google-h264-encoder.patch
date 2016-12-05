@@ -35,9 +35,9 @@ index 5e0ee55..c0c870e 100644
 +     */
 +    status_t ret = -1;
 +    //ALOGD("Meticulus: mime = %s",mime);
-+    if(!strcmp(mime,"video/avc") && encoder && property_get_bool("persist.sys.media.force_google_avc_enc",0)) {
++    if(!strcmp(mime,"video/avc") && encoder && property_get_bool("persist.sys.google_avc_enc",0)) {
 +	ret = codec->init("OMX.google.h264.encoder",false,encoder);
-+	ALOGI("persist.sys.media.force_google_avc_enc is set.");
++	ALOGI("persist.sys.google_avc_enc is set.");
 +    }
 +    else
 +	ret = codec->init(mime, true /* nameIsType */, encoder);

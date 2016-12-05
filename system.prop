@@ -63,8 +63,8 @@ debug.sf.no_hw_vsync=1
 #
 # Media
 #
-persist.sys.sr_force_google_avc=1
-persist.sys.media.force_google_avc_enc=0
+persist.sys.sr_google_avc_enc=1
+persist.sys.google_avc_enc=0
 #
 # TWRP
 #
