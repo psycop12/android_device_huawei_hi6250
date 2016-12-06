@@ -105,6 +105,10 @@ PRODUCT_PACKAGES += \
     libcopybit_wrapper \
     lights.hi6250
 
+# Hardware
+PRODUCT_PACKAGES += \
+    libshim
+
 # Hack for adb
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/busybox:root/sbin/sh
