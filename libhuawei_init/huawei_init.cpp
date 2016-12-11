@@ -68,11 +68,14 @@ void vendor_load_properties() {
 	set_property("ro.boardid.product","51312");
 	set_property("ro.product.model","VNS-L31");
     }
-    else if(!strcmp(model,"VNS-L51")) {
+    else if(!strcmp(model,"NEM-AL60")) {
 	set_property("ro.config.mulirild","false");
 	set_property("ro.boardid.product","4871");
-	set_property("ro.product.model","VNS-L51");
+	set_property("ro.product.model","NEM-AL10");
     }
+    /* if a match is not found the values in the build.prop will be used.
+     * ro.boardid.product will not be set so the camera will not work.
+     */
 }
 
 int vendor_handle_control_message(const char *msg, const char *arg) { 
