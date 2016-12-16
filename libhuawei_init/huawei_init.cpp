@@ -84,7 +84,11 @@ void vendor_load_properties() {
 	set_property(MULTI_RILD_PROP, "false");	
     }
 
-    set_property(PRODUCT_MODEL_PROP,model);
+    /* These have renamed model */
+    if(!strcmp(model, "NMO-L21"))
+	set_property(PRODUCT_MODEL_PROP, "NEM-L51");
+    else
+    	set_property(PRODUCT_MODEL_PROP,model);
  
 
     /* if a match is not found the values in the build.prop will be used.
