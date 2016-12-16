@@ -134,7 +134,6 @@ git clone https://github.com/omnirom/android_bootable_recovery.git -b android-6.
 ```
 
 Open the BoardConfig.mk file and remove the comment "#" before the line "RECOVERY_VARIANT := twrp".
-Find BOARD_KERNEL_CMDLINE and change androidboot.selinux=disabled to androidboot.selinux=permissive.
 Save BoardConfig.mk
 
 Re-run patch.sh to patch bootable/recovery-twrp
@@ -151,5 +150,5 @@ lunch cm_hi6250-userdebug
 make -j8 recoveryimage
 ```
 
-NOTE: remember to re-add the "#" before "RECOVERY_VARIANT := twrp" and change androidboot.selinux back to 'disabled' in the BoardConfig.mk before doing a clean build or it will fail or not boot!
+NOTE: remember to re-add the "#" before "RECOVERY_VARIANT := twrp" in the BoardConfig.mk before doing a clean build or it will fail to build!
 ### Please let me know if there are mistakes,typos, mis/outdated - information in these instructions by creating an "issue".
