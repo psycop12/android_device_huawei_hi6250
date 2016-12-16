@@ -12,22 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
 LOCAL_PATH := $(call my-dir)
 
-# HAL module implemenation stored in
-# hw/<OVERLAY_HARDWARE_MODULE_ID>.<ro.product.board>.so
 include $(CLEAR_VARS)
 
-LOCAL_MODULE_RELATIVE_PATH := hw
-LOCAL_SHARED_LIBRARIES := liblog libEGL
-LOCAL_SRC_FILES := hwcomposer.cpp
-LOCAL_MODULE := hwcomposer.hi6250
-LOCAL_CFLAGS:= -DLOG_TAG=\"hwcomposer\"
-LOCAL_MODULE_TAGS := optional
-
-ifneq (,$(filter userdebug eng,$(TARGET_BUILD_VARIANT)))
-LOCAL_CFLAGS += -DDEBUG
-endif
-
-include $(BUILD_SHARED_LIBRARY)
+LOCAL_SRC_FILES := huawei_init.cpp
+LOCAL_MODULE := libhuawei_init
+LOCAL_PRELINK_MODULE := false
+LOCAL_CFLAGS:= -DLOG_TAG=\"huawei_init\"
+include $(BUILD_STATIC_LIBRARY)

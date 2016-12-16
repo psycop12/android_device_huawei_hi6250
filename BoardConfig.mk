@@ -15,7 +15,7 @@
 #
 
 TARGET_SPECIFIC_HEADER_PATH := device/huawei/hi6250/include
-TARGET_OTA_ASSERT_DEVICE := hi6250,VNS
+TARGET_OTA_ASSERT_DEVICE := hi6250,VNS,nemo
 
 # Board
 TARGET_BOOTLOADER_BOARD_NAME := hisi
@@ -65,6 +65,9 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
+
+# Init
+TARGET_INIT_VENDOR_LIB := libhuawei_init
 
 # RIL
 BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/

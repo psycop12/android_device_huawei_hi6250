@@ -24,7 +24,7 @@ $(call inherit-product, device/huawei/hi6250/device.mk)
 PRODUCT_DEVICE := hi6250
 PRODUCT_NAME := cm_hi6250
 PRODUCT_BRAND := huawei
-PRODUCT_MODEL := P9-Lite
+PRODUCT_MODEL := hi6250
 PRODUCT_MANUFACTURER := huawei
 
 TARGET_SCREEN_HEIGHT := 1920
