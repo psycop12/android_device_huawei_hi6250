@@ -13,6 +13,7 @@
 /dev/gpstty        	u:object_r:gps_device:s0
 
 # teecd
+/sbin/teecd		u:object_r:teecd_exec:s0
 /dev/tc_ns_client	u:object_r:teecd_device:s0
 /dev/block/mmcblk0rpmb  u:object_r:teecd_blkdev:s0
 
@@ -28,6 +29,7 @@
 /dev/block/platform/hi_mci.0/by-name/modem_om u:object_r:make_ext4fs_blkdev:s0
 /modemom(/.*)?		u:object_r:modem_log_file:s0
 /modem_log(/.*)?	u:object_r:modem_log_file:s0
+
 # aoovcom
 /dev/appvcom.*		u:object_r:radio_device:s0
 /dev/appvcom2		u:object_r:modem_device:s0
