@@ -1,0 +1,6 @@
+# hwnff
+#
+type hwnff, domain;
+type hwnff_exec, exec_type, file_type;
+
+init_daemon_domain(hwnff)

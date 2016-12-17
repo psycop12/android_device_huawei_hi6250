@@ -1,5 +1,3 @@
-type hwnff_exec, exec_type, file_type;
-type hwnffserver_exec, exec_type, file_type;
 type mapper_exec, exec_type, file_type;
 type limit_current_exec, exec_type, file_type;
 type thermal-daemon_exec, exec_type, file_type;

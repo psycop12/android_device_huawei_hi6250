@@ -4,4 +4,10 @@ allow init block_device:blk_file rw_file_perms;
 allow init pstorefs:dir { mounton };
 allow init system_data_file:dir { mounton };
 allow init socket_device:sock_file rw_file_perms;
-
+allow init block_device:lnk_file { setattr };
+allow init block_device:blk_file { setattr };
+allow init tmpfs:lnk_file create_file_perms;
+allow init debugfs:dir rw_file_perms;
+allow init system_data_file: file { append };
+allow init init:netlink_socket rw_socket_perms;
+allow init permission_service:service_manager { find };

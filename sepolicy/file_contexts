@@ -58,14 +58,14 @@
 /system/bin/device_monitor	u:object_r:device_monitor_exec:s0
 /system/bin/logserver		u:object_r:logserver_exec:s0
 /data/hw_init/system/bin/logserver		u:object_r:logserver_exec:s0
-/system/bin/hiscoutmanager  u:object_r:hiscoutmanager_exec:s0
+/system/bin/hiscoutmanager  	u:object_r:hiscoutmanager_exec:s0
 /system/bin/dumptool		u:object_r:logserver_exec:s0
 /system/bin/chargelogcat	u:object_r:logcat_exec:s0
 /system/bin/chargemonitor	u:object_r:logcat_exec:s0
 /system/bin/sleeplogcat		u:object_r:logcat_exec:s0
 /system/bin/factory_log_service	u:object_r:logcat_exec:s0
 /system/bin/powerlogd		u:object_r:powerlogd_exec:s0
-/system/bin/mac_addr_normalization	u:object_r:mac_addr_normalization_exec:s0
+/system/bin/mac_addr_normalization	u:object_r:mac_addr_normal_exec:s0
 /system/bin/wifiwakeupsrc	u:object_r:wifiwakeupsrc_exec:s0
 /system/bin/atcmdserver		u:object_r:atcmdserver_exec:s0
 # DTS2015051508182 z00284161 2015/05/15 Add HiLOGE feature start.
@@ -83,7 +83,7 @@
 /system/bin/hwnffserver		u:object_r:hwnffserver_exec:s0
 /system/bin/hwnff		u:object_r:hwnff_exec:s0
 /system/bin/hwpged		u:object_r:hwpged_exec:s0
-/system/bin/statusd       u:object_r:statusd_exec:s0
+/system/bin/statusd       	u:object_r:statusd_exec:s0
 /system/bin/resize2fs           u:object_r:resize2fs_exec:s0
 /system/bin/resize.f2fs         u:object_r:resize2fs_exec:s0
 
@@ -103,12 +103,12 @@
 /system/bin/bastetd		u:object_r:bastetd_exec:s0
 
 # for zygote link file
-/system/bin/app_process                         u:object_r:zygote_exec:s0
-/system/bin/perfhub     u:object_r:perfhub_exec:s0
+/system/bin/app_process         u:object_r:zygote_exec:s0
+/system/bin/perfhub     	u:object_r:perfhub_exec:s0
 
 # oeminfo_nvm
-/sbin/oeminfo_nvm_server		u:object_r:oeminfo_nvm:s0
+/sbin/oeminfo_nvm_server	u:object_r:oeminfo_nvm_exec:s0
 
 # hw_ueventd
-/sbin/hw_ueventd			u:object_r:hw_ueventd:s0
+/sbin/hw_ueventd		u:object_r:hw_ueventd_exec:s0
 
