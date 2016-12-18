@@ -1,0 +1,8 @@
+# powerlogd
+#
+type powerlogd, domain;
+type powerlogd_exec, exec_type, file_type;
+
+init_daemon_domain(powerlogd)
+
+

@@ -12,6 +12,9 @@
 /dev/ttyAMA3		u:object_r:gps_device:s0
 /dev/gpstty        	u:object_r:gps_device:s0
 
+# oeminfo_nvm device?
+/dev/nve0		u:object_r:oeminfo_nvm_device:s0
+
 # teecd
 /sbin/teecd		u:object_r:teecd_exec:s0
 /dev/tc_ns_client	u:object_r:teecd_device:s0
@@ -74,8 +77,6 @@
 /system/bin/isplogcat u:object_r:logcat_exec:s0
 /system/bin/tlogcat             u:object_r:logcat_exec:s0
 /system/bin/thermal-daemon	u:object_r:thermal-daemon_exec:s0
-/system/bin/limit_current	u:object_r:limit_current_exec:s0
-/system/bin/mappersh		u:object_r:mapper_exec:s0
 /system/bin/eventcat		u:object_r:logcat_exec:s0
 /system/bin/secure_storage	u:object_r:secure_storage_exec:s0
 
@@ -112,3 +113,5 @@
 # hw_ueventd
 /sbin/hw_ueventd		u:object_r:hw_ueventd_exec:s0
 
+# hisi_bfg
+/system/bin/start_connectivity_hisi	u:object_r:start_connectivity_exec:s0

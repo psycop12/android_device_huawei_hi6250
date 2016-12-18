@@ -2,6 +2,7 @@
 #
 type oeminfo_nvm, domain;
 type oeminfo_nvm_exec, exec_type, file_type;
+type oeminfo_nvm_device,file_type;
 
 init_daemon_domain(oeminfo_nvm)
 
@@ -10,3 +11,4 @@ allow oeminfo_nvm device:dir { add_name write create };
 allow oeminfo_nvm socket_device:dir { add_name write };
 allow oeminfo_nvm socket_device:sock_file { create setattr };
 allow oeminfo_nvm self:capability { chown fsetid };
+allow oeminfo_nvm device:dir { open read write getattr setattr };
