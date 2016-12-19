@@ -70,6 +70,8 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
 TARGET_INIT_VENDOR_LIB := libhuawei_init
 
 # RIL
+BOARD_PROVIDES_LIBRIL := true
+BOARD_PROVIDES_RILD := true
 BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
 SIM_COUNT := 2
 
