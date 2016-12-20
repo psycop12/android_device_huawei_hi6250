@@ -109,9 +109,18 @@
 
 # oeminfo_nvm
 /sbin/oeminfo_nvm_server	u:object_r:oeminfo_nvm_exec:s0
+/dev/oinv(/.*)?			u:object_r:oeminfo_nvm_device:s0
 
 # hw_ueventd
 /sbin/hw_ueventd		u:object_r:hw_ueventd_exec:s0
 
 # hisi_bfg
 /system/bin/start_connectivity_hisi	u:object_r:start_connectivity_exec:s0
+
+# block devices
+/dev/block/mmcblk0p41 		u:object_r:cust_blkdev:s0
+/dev/block/mmcblk0p42 		u:object_r:userdata_blkdev:s0
+/dev/block/mmcblk0p8 		u:object_r:oeminfo_blkdev:s0
+/dev/block/mmcblk0p36 		u:object_r:cache_blkdev:s0
+/dev/block/mmcblk0p19 		u:object_r:splash2_blkdev:s0
+/dev/block/zram0 		u:object_r:zram0_blkdev:s0

@@ -12,3 +12,5 @@ allow oeminfo_nvm socket_device:dir { add_name write };
 allow oeminfo_nvm socket_device:sock_file { create setattr };
 allow oeminfo_nvm self:capability { chown fsetid };
 allow oeminfo_nvm device:dir { open read write getattr setattr };
+allow oeminfo_nvm oeminfo_nvm_device:chr_file rw_file_perms;
+allow oeminfo_nvm oeminfo_blkdev:blk_file rw_file_perms;

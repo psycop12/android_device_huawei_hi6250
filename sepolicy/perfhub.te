@@ -5,5 +5,5 @@ type perfhub_exec, exec_type, file_type;
 
 init_daemon_domain(perfhub)
 
-allow init servicemanager:binder { call transfer };
-
+allow perfhub servicemanager:binder { call transfer };
+allow perfhub sysfs:file rw_file_perms;

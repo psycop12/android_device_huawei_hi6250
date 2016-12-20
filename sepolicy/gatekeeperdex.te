@@ -1,0 +1,2 @@
+allow gatekeeperd tee:unix_stream_socket rw_socket_perms;
+

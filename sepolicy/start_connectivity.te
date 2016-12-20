@@ -7,3 +7,5 @@ init_daemon_domain(start_connectivity)
 
 allow start_connectivity kmsg_device:chr_file rw_file_perms;
 allow start_connectivity property_socket:sock_file rw_file_perms;
+allow start_connectivity shell_exec:file r_file_perms;
+allow start_connectivity sysfs:file rw_file_perms;

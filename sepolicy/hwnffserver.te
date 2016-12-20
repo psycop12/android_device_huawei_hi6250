@@ -4,3 +4,6 @@ type hwnffserver, domain;
 type hwnffserver_exec, exec_type, file_type;
 
 init_daemon_domain(hwnffserver)
+
+allow hwnffserver socket_device:sock_file rw_file_perms;
+allow hwnffserver oeminfo_nvm:unix_stream_socket { connectto };
