@@ -4,3 +4,4 @@ type oeminfo_blkdev, dev_type,file_type;
 type cache_blkdev, dev_type,file_type;
 type splash2_blkdev, dev_type,file_type;
 type zram0_blkdev, dev_type,file_type;
+type secure_storage_blkdev, dev_type,file_type;
