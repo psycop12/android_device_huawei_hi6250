@@ -7,3 +7,5 @@ init_daemon_domain(hwnffserver)
 
 allow hwnffserver socket_device:sock_file rw_file_perms;
 allow hwnffserver oeminfo_nvm:unix_stream_socket { connectto };
+allow hwnffserver device:dir rw_dir_perms;
+allow hwnffserver device:file rw_file_perms;

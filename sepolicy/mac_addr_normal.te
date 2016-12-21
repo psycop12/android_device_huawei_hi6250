@@ -8,6 +8,6 @@ init_daemon_domain(mac_addr_normal)
 allow mac_addr_normal oeminfo_nvm:unix_stream_socket { connectto };
 allow mac_addr_normal socket_device:sock_file rw_file_perms;
 allow mac_addr_normal self:capability { dac_override chown fowner };
-allow mac_addr_normal wifi_data_file:file rw_file_perms;
-allow mac_addr_normal bluetooth_data_file:file rw_file_perms;
-
+allow mac_addr_normal wifi_data_file:file { setattr rw_file_perms };
+allow mac_addr_normal bluetooth_data_file:file { setattr rw_file_perms };
+allow mac_addr_normal device:file rw_file_perms;

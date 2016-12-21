@@ -11,7 +11,8 @@
 /dev/ttyAMA4		u:object_r:hci_attach_dev:s0
 /dev/ttyAMA3		u:object_r:gps_device:s0
 /dev/gpstty        	u:object_r:gps_device:s0
-
+/dev/hwfm		u:object_r:con_device:s0
+/dev/dsm		u:object_r:dmd_device:s0
 # oeminfo_nvm device?
 /dev/nve0		u:object_r:oeminfo_nvm_device:s0
 
@@ -126,3 +127,18 @@
 /dev/block/mmcblk0p19 		u:object_r:splash2_blkdev:s0
 /dev/block/zram0 		u:object_r:zram0_blkdev:s0
 /dev/block/mmcblk0p13		u:object_r:secure_storage_blkdev:s0
+
+# Logs
+/data/hwzd_logs(/.*)?		u:object_r:hisi_log:s0
+
+# Log Devices
+/dev/chrAppBt			u:object_r:log_device:s0
+/dev/chrAppGnss			u:object_r:log_device:s0
+/dev/chrAppWifi			u:object_r:log_device:s0
+/dev/chrKmsgPlat		u:object_r:log_device:s0
+/dev/chrKmsgWifi		u:object_r:log_device:s0
+/dev/hwlog_jank			u:object_r:log_device:s0
+
+# media devices
+/dev/v4l-subdev6		u:object_r:video_device:s0
+/dev/v4l-subdev5		u:object_r:video_device:s0

@@ -1,0 +1,1 @@
+allow lmkd zygote:file rw_file_perms;

@@ -18,3 +18,5 @@ allow tee gatekeeperd:dir r_dir_perms;
 allow tee gatekeeperd:file r_file_perms;
 allow tee keystore:file r_file_perms;
 allow tee keystore:dir r_dir_perms;
+allow tee fingerprintd:dir r_dir_perms;
+allow tee fingerprintd:file r_file_perms;
