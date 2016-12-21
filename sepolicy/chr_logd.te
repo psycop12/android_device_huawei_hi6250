@@ -14,8 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# chr_logd
+#
 
-allow fsck userdata_blkdev:blk_file rw_file_perms;
-allow fsck cache_blkdev:blk_file rw_file_perms;
-allow fsck splash2_blkdev:blk_file rw_file_perms;
-allow fsck secure_storage_blkdev:blk_file rw_file_perms;
+type chr_logd, domain;
+type chr_logd_exec, exec_type, file_type;
+
+init_daemon_domain(chr_logd)
+
+allow chr_logd log_device:chr_file rw_file_perms;

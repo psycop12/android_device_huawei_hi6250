@@ -14,8 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# oam_hisi
+#
 
-allow fsck userdata_blkdev:blk_file rw_file_perms;
-allow fsck cache_blkdev:blk_file rw_file_perms;
-allow fsck splash2_blkdev:blk_file rw_file_perms;
-allow fsck secure_storage_blkdev:blk_file rw_file_perms;
+type oam_hisi, domain;
+type oam_hisi_exec, exec_type, file_type;
+
+init_daemon_domain(oam_hisi)
+
+allow oam_hisi system_data_file:dir { setattr };
