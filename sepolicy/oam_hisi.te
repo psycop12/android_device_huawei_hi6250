@@ -19,7 +19,9 @@
 
 type oam_hisi, domain;
 type oam_hisi_exec, exec_type, file_type;
+type oam_hisi_device, dev_type,file_type;
 
 init_daemon_domain(oam_hisi)
 
 allow oam_hisi system_data_file:dir { setattr };
+allow oam_hisi oam_hisi:netlink_socket create_socket_perms;
