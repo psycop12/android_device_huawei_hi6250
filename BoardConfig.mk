@@ -112,7 +112,6 @@ HEALTHD_BACKLIGHT_LEVEL := 102
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/huawei/hi6250/rootdir/fstab.hi6250
-TARGET_RECOVERY_PIXEL_FORMAT := BGRA_8888
 
 # TWRP Recovery defines
 # RECOVERY_VARIANT := twrp
