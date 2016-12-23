@@ -69,6 +69,9 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
 # Init
 TARGET_INIT_VENDOR_LIB := libhuawei_init
 
+# Linker
+LD_SHIM_LIBS := '/system/lib64/libcutils.so|libshim.so:/system/lib/libcutils.so|libshim.so:/system/lib64/liblog.so|libshim.so:/system/lib/liblog.so|libshim.so:/system/lib64/libexif.so|libshim.so:/system/lib/libexif.so|libshim.so:/system/lib64/libaudio_route.so|libshim.so:/system/lib/libaudio_route.so|libshim.so'
+
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 BOARD_PROVIDES_RILD := true
