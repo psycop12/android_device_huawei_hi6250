@@ -14,16 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# gnss_engine
+# gnss
 #
 
-type gnss_engine, domain;
-type gnss_engine_exec, exec_type, file_type;
+type gnss, domain;
+type gnss_exec, exec_type, file_type;
 type gnss_device, dev_type, file_type;
 type gnss_data_file, file_type;
 
-init_daemon_domain(gnss_engine)
+init_daemon_domain(gnss)
 
-allow gnss_engine gnss_device:chr_file rw_file_perms;
-allow gnss_engine system_data_file:sock_file rw_file_perms;
-allow gnss_engine gnss_data_file:file rw_file_perms;
+allow gnss gnss_device:chr_file rw_file_perms;
+allow gnss system_data_file:sock_file rw_file_perms;
+allow gnss gnss_data_file:dir r_dir_perms;
+allow gnss gnss_data_file:file rw_file_perms;

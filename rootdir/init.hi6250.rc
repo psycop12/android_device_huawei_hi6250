@@ -162,6 +162,8 @@ on post-fs-data
 
     setprop sys.userdata_is_ready 1
 
+    restorecon_recursive /modem_log
+
     # Meticulus: start the modem!
     write /sys/devices/platform/his_modem/modem_sysboot_start 1
     start ril-daemon

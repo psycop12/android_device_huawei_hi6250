@@ -27,6 +27,7 @@ allow mac_addr_normal socket_device:sock_file rw_file_perms;
 allow mac_addr_normal self:capability { dac_override chown fowner };
 allow mac_addr_normal wifi_data_file:dir r_dir_perms;
 allow mac_addr_normal wifi_data_file:file { setattr rw_file_perms };
+allow mac_addr_normal bluetooth_data_file:dir r_dir_perms;
 allow mac_addr_normal bluetooth_data_file:file { setattr rw_file_perms };
 allow mac_addr_normal device:dir rw_dir_perms;
 allow mac_addr_normal device:file { unlink rw_file_perms };

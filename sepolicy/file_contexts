@@ -27,12 +27,14 @@
 /dev/ear_pa             u:object_r:audio_device:s0
 /dev/ttyAMA4		u:object_r:hci_attach_dev:s0
 /dev/ttyAMA3		u:object_r:gps_device:s0
-/dev/gpstty        	u:object_r:gps_device:s0
+/dev/gpstty        	u:object_r:bluetooth_device:s0
 /dev/hwfm		u:object_r:con_device:s0
 /dev/dsm		u:object_r:dmd_device:s0
 /dev/fingerprint	u:object_r:fingerprint_device:s0
 /dev/hwgnss		u:object_r:gnss_device:s0
 /dev/hwbfgdbg		u:object_r:oam_hisi_device:s0
+/dev/hwbt		u:object_r:bluetooth_device:s0
+/dev/flp		u:object_r:flp_device:s0
 
 # oeminfo_nvm device?
 /dev/nve0		u:object_r:oeminfo_nvm_device:s0
@@ -112,7 +114,10 @@
 /system/bin/resize2fs           u:object_r:resize2fs_exec:s0
 /system/bin/resize.f2fs         u:object_r:resize2fs_exec:s0
 /system/bin/oam_hisi		u:object_r:oam_hisi_exec:s0
-/system/bin/gnss_engine_hisi	u:object_r:gnss_engine_exec:s0
+/system/bin/gnss_engine_hisi	u:object_r:gnss_exec:s0
+/system/bin/gnss_control_hisi	u:object_r:gnss_exec:s0
+/system/bin/gnss_supl20clientd_hisi	u:object_r:gnss_exec:s0
+/system/bin/wpa_supplicant_hisi	u:object_r:wpa_exec:s0
 
 # gps
 /system/bin/gpsdaemon		u:object_r:gpsdaemon_exec:s0
@@ -154,7 +159,7 @@
 
 # Logs
 /data/hwzd_logs(/.*)?		u:object_r:hisi_log:s0
-/sec_storage_data(/.*)?		u:object_r:hisi_log:s0
+/data/sec_storage_data(/.*)?		u:object_r:hisi_log:s0
 /data/hwlogdir(/.*)?		u:object_r:hisi_log:s0
 
 # Log Devices
@@ -175,9 +180,7 @@
 /dev/v4l-subdev0		u:object_r:video_device:s0
 
 # Camera data files
-/data/camera/otp1		u:object_r:camera_data_file:s0
-/data/camera/hisi_sensor0	u:object_r:camera_data_file:s0
-/data/camera/hisi_sensor1	u:object_r:camera_data_file:s0
+/data/camera(/.*)?		u:object_r:camera_data_file:s0
 
 # GNSS data files
-/data/gnss/pcm_soc		u:object_r:gnss_data_file:s0
+/data/gnss(/.*)?		u:object_r:gnss_data_file:s0

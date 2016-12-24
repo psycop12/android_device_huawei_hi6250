@@ -34,7 +34,12 @@ allow start_connectivity con_device:chr_file { setattr rw_file_perms };
 allow start_connectivity log_device:chr_file { setattr rw_file_perms };
 allow start_connectivity self:capability { dac_override };
 allow start_connectivity system_data_file:dir { getattr setattr };
-allow start_connectivity wifi_data_file:dir { getattr setattr };
+allow start_connectivity wifi_data_file:dir { search getattr setattr };
 allow start_connectivity wifi_data_file:file { setattr rw_file_perms };
 allow start_connectivity init:unix_stream_socket { connectto };
-
+allow start_connectivity gnss_device:chr_file { getattr setattr };
+allow start_connectivity gnss_data_file:dir { setattr rw_dir_perms };
+allow start_connectivity gnss_data_file:file { setattr rw_file_perms };
+allow start_connectivity bluetooth_device: chr_file { getattr setattr };
+allow start_connectivity hisi_log:dir { setattr rw_dir_perms };
+allow start_connectivity oam_hisi_device:chr_file { getattr setattr };

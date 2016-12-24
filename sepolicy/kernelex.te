@@ -24,3 +24,6 @@ allow kernel unlabeled:chr_file rw_file_perms;
 allow kernel unlabeled:dir rw_dir_perms;
 allow kernel log_device:chr_file rw_file_perms;
 allow kernel device:chr_file { create setattr };
+allow kernel modem_log_file:dir rw_dir_perms;
+allow kernel modem_log_file:file create_file_perms;
+allow kernel sysfs_devices_system_cpu:file rw_file_perms;
