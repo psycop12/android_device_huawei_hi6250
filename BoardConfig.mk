@@ -75,6 +75,7 @@ LD_SHIM_LIBS := '/system/lib64/libcutils.so|libshim.so:/system/lib/libcutils.so|
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 BOARD_PROVIDES_RILD := true
+BOARD_PROVIDES_LIBREFERENCE_RIL := true
 BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
 SIM_COUNT := 2
 
