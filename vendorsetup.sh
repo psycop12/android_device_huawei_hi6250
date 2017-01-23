@@ -1,1 +1,2 @@
 add_lunch_combo cm_hi6250-userdebug
+add_lunch_combo cm_hi6250-eng

@@ -27,7 +27,6 @@ allow init tmpfs:lnk_file create_file_perms;
 allow init debugfs:dir rw_file_perms;
 allow init system_data_file: file { append };
 allow init init:netlink_socket rw_socket_perms;
-allow init permission_service:service_manager { find };
 allow init oeminfo_nvm:unix_stream_socket { connectto };
 allow init oeminfo_nvm_device:chr_file { getattr setattr };
 allow init zram0_blkdev:blk_file rw_file_perms;

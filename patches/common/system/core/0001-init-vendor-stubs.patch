@@ -1,9 +1,9 @@
-From 8ce1144b8fa461ac982a357c19544767da9f7eee Mon Sep 17 00:00:00 2001
+From 41db2ec4e7477de3ac472470e3ef3f56a65c084e Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 19 Dec 2016 08:26:20 -0600
-Subject: [PATCH] 0001-init-load-vendor-properties-much-earlier
+Date: Sat, 24 Dec 2016 23:43:28 -0600
+Subject: [PATCH] 0001-init-vendor-stubs
 
-Change-Id: I78cfbf09b5f49f42b3c92bbc4a71e0f68c51f2f6
+Change-Id: I31679a326358efa3962ed18bbc128e379fbe6c46
 ---
  init/property_service.cpp |  5 ++++-
  init/vendor_init.cpp      | 12 +++++++++++-
@@ -11,28 +11,23 @@ Change-Id: I78cfbf09b5f49f42b3c92bbc4a71e0f68c51f2f6
  3 files changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index fe82bef..4157d56 100644
+index 8644329..d9e69cd 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -521,6 +521,7 @@ static void load_persistent_properties() {
+@@ -483,6 +483,7 @@ static void load_persistent_properties() {
  
  void property_load_boot_defaults() {
      load_properties_from_file(PROP_PATH_RAMDISK_DEFAULT, NULL);
 +    vendor_load_default_properties();
  }
  
- bool properties_initialized() {
-@@ -550,7 +551,7 @@ void load_persist_props(void) {
+ static void load_override_properties() {
+@@ -551,9 +552,11 @@ void load_system_props() {
      /* update with vendor-specific property runtime
       * overrides
       */
 -    vendor_load_properties();
 +    vendor_load_persist_properties();
- }
- 
- void load_recovery_id_prop() {
-@@ -599,6 +600,8 @@ void load_system_props() {
-     load_properties_from_file(PROP_PATH_FACTORY, "ro.*");
  
      load_recovery_id_prop();
 +
@@ -41,7 +36,7 @@ index fe82bef..4157d56 100644
  
  void start_property_service() {
 diff --git a/init/vendor_init.cpp b/init/vendor_init.cpp
-index d2964ad..9053ed1 100644
+index 41a263b..8099a91 100644
 --- a/init/vendor_init.cpp
 +++ b/init/vendor_init.cpp
 @@ -33,7 +33,17 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
@@ -64,10 +59,10 @@ index d2964ad..9053ed1 100644
  }
  
 diff --git a/init/vendor_init.h b/init/vendor_init.h
-index efa4eea..0cdfa51 100644
+index 9491bc4..8a70124 100644
 --- a/init/vendor_init.h
 +++ b/init/vendor_init.h
-@@ -29,6 +29,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+@@ -31,6 +31,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
  #ifndef __INIT_VENDOR__H__
  #define __INIT_VENDOR__H__
@@ -75,7 +70,7 @@ index efa4eea..0cdfa51 100644
 +extern void vendor_load_default_properties(void);
 +extern void vendor_load_system_properties(void);
 +extern void vendor_load_persist_properties(void);
- extern int vendor_handle_control_message(const char *msg, const char *arg);
+ extern int vendor_handle_control_message(const std::string& msg, const std::string& name);
  #endif /* __INIT_VENDOR__H__ */
 -- 
 1.9.1

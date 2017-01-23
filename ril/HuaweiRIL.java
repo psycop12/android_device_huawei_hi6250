@@ -228,7 +228,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
 
     @Override
     protected RILRequest
-    processSolicited (Parcel p) {
+    processSolicited (Parcel p, int type) { //TODO! Implement type!
         int serial, error;
         boolean found = false;
 
@@ -462,7 +462,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
 
     @Override
     protected void
-    processUnsolicited (Parcel p) {
+    processUnsolicited (Parcel p, int type) { //TODO! Implement type!
         int response;
         Object ret;
         int dataPosition = p.dataPosition();
@@ -485,7 +485,7 @@ public class HuaweiRIL extends RIL implements CommandsInterface {
             p.setDataPosition(dataPosition);
 
             // Forward responses that we are not overriding to the super class
-            super.processUnsolicited(p);
+            super.processUnsolicited(p, type);
             return;
         }
 

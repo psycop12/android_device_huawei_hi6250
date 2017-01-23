@@ -14,4 +14,5 @@
  * limitations under the License.
  */
 #define PATH_WHITELIST_EXTRA_H \
-    "/sys/firmware/devicetree/base/hisi,product_name",
+    "/sys/firmware/devicetree/base/hisi,product_name", \
+    "/dev/__properties__",

@@ -114,7 +114,3 @@ void vendor_load_system_properties() {
 	update_property(PRODUCT_MODEL_PROP,model);
 }
 
-int vendor_handle_control_message(const char *msg, const char *arg) { 
-	klog_write(0, "libhuawei_init: control message '%s' '%s' arg is not implemented!\n",msg,arg);
-	return -1;
-}

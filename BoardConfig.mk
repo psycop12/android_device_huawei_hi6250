@@ -55,7 +55,7 @@ BOARD_FLASH_BLOCK_SIZE := 4096
 # Kernel
 TARGET_KERNEL_CONFIG := merge_hi6250_defconfig
 TARGET_KERNEL_SOURCE := kernel/huawei/hi6250
-BOARD_KERNEL_CMDLINE := loglevel=4 coherent_pool=512K mmcparts=mmcblk0:p1(vrl),p2(vrl_backup),p6(modemnvm_factory),p10(modemnvm_backup),p11(modemnvm_img),p12(modemnvm_system),p18(modem_om),p21(modemnvm_update),p31(modem_fw) no_console_suspend androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := loglevel=4 coherent_pool=512K mmcparts=mmcblk0:p1(vrl),p2(vrl_backup),p6(modemnvm_factory),p10(modemnvm_backup),p11(modemnvm_img),p12(modemnvm_system),p18(modem_om),p21(modemnvm_update),p31(modem_fw) no_console_suspend androidboot.selinux=disabled
 BOARD_KERNEL_BASE := 0x00478000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x07b88000 --tags_offset 0x07588000
@@ -75,6 +75,7 @@ LD_SHIM_LIBS := '/system/lib64/libcutils.so|libshim.so:/system/lib/libcutils.so|
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 BOARD_PROVIDES_RILD := true
+BOARD_PROVIDES_LIBREFERENCE_RIL := true
 BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
 SIM_COUNT := 2
 
@@ -141,6 +142,6 @@ TW_EXCLUDE_SUPERSU := false
 TW_EXTRA_LANGUAGES := true
 
 
-# SELinux
-BOARD_SEPOLICY_DIRS += \
+ # SELinux
+ BOARD_SEPOLICY_DIRS += \
 	device/huawei/hi6250/sepolicy

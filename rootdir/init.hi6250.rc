@@ -13,7 +13,7 @@ import /init.trace.rc
 import /init.${ro.boardid.product}.rc
 import /init.post-fs-data.rc
 import /init.huawei.rc
-import /init.hi6250.usb.rc
+# import /init.hi6250.usb.rc
 import /init.meticulus.rc
 import /lpm.rc
 
@@ -29,6 +29,17 @@ on early-boot
 on early-init
 
 on init
+    write /sys/class/android_usb/android0/iManufacturer Huawei
+    write /sys/class/android_usb/android0/iProduct hi6250
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 12d1
+    write /sys/class/android_usb/android0/idProduct 103A
+    write /sys/class/android_usb/android0/iSerial 123456789
+    write /sys/class/android_usb/android0/functions adb
+    write /sys/devices/virtual/android_usb/android0/port_mode 2
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
+    setprop sys.usb.state adb
     verity_load_state
      
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq

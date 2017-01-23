@@ -130,14 +130,14 @@ PRODUCT_PACKAGES += \
     hostapd
 
 #NFC
-PRODUCT_PACKAGES += \
-    NQNfcNci \
-    libnqnfc-nci \
-    com.nxp.nfc.nq \
-    com.nxp.nfc.nq.xml \
-    nqnfcee_access.xml \
-    nqnfcse_access.xml \
-    Tag
+#PRODUCT_PACKAGES += \
+#    NQNfcNci \
+#    libnqnfc-nci \
+#    com.nxp.nfc.nq \
+#    com.nxp.nfc.nq.xml \
+#    nqnfcee_access.xml \
+#    nqnfcse_access.xml \
+#    Tag
 
 # Permissions
 PRODUCT_COPY_FILES += \
