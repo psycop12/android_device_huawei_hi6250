@@ -106,9 +106,10 @@ PRODUCT_PACKAGES += \
     libcopybit_wrapper \
     lights.hi6250
 
-# Hardware
+# Shim libs
 PRODUCT_PACKAGES += \
-    libshim
+    libshim \
+    libshim_icu
 
 # Hack for adb
 PRODUCT_COPY_FILES += \
