@@ -95,7 +95,7 @@ on boot
     chown radio radio /proc/modemstatus
 
 
-service_redefine ril-daemon /system/bin/rild
+service ril-daemon /system/bin/rild
     class late_start
     socket rild stream 660 root radio
     socket rild-ims stream 660 root radio
