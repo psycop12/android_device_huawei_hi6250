@@ -54,7 +54,7 @@ index bc40873..d3deb33 100755
 +  script.Print("Built for you by:                       ");
 +  script.Print("		Meticulus                ");
 +  script.Print("      http://meticulus.co.vu  ");
-+  script.Print("CyanogenMod 14.1 for hi6250");
++  script.Print("LineageOS 14.1 for hi6250");
  
    script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
    device_specific.FullOTA_InstallBegin()
