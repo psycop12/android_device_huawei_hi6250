@@ -109,7 +109,8 @@ PRODUCT_PACKAGES += \
 # Shim libs
 PRODUCT_PACKAGES += \
     libshim \
-    libshim_icu
+    libshim_icu \
+    libshim_camera
 
 # Hack for adb
 PRODUCT_COPY_FILES += \
