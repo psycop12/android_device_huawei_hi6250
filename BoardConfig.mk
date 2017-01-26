@@ -70,7 +70,7 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
 TARGET_INIT_VENDOR_LIB := libhuawei_init
 
 # Linker
-LD_SHIM_LIBS := '/system/lib64/libcutils.so|libshim.so:/system/lib/libcutils.so|libshim.so:/system/lib64/liblog.so|libshim.so:/system/lib/liblog.so|libshim.so:/system/lib64/libexif.so|libshim.so:/system/lib/libexif.so|libshim.so:/system/lib64/libaudio_route.so|libshim.so:/system/lib/libaudio_route.so|libshim.so:/system/lib/hw/audio.primary.hisi.so|libshim_icu.so:/system/vendor/lib64/libril.so|libshim_icu.so:/system/lib/hw/camera.hi6250.so|libshim_camera.so:/system/bin/wpa_supplicant_hisi|libshim.so'
+LD_SHIM_LIBS := '/system/lib64/libcutils.so|libshim.so:/system/lib/libcutils.so|libshim.so:/system/lib64/liblog.so|libshim.so:/system/lib/liblog.so|libshim.so:/system/lib64/libexif.so|libshim.so:/system/lib/libexif.so|libshim.so:/system/lib64/libaudio_route.so|libshim.so:/system/lib/libaudio_route.so|libshim.so:/system/lib/hw/audio.primary.hisi.so|libshim_icu.so:/system/vendor/lib64/libril.so|libshim_icu.so:/system/lib/hw/camera.hi6250.so|libshim_camera.so'
 
 # RIL
 BOARD_PROVIDES_LIBRIL := true
