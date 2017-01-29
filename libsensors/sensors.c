@@ -563,8 +563,6 @@ static int poll_light(sensors_event_t *values)
 	sscanf(buf, "%d %d %d", &data[0], &data[1], &data[2]);
 	close(fd);
 
-        ALOGD("Meticulus: [%d %d %d]",data[0], data[1], data[2]);
-
         values->light = data[0];
 	values->sensor = HANDLE_LIGHT;
 	values->type = SENSOR_TYPE_LIGHT;
