@@ -104,7 +104,8 @@ PRODUCT_PACKAGES += \
     power.hi6250 \
     hwcomposer.hi6250 \
     libcopybit_wrapper \
-    lights.hi6250
+    lights.hi6250 \
+    sensors.hi6250
 
 # Shim libs
 PRODUCT_PACKAGES += \
