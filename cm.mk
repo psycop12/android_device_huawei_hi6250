@@ -30,6 +30,9 @@ PRODUCT_MANUFACTURER := huawei
 TARGET_SCREEN_HEIGHT := 1920
 TARGET_SCREEN_WIDTH := 1080
 
+PRODUCT_PACKAGES += \
+    Snap
+
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.zygote=zygote64_32 \
     ro.adb.secure=0 \
