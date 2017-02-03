@@ -66,6 +66,9 @@ persist.camera.cap_sup_front=3
 #
 persist.sys.sr_google_avc_enc=1
 persist.sys.google_avc_enc=0
+media.stagefright.legacyencoder=true
+media.stagefright.less-secure=true
+
 #
 # TWRP
 #
