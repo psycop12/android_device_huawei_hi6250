@@ -46,12 +46,14 @@ static unsigned int count_acc;
 static unsigned int count_prox;
 static unsigned int count_orient;
 static unsigned int count_light;
+static unsigned int count_gyro;
 
 unsigned int delay_mag = MINDELAY_MAGNETIC_FIELD;
 unsigned int delay_acc = MINDELAY_ACCELEROMETER;
 unsigned int delay_prox = MINDELAY_PROXIMITY;
 unsigned int delay_orient = MINDELAY_ORIENTATION;
 unsigned int delay_light = MINDELAY_LIGHT;
+unsigned int delay_gyro = MINDELAY_GYROSCOPE;
 
 static pthread_cond_t data_available_cv;
 
@@ -70,12 +72,14 @@ void *mag_getdata();
 void *orient_getdata();
 void *prox_getdata();
 void *light_getdata();
+void *gyro_getdata();
 
 char acc_thread_exit;
 char mag_thread_exit;
 char orient_thread_exit;
 char prox_thread_exit;
 char light_thread_exit;
+char gyro_thread_exit;
 
 /*pass values to kernel space*/
 static int on = 1;
@@ -285,6 +289,52 @@ static int activate_prox(int enable)
 	return 0;
 }
 
+static int activate_gyro(int enable)
+{
+	int ret = -1;
+	pthread_attr_t attr;
+	pthread_t gyro_thread = -1;
+
+	if (enable) {
+		if (count_gyro == 0) {
+			activate_acc(enable);
+			activate_mag(enable);
+			/*
+			 * check for the file path
+			 * Initialize prox_thread_exit flag
+			 * every time thread is created
+			 */
+			gyro_thread_exit = 0;
+			pthread_attr_init(&attr);
+			/*
+			 * Create thread in detached state, so that we
+			 * need not join to clear its resources
+			 */
+			pthread_attr_setdetachstate(&attr,
+					PTHREAD_CREATE_DETACHED);
+			ret = pthread_create(&gyro_thread, &attr,
+					gyro_getdata, NULL);
+			pthread_attr_destroy(&attr);
+			count_gyro++;
+		} else {
+			count_gyro++;
+		}
+	} else {
+		if (count_gyro == 0)
+			return 0;
+		count_gyro--;
+		if (count_gyro == 0) {
+			/*
+			 * Enable prox_thread_exit to exit the thread
+			 */
+			gyro_thread_exit = 1;
+			activate_acc(enable);
+			activate_mag(enable);
+		}
+	}
+	return 0;
+}
+
 static int activate_orientation(int enable)
 {
 	int ret = -1;
@@ -462,6 +512,107 @@ void *mag_getdata()
 		if (ret)
 			return NULL;
 		add_queue(HANDLE_MAGNETIC_FIELD, data);
+	}
+	return NULL;
+}
+
+static int poll_gyro(sensors_event_t *values)
+{
+	int fd_mag;
+	int fd_acc;
+	int data_mag[3];
+	int data_acc[3];
+	float gain_mag[2] = {0.0};
+	char buf[SIZE_OF_BUF];
+	int nread;
+	double mag_x, mag_y, mag_xy;
+	double acc_x, acc_y, acc_z;
+
+	data_mag[0] = 0;
+	data_mag[1] = 0;
+	data_mag[2] = 0;
+
+	data_acc[0] = 0;
+	data_acc[1] = 0;
+	data_acc[2] = 0;
+
+	fd_acc = open(PATH_DATA_ACC , O_RDONLY);
+	if (fd_acc < 0) {
+		ALOGE("Meticulus: orient:Cannot open %s\n", PATH_DATA_ACC);
+		return -ENODEV;
+	}
+	fd_mag = open(PATH_DATA_MAG, O_RDONLY);
+	if (fd_mag < 0) {
+		ALOGE("Meticulus: orien:Cannot open %s\n", PATH_DATA_MAG);
+		return -ENODEV;
+	}
+
+	memset(buf, 0x00, sizeof(buf));
+	lseek(fd_mag, 0, SEEK_SET);
+	nread = read(fd_mag, buf, SIZE_OF_BUF);
+	if (nread < 0) {
+		ALOGE("Meticulus: orien:Error in reading data from Magnetometer\n");
+		return -1;
+	}
+	sscanf(buf, "%d %d %d", &data_mag[0], &data_mag[1], &data_mag[2]);
+
+	mag_x = (data_mag[0] * MAG_RESOLUTION);
+	mag_y = (data_mag[1] * MAG_RESOLUTION);
+	if (mag_x == 0) {
+		if (mag_y < 0)
+			values->gyro.azimuth = 180;
+		else
+			values->gyro.azimuth = 0;
+	} else {
+		mag_xy = mag_y / mag_x;
+		if (mag_x > 0)
+			values->gyro.azimuth = round(270 +
+						(atan(mag_xy) * RADIANS_TO_DEGREES));
+		else
+			values->gyro.azimuth = round(90 +
+						(atan(mag_xy) * RADIANS_TO_DEGREES));
+	}
+
+	memset(buf, 0x00, sizeof(buf));
+	lseek(fd_acc, 0, SEEK_SET);
+	nread = read(fd_acc, buf, SIZE_OF_BUF);
+	if (nread < 0) {
+		ALOGE("Meticulus orient:Error in reading data from Accelerometer\n");
+		return -1;
+	}
+	sscanf(buf, "%d %d %d", &data_acc[0], &data_acc[1], &data_acc[2]);
+
+	acc_x = (float) data_acc[0];
+	acc_x *= CONVERT_A;
+	acc_y = (float) data_acc[1];
+	acc_y *= CONVERT_A;
+	acc_z = (float) data_acc[2];
+	acc_z *= CONVERT_A;
+
+	values->sensor = HANDLE_GYROSCOPE;
+	values->type = SENSOR_TYPE_GYROSCOPE;
+	values->version = sizeof(struct sensors_event_t);
+	values->gyro.status = SENSOR_STATUS_ACCURACY_HIGH;
+	values->gyro.pitch = round(atan(acc_y / sqrt(acc_x*acc_x + acc_z*acc_z)) * RADIANS_TO_DEGREES);
+	values->gyro.roll = round(atan(acc_x / sqrt(acc_y*acc_y + acc_z*acc_z)) * RADIANS_TO_DEGREES);
+
+	close(fd_acc);
+	close(fd_mag);
+	return 0;
+}
+
+void *gyro_getdata()
+{
+	sensors_event_t data;
+	int ret;
+
+	while (!gyro_thread_exit) {
+		usleep(delay_gyro);
+		ret = poll_gyro(&data);
+		/* If return value = 0 queue the element */
+		if (ret)
+			return NULL;
+		add_queue(HANDLE_GYROSCOPE, data);
 	}
 	return NULL;
 }
@@ -739,6 +890,12 @@ static int m_poll_activate(struct sensors_poll_device_t *dev,
 				" enable = %d\n", __FUNCTION__, handle, enabled);
 		status = activate_light(enabled);	
 		break;
+	case HANDLE_GYROSCOPE:
+	if(DEBUG)
+		ALOGD("Meticulus: Entering function %s with handle = %d (light),"
+				" enable = %d\n", __FUNCTION__, handle, enabled);
+		status = activate_gyro(enabled);	
+		break;
 	default:
 		if(DEBUG)
 			ALOGD("Meticulus: This sensor/handle is not supported %s\n",
@@ -838,6 +995,12 @@ static int m_poll_set_delay(struct sensors_poll_device_t *dev,
 		if (microseconds >= MINDELAY_LIGHT) {
 			delay_light = microseconds;
 			ret = set_delay_light(microseconds);
+		}
+		break;
+	case HANDLE_GYROSCOPE:
+		if (microseconds >= MINDELAY_LIGHT) {
+			delay_gyro = microseconds;
+			ret = set_delay_acc(microseconds);
 		}
 		break;
 	default:

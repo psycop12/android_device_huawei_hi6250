@@ -198,6 +198,23 @@ static const struct sensor_t sSensorList[] = {
 		0,
 		NULL,
 	},
+	/*{"Emulated Gyroscope Sensor",
+		"Meticulus Development",
+		1,
+		HANDLE_GYROSCOPE,
+		SENSOR_TYPE_GYROSCOPE,
+		ALPS_RANGE,
+		ALPS_RESOLUTION,
+		ALPS_POWER,
+		MINDELAY_GYROSCOPE,
+		0,
+		0,
+		"vu.co.meticulus.fake.gyroscope",
+		"",
+		200000,
+		0,
+		NULL,
+	},*/
 };
 
 static int acc_id;
