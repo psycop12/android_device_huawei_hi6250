@@ -62,7 +62,7 @@
 #define ACC_RANGE  78.4533f
 #define ACC_RESOLUTION  0.009576807f
 
-/* proximity defines */
+/* Proximity defines */
 #define PROX_POWER 0.75f
 #define PROX_RANGE  5.0f
 #define PROX_RESOLUTION  5.0f
@@ -104,35 +104,11 @@ char const *const PATH_DATA_PROX =
 char const *const PATH_DELAY_PROX =
 		"/sys/class/sensors/ps_sensor/set_delay";
 
-/* alps (kyle) paths */
-
-char const *const PATH_IO_ALPS =
-		"/dev/alps_io";
-
-
-/* Accelerometer sensor path structure */
-typedef struct {
-    char path_mode[MAX_LENGTH];
-    char path_range[MAX_LENGTH];
-    char path_rate[MAX_LENGTH];
-    char path_data[MAX_LENGTH];
-    char gyro_path_mode[MAX_LENGTH];
-    char gyro_path_rate[MAX_LENGTH];
-    char gyro_path_data[MAX_LENGTH];
-    char gyro_path_sensitivity[MAX_LENGTH];
-    char magn_range[MAX_LENGTH];
-} Sensor_data;
-
 /* To store all Sensors data*/
 typedef struct {
    sensors_event_t sensor_data[8];
    int length;
 } Sensor_messagequeue;
-
-typedef struct {
-    int prox_val;
-    char prox_flag;
-}Sensor_prox;
 
 /* sensor API integration */
 

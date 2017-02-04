@@ -44,18 +44,18 @@
 static unsigned int count_mag;
 static unsigned int count_acc;
 static unsigned int count_prox;
-static unsigned int count_orien;
+static unsigned int count_orient;
 static unsigned int count_light;
 
 unsigned int delay_mag = MINDELAY_MAGNETIC_FIELD;
 unsigned int delay_acc = MINDELAY_ACCELEROMETER;
 unsigned int delay_prox = MINDELAY_PROXIMITY;
-unsigned int delay_orien = MINDELAY_ORIENTATION;
+unsigned int delay_orient = MINDELAY_ORIENTATION;
 unsigned int delay_light = MINDELAY_LIGHT;
 
 static pthread_cond_t data_available_cv;
 
-static Sensor_messagequeue  stsensor_msgqueue;
+static Sensor_messagequeue  sensor_msgqueue;
 
 static pthread_mutex_t sensordata_mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t mutex_proxval = PTHREAD_MUTEX_INITIALIZER;
@@ -64,28 +64,18 @@ int events = 0;
 static int count_open_sensors = 0;
 static int count_delay_sensors = 0;
 
-Sensor_prox  stprox_val;
-
-static pthread_attr_t acc_attr;
-static pthread_t acc_thread = -1;
-static pthread_attr_t light_attr;
-static pthread_t light_thread = -1;
-
 void *prox_getdata();
 void *acc_getdata();
 void *mag_getdata();
-void *orien_getdata();
+void *orient_getdata();
 void *prox_getdata();
 void *light_getdata();
 
 char acc_thread_exit;
 char mag_thread_exit;
-char orien_thread_exit;
+char orient_thread_exit;
 char prox_thread_exit;
 char light_thread_exit;
-
-static Sensor_data sensor_data;
-
 
 /*pass values to kernel space*/
 static int on = 1;
@@ -120,6 +110,8 @@ static int activate_light(int enable)
 {
 	int ret = 0;
 	int fd = -1;
+	pthread_attr_t light_attr;
+	pthread_t light_thread = -1;
 
 	if (enable) {
 		if(DEBUG)
@@ -164,6 +156,8 @@ static int activate_acc(int enable)
 {
 	int ret = 0;
 	int fd = -1;
+	pthread_attr_t acc_attr;
+	pthread_t acc_thread = -1;
 
 	if (enable) {
 		if(DEBUG)
@@ -209,7 +203,6 @@ static int activate_mag(int enable)
 	int ret = 0;
 	pthread_attr_t attr;
 	pthread_t mag_thread = -1;
-	int fd = -1;
 
 	if (enable) {
 		if (count_mag == 0) {
@@ -294,10 +287,48 @@ static int activate_prox(int enable)
 
 static int activate_orientation(int enable)
 {
-	if(activate_acc(enable) == 0 && activate_mag(enable) == 0)
-		return 0;
-	else
-		return -1;
+	int ret = -1;
+	pthread_attr_t attr;
+	pthread_t orient_thread = -1;
+
+	if (enable) {
+		if (count_orient == 0) {
+			activate_acc(enable);
+			activate_mag(enable);
+			/*
+			 * check for the file path
+			 * Initialize prox_thread_exit flag
+			 * every time thread is created
+			 */
+			orient_thread_exit = 0;
+			pthread_attr_init(&attr);
+			/*
+			 * Create thread in detached state, so that we
+			 * need not join to clear its resources
+			 */
+			pthread_attr_setdetachstate(&attr,
+					PTHREAD_CREATE_DETACHED);
+			ret = pthread_create(&orient_thread, &attr,
+					orient_getdata, NULL);
+			pthread_attr_destroy(&attr);
+			count_orient++;
+		} else {
+			count_orient++;
+		}
+	} else {
+		if (count_orient == 0)
+			return 0;
+		count_orient--;
+		if (count_orient == 0) {
+			/*
+			 * Enable prox_thread_exit to exit the thread
+			 */
+			orient_thread_exit = 1;
+			activate_acc(enable);
+			activate_mag(enable);
+		}
+	}
+	return 0;
 }
 
 static int poll_accelerometer(sensors_event_t *values)
@@ -350,17 +381,17 @@ void add_queue(int sensor_type, sensors_event_t data)
 {
 	int i;
 	pthread_mutex_lock(&sensordata_mutex);
-	for (i = 0; i < stsensor_msgqueue.length; i++) {
-		if (stsensor_msgqueue.sensor_data[i].sensor == sensor_type) {
-			stsensor_msgqueue.sensor_data[i] = data;
+	for (i = 0; i < sensor_msgqueue.length; i++) {
+		if (sensor_msgqueue.sensor_data[i].sensor == sensor_type) {
+			sensor_msgqueue.sensor_data[i] = data;
 			pthread_mutex_unlock(&sensordata_mutex);
 			return;
 		}
 	}
-	stsensor_msgqueue.sensor_data[stsensor_msgqueue.length] = data;
-	stsensor_msgqueue.length++;
+	sensor_msgqueue.sensor_data[sensor_msgqueue.length] = data;
+	sensor_msgqueue.length++;
 	/* signal event to mpoll if this is the first element in queue */
-	if (stsensor_msgqueue.length == 1)
+	if (sensor_msgqueue.length == 1)
 		pthread_cond_signal(&data_available_cv);
 	pthread_mutex_unlock(&sensordata_mutex);
 	return;
@@ -457,7 +488,7 @@ static int poll_orientation(sensors_event_t *values)
 
 	fd_acc = open(PATH_DATA_ACC , O_RDONLY);
 	if (fd_acc < 0) {
-		ALOGE("Meticulus: orien:Cannot open %s\n", sensor_data.path_data);
+		ALOGE("Meticulus: orient:Cannot open %s\n", PATH_DATA_ACC);
 		return -ENODEV;
 	}
 	fd_mag = open(PATH_DATA_MAG, O_RDONLY);
@@ -473,7 +504,7 @@ static int poll_orientation(sensors_event_t *values)
 		ALOGE("Meticulus: orien:Error in reading data from Magnetometer\n");
 		return -1;
 	}
-	sscanf(buf, "%d,%d,%d", &data_mag[0], &data_mag[1], &data_mag[2]);
+	sscanf(buf, "%d %d %d", &data_mag[0], &data_mag[1], &data_mag[2]);
 
 	mag_x = (data_mag[0] * MAG_RESOLUTION);
 	mag_y = (data_mag[1] * MAG_RESOLUTION);
@@ -496,10 +527,10 @@ static int poll_orientation(sensors_event_t *values)
 	lseek(fd_acc, 0, SEEK_SET);
 	nread = read(fd_acc, buf, SIZE_OF_BUF);
 	if (nread < 0) {
-		ALOGE("Meticulus orien:Error in reading data from Accelerometer\n");
+		ALOGE("Meticulus orient:Error in reading data from Accelerometer\n");
 		return -1;
 	}
-	sscanf(buf, "%d,%d,%d", &data_acc[0], &data_acc[1], &data_acc[2]);
+	sscanf(buf, "%d %d %d", &data_acc[0], &data_acc[1], &data_acc[2]);
 
 	acc_x = (float) data_acc[0];
 	acc_x *= CONVERT_A;
@@ -520,13 +551,13 @@ static int poll_orientation(sensors_event_t *values)
 	return 0;
 }
 
-void *orien_getdata()
+void *orient_getdata()
 {
 	sensors_event_t data;
 	int ret;
 
-	while (!orien_thread_exit) {
-		usleep(delay_orien);
+	while (!orient_thread_exit) {
+		usleep(delay_orient);
 		ret = poll_orientation(&data);
 		/* If return value = 0 queue the element */
 		if (ret)
@@ -719,10 +750,10 @@ static int m_poll_activate(struct sensors_poll_device_t *dev,
 	if (status != -ENODEV) {
 		/* count total number of sensors open */
 		count_open_sensors = count_acc + count_mag  +
-					count_prox + count_orien;
+					count_prox + count_orient;
 		if (count_open_sensors == 0) {
 			pthread_mutex_lock(&sensordata_mutex);
-			stsensor_msgqueue.length = 0;
+			sensor_msgqueue.length = 0;
 			pthread_mutex_unlock(&sensordata_mutex);
 		}
 	}
@@ -781,7 +812,7 @@ static int m_poll_set_delay(struct sensors_poll_device_t *dev,
 	switch (handle) {
 	case HANDLE_ORIENTATION:
 		if (microseconds >= MINDELAY_ORIENTATION) {
-			delay_orien = microseconds;
+			delay_orient = microseconds;
 			ret = set_delay_acc(microseconds);
 		}
 		break;
@@ -833,18 +864,18 @@ static int m_poll(struct sensors_poll_device_t *dev,
 	/* If there are no elements in the queue
 	 * wait till queue gets filled
 	 */
-	if (!stsensor_msgqueue.length)
+	if (!sensor_msgqueue.length)
 		pthread_cond_wait(&data_available_cv, &sensordata_mutex);
-	memcpy(data, &stsensor_msgqueue.sensor_data[0] ,
-			sizeof(stsensor_msgqueue.sensor_data[0]));
-	if (stsensor_msgqueue.length > 1) {
-		for (i = 0; i < stsensor_msgqueue.length - 1; i++)
-			memcpy(&stsensor_msgqueue.sensor_data[i],
-			&stsensor_msgqueue.sensor_data[i+1],
-			sizeof(stsensor_msgqueue.sensor_data[0]));
+	memcpy(data, &sensor_msgqueue.sensor_data[0] ,
+			sizeof(sensor_msgqueue.sensor_data[0]));
+	if (sensor_msgqueue.length > 1) {
+		for (i = 0; i < sensor_msgqueue.length - 1; i++)
+			memcpy(&sensor_msgqueue.sensor_data[i],
+			&sensor_msgqueue.sensor_data[i+1],
+			sizeof(sensor_msgqueue.sensor_data[0]));
 	}
-	if(stsensor_msgqueue.length > 0)
-		stsensor_msgqueue.length--;
+	if(sensor_msgqueue.length > 0)
+		sensor_msgqueue.length--;
 	events = 1;
 	pthread_mutex_unlock(&sensordata_mutex);
 	/* add time stamp on last event */
