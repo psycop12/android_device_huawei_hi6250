@@ -1,17 +1,17 @@
-From 14d0e1f2920a730c63184d03535dd98a513dd84b Mon Sep 17 00:00:00 2001
+From ce506980bfcd2ef0c2ac16fbdd4b617ab309783a Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 26 Dec 2016 07:52:45 -0600
+Date: Sat, 4 Feb 2017 15:03:37 -0600
 Subject: [PATCH] nxp-nfc-libnfc-nci
 
 ---
  Android.mk                                 |  2 +-
  halimpl/pn54x/inc/phNxpNciHal_Adaptation.h |  2 +-
- src/adaptation/NfcAdaptation.cpp           |  7 +++++--
+ src/adaptation/NfcAdaptation.cpp           | 13 ++++++++-----
  src/include/nfc_target.h                   |  3 ++-
  src/nfc/nfc/nfc_main.c                     |  2 +-
  src/nfc/nfc/nfc_ncif.c                     | 13 ++++++++-----
  src/nfc/nfc/nfc_task.c                     |  2 ++
- 7 files changed, 20 insertions(+), 11 deletions(-)
+ 7 files changed, 23 insertions(+), 14 deletions(-)
 
 diff --git a/Android.mk b/Android.mk
 index 1fa8506..957e4ea 100644
@@ -40,7 +40,7 @@ index 07692ae..87fe000 100644
  } pn547_dev_t;
  
 diff --git a/src/adaptation/NfcAdaptation.cpp b/src/adaptation/NfcAdaptation.cpp
-index a770c55..7580651 100644
+index a770c55..4913d40 100644
 --- a/src/adaptation/NfcAdaptation.cpp
 +++ b/src/adaptation/NfcAdaptation.cpp
 @@ -379,7 +379,9 @@ void NfcAdaptation::InitializeHalDeviceContext ()
@@ -72,6 +72,33 @@ index a770c55..7580651 100644
      }
      return -1;
  }
+@@ -686,7 +689,7 @@ void NfcAdaptation::DownloadFirmware ()
+ {
+     const char* func = "NfcAdaptation::DownloadFirmware";
+     ALOGD ("%s: enter", func);
+-#if (NXP_EXTNS == TRUE)
++#if (NXP_EXTNS == FALSE)
+     static UINT8 cmd_reset_nci[] = {0x20,0x00,0x01,0x00};
+     static UINT8 cmd_init_nci[]  = {0x20,0x01,0x00};
+     static UINT8 cmd_reset_nci_size = sizeof(cmd_reset_nci) / sizeof(UINT8);
+@@ -703,7 +706,7 @@ void NfcAdaptation::DownloadFirmware ()
+     HalOpen (HalDownloadFirmwareCallback, HalDownloadFirmwareDataCallback);
+     mHalOpenCompletedEvent.wait ();
+     mHalOpenCompletedEvent.unlock();
+-#if (NXP_EXTNS == TRUE)
++#if (NXP_EXTNS == FALSE)
+     /* Send a CORE_RESET and CORE_INIT to the NFCC. This is required because when calling
+      * HalCoreInitialized, the HAL is going to parse the conf file and send NCI commands
+      * to the NFCC. Hence CORE-RESET and CORE-INIT have to be sent prior to this.
+@@ -782,7 +785,7 @@ void NfcAdaptation::DownloadFirmware ()
+ #endif
+     ALOGD ("%s: try close HAL", func);
+     HalClose ();
+-#if (NXP_EXTNS == TRUE)
++#if (NXP_EXTNS == FALSE)
+     mHalCloseCompletedEvent.lock ();
+     if (SIGNAL_NONE == isSignaled) {
+         mHalCloseCompletedEvent.wait ();
 diff --git a/src/include/nfc_target.h b/src/include/nfc_target.h
 index d292d01..feef57c 100644
 --- a/src/include/nfc_target.h
