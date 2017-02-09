@@ -82,7 +82,10 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/recovery/bbInstaller:recovery/root/sbin/bbInstaller \
 	$(LOCAL_PATH)/recovery/fstabSwitcher:recovery/root/sbin/fstabSwitcher \
 	$(LOCAL_PATH)/recovery/fstab.hi6250.stock:recovery/root/fstab.hi6250.stock \
-	$(LOCAL_PATH)/recovery/fstab.hi6250.bootdevice:recovery/root/fstab.hi6250.bootdevice
+	$(LOCAL_PATH)/recovery/fstab.hi6250.bootdevice:recovery/root/fstab.hi6250.bootdevice \
+	$(LOCAL_PATH)/recovery/stock-check.sh:install/bin/stock-check.sh \
+	$(LOCAL_PATH)/recovery/finalize.sh:install/bin/finalize.sh \
+	$(LOCAL_PATH)/recovery/data-formatter.sh:install/bin/data-formatter.sh
 
 # Media
 PRODUCT_COPY_FILES += \
@@ -142,6 +145,11 @@ PRODUCT_PACKAGES += \
     nqnfcee_access.xml \
     nqnfcse_access.xml \
     Tag
+
+
+# Recovery
+PRODUCT_PACKAGES += \
+    volumeinput
 
 # Permissions
 PRODUCT_COPY_FILES += \
