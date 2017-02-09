@@ -1,13 +1,13 @@
-From 69171c4dce78677bb95e8ea9891c097c04134bb2 Mon Sep 17 00:00:00 2001
+From c64f8875cadcd0f8f15d003fe7ab5b824afb091c Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 30 Jan 2017 12:35:42 -0600
-Subject: [PATCH] libc: prop compatibility
+Date: Thu, 9 Feb 2017 17:08:18 -0600
+Subject: [PATCH] 0001-libc-prop-compatibility
 
-Change-Id: I5a6fcaf6fca02e11f066ae284286b5c2d37ddfc6
+Change-Id: I5301ba3617207f59d37b89a6cc205715684e08cf
 ---
  libc/Android.mk                   |   1 -
- libc/bionic/system_properties.cpp | 107 +++++++++++++-------------------------
- 2 files changed, 35 insertions(+), 73 deletions(-)
+ libc/bionic/system_properties.cpp | 119 +++++++++++++-------------------------
+ 2 files changed, 41 insertions(+), 79 deletions(-)
 
 diff --git a/libc/Android.mk b/libc/Android.mk
 index 94f7ce6..963d0da 100644
@@ -22,7 +22,7 @@ index 94f7ce6..963d0da 100644
  ifeq ($(strip $(DEBUG_BIONIC_LIBC)),true)
    libc_common_cflags += -DDEBUG
 diff --git a/libc/bionic/system_properties.cpp b/libc/bionic/system_properties.cpp
-index 9c992da..860d4db 100644
+index 9c992da..c5326ab 100644
 --- a/libc/bionic/system_properties.cpp
 +++ b/libc/bionic/system_properties.cpp
 @@ -136,6 +136,10 @@ public:
@@ -251,7 +251,7 @@ index 9c992da..860d4db 100644
      do {
          __futex_wait(pa->serial(), serial, NULL);
          my_serial = atomic_load_explicit(pa->serial(), memory_order_acquire);
-@@ -1278,10 +1245,6 @@ const prop_info *__system_property_find_nth(unsigned n)
+@@ -1278,18 +1245,14 @@ const prop_info *__system_property_find_nth(unsigned n)
  int __system_property_foreach(void (*propfn)(const prop_info *pi, void *cookie),
          void *cookie)
  {
@@ -262,6 +262,20 @@ index 9c992da..860d4db 100644
      if (__predict_false(compat_mode)) {
          return __system_property_foreach_compat(propfn, cookie);
      }
+-
+-    list_foreach(contexts, [propfn, cookie](context_node* l) {
+-        if (l->check_access_and_open()) {
+-            l->pa()->foreach(propfn, cookie);
+-        }
+-    });
++    prop_area *pa = __system_property_area__;
++    /*list_foreach(contexts, [propfn, cookie](context_node* l) {
++        if (l->check_access_and_open()) {*/
++            pa->foreach(propfn, cookie);
++        /*}
++    });*/
+     return 0;
+ }
 -- 
 1.9.1
 
