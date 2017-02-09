@@ -24,7 +24,6 @@ get_updater_info() {
 mecho(){
     echo -n -e "ui_print      $1\n" > "$UPDATERFD_PATH"
     echo -n -e "ui_print\n" > "$UPDATERFD_PATH"
-    echo $1 >> /tmp/recovery.log
 }
 
 checkerror() {
@@ -80,13 +79,16 @@ if [[ "$(getprop sys.stock)" == "1" ]]; then
     mecho "Installation finished successfully!"
     mecho ""
     mecho "TWRP needs to be restarted to work -"
-    mecho "property now that you are on a custom ROM"
+    mecho "properly now that you are on a custom ROM"
     mecho "It is recommended that you do this - "
     mecho "before install GApps."
     mecho ""
     mecho "Reboot recovery?"
     mecho "[volume up: yes | volume down: no]"
-    if [[ "$(/tmp/install/bin/volumeinput)" == "down" ]]; then
+    if [[ "$(/tmp/install/bin/volumeinput)" == "up" ]]; then
     	reboot recovery
+    else
+	checkerror 1 "TWRP may not function correctly - "
+	checkerror 1 "until your reboot!!!"
     fi
 fi

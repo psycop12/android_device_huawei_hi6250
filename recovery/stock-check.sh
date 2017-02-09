@@ -24,7 +24,6 @@ get_updater_info() {
 mecho(){
     echo -n -e "ui_print      $1\n" > "$UPDATERFD_PATH"
     echo -n -e "ui_print\n" > "$UPDATERFD_PATH"
-    echo $1 >> /tmp/recovery.log
 }
 
 checkerror() {
@@ -85,7 +84,7 @@ if [[ "$(getprop sys.stock)" == "1" ]]; then
     checkerror 1 "Do you wish to continue?"
     checkerror 1 "[volume up: yes | volume down: no]?"
     mecho ""
-    if [[ "$(/tmp/volumeinput)" == "down" ]]; then
+    if [[ "$(/tmp/install/bin/volumeinput)" == "down" ]]; then
     	checkerror 1 "Installation cancelled."
         checkerror 1 "Nothing has been modified."
 	checkerror 1 " " -fatal

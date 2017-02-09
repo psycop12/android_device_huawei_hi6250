@@ -24,7 +24,6 @@ get_updater_info() {
 mecho(){
     echo -n -e "ui_print      $1\n" > "$UPDATERFD_PATH"
     echo -n -e "ui_print\n" > "$UPDATERFD_PATH"
-    echo $1 >> /tmp/recovery.log
 }
 
 checkerror() {
@@ -98,4 +97,5 @@ if [[ "$(getprop sys.stock)" == "1" ]]; then
     checkerror $? "Could not format userdata!.You will need to reboot to recovery. Then format data." -fatal
     mecho "Format of /data complete."
     mecho ""
+    sleep 2
 fi

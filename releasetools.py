@@ -52,22 +52,17 @@ def FullOTA_Assertions(info):
   info.output_zip.write(os.path.join(TARGET_DIR, "system/bin/volumeinput"), "install/bin/volumeinput")
 
   info.script.AppendExtra('assert(getprop("ro.build.user") == "meticulus" || abort("This ROM can not be installed with this recovery. Meticulus Development\'s TWRP is required!- http://www.meticulus.co.vu/p/twrp-for-huawei-p9-lite.html"););')
-  info.script.AppendExtra('package_extract_file("install/bin/stock-check.sh", "/tmp/install/bin/stock-check.sh");')
-  info.script.AppendExtra('assert(run_program("/sbin/chmod","755", "/tmp/install/bin/stock-check.sh") == 0 || abort("Could not chmod stock-check"););')
+  info.script.AppendExtra('package_extract_dir("install", "/tmp/install");')
 
-  info.script.AppendExtra('package_extract_file("install/bin/volumeinput", "/tmp/install/bin/volumeinput");')
+  info.script.AppendExtra('assert(run_program("/sbin/chmod","755", "/tmp/install/bin/stock-check.sh") == 0 || abort("Could not chmod stock-check"););')
   info.script.AppendExtra('assert(run_program("/sbin/chmod","755", "/tmp/install/bin/volumeinput") == 0|| abort("Could not chmod volumeinput"););')
+  info.script.AppendExtra('assert(run_program("/sbin/chmod","755", "/tmp/install/bin/data-formatter.sh") == 0 || abort("Could not chmod data-formatter"););')
+  info.script.AppendExtra('assert(run_program("/sbin/chmod","755", "/tmp/install/bin/finalize.sh") == 0 || abort("Could not chmod finalize"););')
 
   info.script.AppendExtra('assert(run_program("/tmp/install/bin/stock-check.sh") == 0 || abort("stock-check failed."););')
-
-  info.script.AppendExtra('package_extract_file("install/bin/data-formatter.sh", "/tmp/install/bin/data-formatter.sh");')
-  info.script.AppendExtra('assert(run_program("/sbin/chmod","755", "/tmp/install/bin/data-formatter.sh") == 0 || abort("Could not chmod data-formatter"););')
-
   info.script.AppendExtra('assert(run_program("/tmp/install/bin/data-formatter.sh") == 0 || abort("ERROR!: Data could not be formatted! You should reboot to recovery after installation and format /data!"););')
 
 def FullOTA_InstallEnd(info):
   info.script.AppendExtra('package_extract_dir("override", "/system");')
-  info.script.AppendExtra('package_extract_file("install/bin/finalize.sh", "/tmp/install/bin/finalize.sh");')
-  info.script.AppendExtra('assert(run_program("/sbin/chmod","755", "/tmp/install/bin/finalize.sh") == 0 || abort("Could not chmod finalize"););')
   info.script.AppendExtra('assert(run_program("/tmp/install/bin/finalize.sh") == 0 || abort("finalize failed but installation should be OK."););')
 
