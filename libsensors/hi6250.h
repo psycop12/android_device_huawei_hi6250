@@ -46,6 +46,7 @@
 
 /* Functions */
 #define CONVERT_A  (GRAVITY_EARTH * (1.0f/1000.0f))
+#define CONVERT_RADIANS 0.0174533
 
 /* Light defines */
 #define LIGHT_POWER 0.75f

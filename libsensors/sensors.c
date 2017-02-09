@@ -81,6 +81,8 @@ char prox_thread_exit;
 char light_thread_exit;
 char gyro_thread_exit;
 
+sensors_event_t *last_gyro = NULL;
+
 /*pass values to kernel space*/
 static int on = 1;
 static int off = 0;
@@ -297,6 +299,10 @@ static int activate_gyro(int enable)
 
 	if (enable) {
 		if (count_gyro == 0) {
+			/*write_cmd(PATH_DELAY_MAG, "200\n", 4);
+			write_cmd(PATH_ENABLE_MAG, "1\n", 2);
+			write_cmd(PATH_DELAY_ACC, "200\n", 4);
+			write_cmd(PATH_ENABLE_ACC, "1\n", 2);*/
 			activate_acc(enable);
 			activate_mag(enable);
 			/*
@@ -328,6 +334,8 @@ static int activate_gyro(int enable)
 			 * Enable prox_thread_exit to exit the thread
 			 */
 			gyro_thread_exit = 1;
+			/*write_cmd(PATH_ENABLE_MAG, "0\n", 2);
+			write_cmd(PATH_ENABLE_ACC, "0\n", 2);*/
 			activate_acc(enable);
 			activate_mag(enable);
 		}
@@ -560,17 +568,15 @@ static int poll_gyro(sensors_event_t *values)
 	mag_y = (data_mag[1] * MAG_RESOLUTION);
 	if (mag_x == 0) {
 		if (mag_y < 0)
-			values->gyro.azimuth = 180;
+			values->gyro.x = 180  * (1000000 / delay_gyro);
 		else
-			values->gyro.azimuth = 0;
+			values->gyro.x = 0;
 	} else {
 		mag_xy = mag_y / mag_x;
 		if (mag_x > 0)
-			values->gyro.azimuth = round(270 +
-						(atan(mag_xy) * RADIANS_TO_DEGREES));
+			values->gyro.x = (270 + (atan(mag_xy))) * (1000000 / delay_gyro);
 		else
-			values->gyro.azimuth = round(90 +
-						(atan(mag_xy) * RADIANS_TO_DEGREES));
+			values->gyro.x = (90 + (atan(mag_xy))) * (1000000 / delay_gyro);
 	}
 
 	memset(buf, 0x00, sizeof(buf));
@@ -593,8 +599,8 @@ static int poll_gyro(sensors_event_t *values)
 	values->type = SENSOR_TYPE_GYROSCOPE;
 	values->version = sizeof(struct sensors_event_t);
 	values->gyro.status = SENSOR_STATUS_ACCURACY_HIGH;
-	values->gyro.pitch = round(atan(acc_y / sqrt(acc_x*acc_x + acc_z*acc_z)) * RADIANS_TO_DEGREES);
-	values->gyro.roll = round(atan(acc_x / sqrt(acc_y*acc_y + acc_z*acc_z)) * RADIANS_TO_DEGREES);
+	values->gyro.y = atan(acc_y / sqrt(acc_x*acc_x + acc_z*acc_z))  * (1000000 / delay_gyro);
+	values->gyro.x = atan(acc_x / sqrt(acc_y*acc_y + acc_z*acc_z))  * (1000000 / delay_gyro);
 
 	close(fd_acc);
 	close(fd_mag);
@@ -892,7 +898,7 @@ static int m_poll_activate(struct sensors_poll_device_t *dev,
 		break;
 	case HANDLE_GYROSCOPE:
 	if(DEBUG)
-		ALOGD("Meticulus: Entering function %s with handle = %d (light),"
+		ALOGD("Meticulus: Entering function %s with handle = %d (gyro),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
 		status = activate_gyro(enabled);	
 		break;
@@ -953,8 +959,18 @@ static int set_delay_light(int microseconds)
 
 static int set_delay_mag(int microseconds)
 {
-	/* Meticulus: alps sets the mag and acc delay together */
-	return set_delay_acc(microseconds);
+	int ret = -1;
+	int fd = -1;
+	int milliseconds = microseconds / 1000;
+        char cms[255];
+        sprintf(cms,"%d\n",milliseconds);
+	ret = write_cmd(PATH_DELAY_MAG,cms, strlen(cms));
+	return ret;
+}
+
+static int set_delay_gyro(int microseconds)
+{
+	return set_delay_acc(microseconds) && set_delay_mag(microseconds);
 }
 
 static int m_poll_set_delay(struct sensors_poll_device_t *dev,
@@ -998,9 +1014,10 @@ static int m_poll_set_delay(struct sensors_poll_device_t *dev,
 		}
 		break;
 	case HANDLE_GYROSCOPE:
-		if (microseconds >= MINDELAY_LIGHT) {
+		if (microseconds >= MINDELAY_GYROSCOPE) {
 			delay_gyro = microseconds;
-			ret = set_delay_acc(microseconds);
+			ret = set_delay_acc(microseconds) && set_delay_mag(microseconds);
+			
 		}
 		break;
 	default:
