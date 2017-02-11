@@ -35,5 +35,4 @@ PRODUCT_PACKAGES += \
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.zygote=zygote64_32 \
-    ro.adb.secure=0 \
     ro.secure=0
