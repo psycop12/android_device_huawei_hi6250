@@ -118,6 +118,9 @@ HEALTHD_BACKLIGHT_LEVEL := 102
 # Recovery
 TARGET_RECOVERY_FSTAB := device/huawei/hi6250/rootdir/fstab.hi6250
 
+# cmhw
+BOARD_HARDWARE_CLASS := device/huawei/hi6250/cmhw/
+
 # TWRP Recovery defines
 # RECOVERY_VARIANT := twrp
 DEVICE_RESOLUTION := 1080x1920
