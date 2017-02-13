@@ -1,18 +1,18 @@
-From f9ae067678753c753ff7dc22398e48fdc044cd22 Mon Sep 17 00:00:00 2001
+From b56b9ab4f2e8f47e9cf400db4c4f555352af5c6d Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 5 Dec 2016 08:59:21 -0600
+Date: Mon, 13 Feb 2017 16:41:09 -0600
 Subject: [PATCH] 0001-MediaCodec-use-google-h264-encoder
 
-Change-Id: I120f2aae3be942471636231734de8585f495613d
+Change-Id: I251aac46a9667df89dca7cf283f4b5f23b3e241a
 ---
  media/libstagefright/MediaCodec.cpp | 18 +++++++++++++++++-
  1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/media/libstagefright/MediaCodec.cpp b/media/libstagefright/MediaCodec.cpp
-index 5e0ee55..c0c870e 100644
+index a8e801f..f5c7ee2 100644
 --- a/media/libstagefright/MediaCodec.cpp
 +++ b/media/libstagefright/MediaCodec.cpp
-@@ -51,6 +51,7 @@
+@@ -50,6 +50,7 @@
  #include <private/android_filesystem_config.h>
  #include <utils/Log.h>
  #include <utils/Singleton.h>
@@ -20,8 +20,8 @@ index 5e0ee55..c0c870e 100644
  #include <stagefright/AVExtensions.h>
  
  namespace android {
-@@ -175,7 +176,22 @@ sp<MediaCodec> MediaCodec::CreateByType(
-         const sp<ALooper> &looper, const char *mime, bool encoder, status_t *err, pid_t pid) {
+@@ -174,7 +175,22 @@ sp<MediaCodec> MediaCodec::CreateByType(
+         const sp<ALooper> &looper, const AString &mime, bool encoder, status_t *err, pid_t pid) {
      sp<MediaCodec> codec = new MediaCodec(looper, pid);
  
 -    const status_t ret = codec->init(mime, true /* nameIsType */, encoder);
