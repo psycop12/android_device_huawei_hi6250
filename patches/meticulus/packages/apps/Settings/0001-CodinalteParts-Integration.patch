@@ -1,0 +1,45 @@
+From 61e8115cb2736af1f2f4cf6cbb23a55bf2ab7efb Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Mon, 13 Feb 2017 16:26:23 -0600
+Subject: [PATCH] CodinalteParts Integration
+
+Change-Id: If8819d92ec7bf42d62b646551e7f94dc89d64e12
+---
+ res/values/meticulus.xml         | 5 +++++
+ res/xml/device_info_settings.xml | 8 ++++++++
+ 2 files changed, 13 insertions(+)
+ create mode 100644 res/values/meticulus.xml
+
+diff --git a/res/values/meticulus.xml b/res/values/meticulus.xml
+new file mode 100644
+index 0000000..f1e8660
+--- /dev/null
++++ b/res/values/meticulus.xml
+@@ -0,0 +1,5 @@
++<?xml version="1.0" encoding="utf-8"?>
++<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
++    <string name="meticulus_sponsors">Sponsors</string>
++    <string name="meticulus_sponsors_summary">Awesome people who made this ROM possible!</string>
++</resources>
+diff --git a/res/xml/device_info_settings.xml b/res/xml/device_info_settings.xml
+index b30a7c0..df731c1 100644
+--- a/res/xml/device_info_settings.xml
++++ b/res/xml/device_info_settings.xml
+@@ -45,6 +45,14 @@
+                     android:targetClass="com.cyanogenmod.updater.UpdatesActivity" />
+         </cyanogenmod.preference.SelfRemovingPreference>
+ 
++        <PreferenceScreen android:key="meticulus_sponsors"
++                android:title="@string/meticulus_sponsors"
++                android:summary="@string/meticulus_sponsors_summary">
++            <intent android:action="android.intent.action.MAIN"
++                    android:targetPackage="com.meticulus.codinalteparts.app"
++                    android:targetClass="com.meticulus.codinalteparts.app.Sponsors" />
++        </PreferenceScreen>
++	
+         <!-- Device status - launches activity -->
+         <PreferenceScreen android:key="status_info"
+                 android:title="@string/device_status"
+-- 
+1.9.1
+

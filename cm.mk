@@ -31,7 +31,8 @@ TARGET_SCREEN_HEIGHT := 1920
 TARGET_SCREEN_WIDTH := 1080
 
 PRODUCT_PACKAGES += \
-    Snap
+    Snap \
+    CodinalteParts
 
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.zygote=zygote64_32 \
