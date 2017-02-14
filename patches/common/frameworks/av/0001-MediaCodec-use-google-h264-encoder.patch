@@ -1,26 +1,28 @@
-From b56b9ab4f2e8f47e9cf400db4c4f555352af5c6d Mon Sep 17 00:00:00 2001
+From f24dc416dd00491a0c4d6d3864850418aecba748 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 13 Feb 2017 16:41:09 -0600
+Date: Tue, 14 Feb 2017 08:01:31 -0600
 Subject: [PATCH] 0001-MediaCodec-use-google-h264-encoder
 
-Change-Id: I251aac46a9667df89dca7cf283f4b5f23b3e241a
+Change-Id: I11682422f8a041021bc9544df05fbd707195f252
 ---
- media/libstagefright/MediaCodec.cpp | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ media/libstagefright/MediaCodec.cpp | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/media/libstagefright/MediaCodec.cpp b/media/libstagefright/MediaCodec.cpp
-index a8e801f..f5c7ee2 100644
+index a8e801f..c416e67 100644
 --- a/media/libstagefright/MediaCodec.cpp
 +++ b/media/libstagefright/MediaCodec.cpp
-@@ -50,6 +50,7 @@
+@@ -50,7 +50,9 @@
  #include <private/android_filesystem_config.h>
  #include <utils/Log.h>
  #include <utils/Singleton.h>
 +#include <cutils/properties.h>
  #include <stagefright/AVExtensions.h>
++#include <string.h>
  
  namespace android {
-@@ -174,7 +175,22 @@ sp<MediaCodec> MediaCodec::CreateByType(
+ 
+@@ -174,7 +176,22 @@ sp<MediaCodec> MediaCodec::CreateByType(
          const sp<ALooper> &looper, const AString &mime, bool encoder, status_t *err, pid_t pid) {
      sp<MediaCodec> codec = new MediaCodec(looper, pid);
  
@@ -35,7 +37,7 @@ index a8e801f..f5c7ee2 100644
 +     */
 +    status_t ret = -1;
 +    //ALOGD("Meticulus: mime = %s",mime);
-+    if(!strcmp(mime,"video/avc") && encoder && property_get_bool("persist.sys.google_avc_enc",0)) {
++    if(!strcmp(mime.c_str(),"video/avc") && encoder && property_get_bool("persist.sys.google_avc_enc",0)) {
 +	ret = codec->init("OMX.google.h264.encoder",false,encoder);
 +	ALOGI("persist.sys.google_avc_enc is set.");
 +    }
