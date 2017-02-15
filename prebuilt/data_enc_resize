@@ -1,0 +1,65 @@
+#!/system/bin/sh
+#
+# Copyright (C) 2017 Jonathan Jason Dennis [Meticulus]
+#				theonejohnnyd@gmail.com
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+DATABLOCK="/dev/block/platform/hi_mci.0/by-name/userdata"
+mecho(){
+    echo $1
+}
+
+checkerror() {
+    if [[ $1 -gt 0 ]]; then
+	if [[ "$3" == "-fatal" ]]; then
+		mecho "ERROR: $2"
+		exit $1
+	else
+		mecho "WARNING: $2"	
+	fi
+    fi
+}
+
+get_resize() {
+    SIZE="";
+    I=0
+    TEMP="NONE";
+    E2RESULT="$(e2fsck -fp $DATABLOCK)"
+    checkerror $? "Check failed! In use?" -fatal
+    while [[ "$TEMP" != "" ]];
+    do
+		TEMP=$(echo $E2RESULT | cut -d ' ' -f$I)
+		if [[ $(echo $TEMP | grep -c "/") -gt 0 ]]; then
+	    		SIZE=$(echo $TEMP | cut -d '/' -f2);
+		fi
+		I=$(expr $I + 1)
+    done
+    echo $SIZE
+}
+
+resize_data() {
+    mecho "Performing check on /data..."
+    SIZE=$(get_resize)
+    mecho "Check passed, Resizing /data"
+    mecho "Current size $SIZE blocks"
+    SIZE=$(expr $SIZE - 4)
+    mecho "Target size $SIZE blocks"
+    resize2fs $DATABLOCK $SIZE
+    checkerror $? "Resize failed!" -fatal
+}
+
+
+mecho "Resizing /data.."
+resize_data

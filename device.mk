@@ -151,6 +151,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     volumeinput
 
+# Prebuilt
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilt/data_enc_resize:system/bin/data_enc_resize
+
 # Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
