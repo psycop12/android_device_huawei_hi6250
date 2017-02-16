@@ -81,7 +81,7 @@ char prox_thread_exit;
 char light_thread_exit;
 char gyro_thread_exit;
 
-sensors_event_t *last_gyro = NULL;
+float last_gyro[3];
 
 /*pass values to kernel space*/
 static int on = 1;
@@ -530,6 +530,7 @@ static int poll_gyro(sensors_event_t *values)
 	int fd_acc;
 	int data_mag[3];
 	int data_acc[3];
+	float gyro[3];
 	float gain_mag[2] = {0.0};
 	char buf[SIZE_OF_BUF];
 	int nread;
@@ -568,15 +569,15 @@ static int poll_gyro(sensors_event_t *values)
 	mag_y = (data_mag[1] * MAG_RESOLUTION);
 	if (mag_x == 0) {
 		if (mag_y < 0)
-			values->gyro.x = 180  * (1000000 / delay_gyro);
+			gyro[0] = 180  * DEGREES_TO_RADIANS;
 		else
-			values->gyro.x = 0;
+			gyro[0] = 0;
 	} else {
 		mag_xy = mag_y / mag_x;
 		if (mag_x > 0)
-			values->gyro.x = (270 + (atan(mag_xy))) * (1000000 / delay_gyro);
+			gyro[0] = round(270 + (atan(mag_xy))) * DEGREES_TO_RADIANS;
 		else
-			values->gyro.x = (90 + (atan(mag_xy))) * (1000000 / delay_gyro);
+			gyro[0] = round(90 + (atan(mag_xy))) * DEGREES_TO_RADIANS;
 	}
 
 	memset(buf, 0x00, sizeof(buf));
@@ -599,8 +600,14 @@ static int poll_gyro(sensors_event_t *values)
 	values->type = SENSOR_TYPE_GYROSCOPE;
 	values->version = sizeof(struct sensors_event_t);
 	values->gyro.status = SENSOR_STATUS_ACCURACY_HIGH;
-	values->gyro.y = atan(acc_y / sqrt(acc_x*acc_x + acc_z*acc_z))  * (1000000 / delay_gyro);
-	values->gyro.x = atan(acc_x / sqrt(acc_y*acc_y + acc_z*acc_z))  * (1000000 / delay_gyro);
+	gyro[1] = round(atan(acc_y / sqrt(acc_x*acc_x + acc_z*acc_z)) * RADIANS_TO_DEGREES)  * DEGREES_TO_RADIANS;
+	gyro[2] = round(atan(acc_x / sqrt(acc_y*acc_y + acc_z*acc_z)) * RADIANS_TO_DEGREES) * DEGREES_TO_RADIANS;
+	values->gyro.x = gyro[0] - last_gyro[0];
+	values->gyro.y = gyro[1] - last_gyro[1];
+	values->gyro.z = gyro[2] - last_gyro[2];
+	last_gyro[0] = gyro[0];
+	last_gyro[1] = gyro[1];
+	last_gyro[2] = gyro[2];
 
 	close(fd_acc);
 	close(fd_mag);
@@ -618,6 +625,7 @@ void *gyro_getdata()
 		/* If return value = 0 queue the element */
 		if (ret)
 			return NULL;
+
 		add_queue(HANDLE_GYROSCOPE, data);
 	}
 	return NULL;
@@ -1016,7 +1024,7 @@ static int m_poll_set_delay(struct sensors_poll_device_t *dev,
 	case HANDLE_GYROSCOPE:
 		if (microseconds >= MINDELAY_GYROSCOPE) {
 			delay_gyro = microseconds;
-			ret = set_delay_acc(microseconds) && set_delay_mag(microseconds);
+//			ret = set_delay_acc(microseconds) && set_delay_mag(microseconds);
 			
 		}
 		break;

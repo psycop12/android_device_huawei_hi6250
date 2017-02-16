@@ -199,7 +199,7 @@ static const struct sensor_t sSensorList[] = {
 		0,
 		NULL,
 	},
-	/*{"Emulated Gyroscope Sensor",
+	{"Emulated Gyroscope Sensor",
 		"Meticulus Development",
 		1,
 		HANDLE_GYROSCOPE,
@@ -215,7 +215,7 @@ static const struct sensor_t sSensorList[] = {
 		200000,
 		0,
 		NULL,
-	},*/
+	},
 };
 
 static int acc_id;
