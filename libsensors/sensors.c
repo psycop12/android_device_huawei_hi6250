@@ -33,6 +33,7 @@
 
 #include <cutils/atomic.h>
 #include <cutils/log.h>
+#include <cutils/properties.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -769,9 +770,13 @@ static int m_open_sensors(const struct hw_module_t *module,
 static int m_sensors_get_sensors_list(struct sensors_module_t *module,
 		struct sensor_t const **list)
 {
-	*list = sSensorList;
-
-	return sizeof(sSensorList) / sizeof(sSensorList[0]);
+	if(property_get_bool("persist.sys.sensorex",0)) {
+	    *list = sSensorListEx;
+	    return sizeof(sSensorListEx) / sizeof(sSensorListEx[0]);
+	} else {
+	    *list = sSensorList;
+	    return sizeof(sSensorList) / sizeof(sSensorList[0]);
+	}
 }
 
 static struct hw_module_methods_t m_sensors_module_methods = {
