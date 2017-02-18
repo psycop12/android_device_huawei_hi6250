@@ -83,6 +83,9 @@ char gyro_thread_exit;
 
 float last_gyro[3];
 
+static int orient_enabled = 0;
+static int gyro_enabled = 0;
+
 /*pass values to kernel space*/
 static int on = 1;
 static int off = 0;
@@ -524,12 +527,13 @@ void *mag_getdata()
 	return NULL;
 }
 
-static int poll_gyro(sensors_event_t *values)
+static int poll_orientation(sensors_event_t *o, sensors_event_t *g)
 {
 	int fd_mag;
 	int fd_acc;
 	int data_mag[3];
 	int data_acc[3];
+	float reading[3];
 	float gyro[3];
 	float gain_mag[2] = {0.0};
 	char buf[SIZE_OF_BUF];
@@ -569,122 +573,16 @@ static int poll_gyro(sensors_event_t *values)
 	mag_y = (data_mag[1] * MAG_RESOLUTION);
 	if (mag_x == 0) {
 		if (mag_y < 0)
-			gyro[0] = 180  * DEGREES_TO_RADIANS;
+			reading[0] = 180;
 		else
-			gyro[0] = 0;
+			reading[0] = 0;
 	} else {
 		mag_xy = mag_y / mag_x;
 		if (mag_x > 0)
-			gyro[0] = round(270 + (atan(mag_xy))) * DEGREES_TO_RADIANS;
-		else
-			gyro[0] = round(90 + (atan(mag_xy))) * DEGREES_TO_RADIANS;
-	}
-
-	memset(buf, 0x00, sizeof(buf));
-	lseek(fd_acc, 0, SEEK_SET);
-	nread = read(fd_acc, buf, SIZE_OF_BUF);
-	if (nread < 0) {
-		ALOGE("Meticulus orient:Error in reading data from Accelerometer\n");
-		return -1;
-	}
-	sscanf(buf, "%d %d %d", &data_acc[0], &data_acc[1], &data_acc[2]);
-
-	acc_x = (float) data_acc[0];
-	acc_x *= CONVERT_A;
-	acc_y = (float) data_acc[1];
-	acc_y *= CONVERT_A;
-	acc_z = (float) data_acc[2];
-	acc_z *= CONVERT_A;
-
-	values->sensor = HANDLE_GYROSCOPE;
-	values->type = SENSOR_TYPE_GYROSCOPE;
-	values->version = sizeof(struct sensors_event_t);
-	values->gyro.status = SENSOR_STATUS_ACCURACY_HIGH;
-	gyro[1] = round(atan(acc_y / sqrt(acc_x*acc_x + acc_z*acc_z)) * RADIANS_TO_DEGREES)  * DEGREES_TO_RADIANS;
-	gyro[2] = round(atan(acc_x / sqrt(acc_y*acc_y + acc_z*acc_z)) * RADIANS_TO_DEGREES) * DEGREES_TO_RADIANS;
-	values->gyro.x = gyro[0] - last_gyro[0];
-	values->gyro.y = gyro[1] - last_gyro[1];
-	values->gyro.z = gyro[2] - last_gyro[2];
-	last_gyro[0] = gyro[0];
-	last_gyro[1] = gyro[1];
-	last_gyro[2] = gyro[2];
-
-	close(fd_acc);
-	close(fd_mag);
-	return 0;
-}
-
-void *gyro_getdata()
-{
-	sensors_event_t data;
-	int ret;
-
-	while (!gyro_thread_exit) {
-		usleep(delay_gyro);
-		ret = poll_gyro(&data);
-		/* If return value = 0 queue the element */
-		if (ret)
-			return NULL;
-
-		add_queue(HANDLE_GYROSCOPE, data);
-	}
-	return NULL;
-}
-
-static int poll_orientation(sensors_event_t *values)
-{
-	int fd_mag;
-	int fd_acc;
-	int data_mag[3];
-	int data_acc[3];
-	float gain_mag[2] = {0.0};
-	char buf[SIZE_OF_BUF];
-	int nread;
-	double mag_x, mag_y, mag_xy;
-	double acc_x, acc_y, acc_z;
-
-	data_mag[0] = 0;
-	data_mag[1] = 0;
-	data_mag[2] = 0;
-
-	data_acc[0] = 0;
-	data_acc[1] = 0;
-	data_acc[2] = 0;
-
-	fd_acc = open(PATH_DATA_ACC , O_RDONLY);
-	if (fd_acc < 0) {
-		ALOGE("Meticulus: orient:Cannot open %s\n", PATH_DATA_ACC);
-		return -ENODEV;
-	}
-	fd_mag = open(PATH_DATA_MAG, O_RDONLY);
-	if (fd_mag < 0) {
-		ALOGE("Meticulus: orien:Cannot open %s\n", PATH_DATA_MAG);
-		return -ENODEV;
-	}
-
-	memset(buf, 0x00, sizeof(buf));
-	lseek(fd_mag, 0, SEEK_SET);
-	nread = read(fd_mag, buf, SIZE_OF_BUF);
-	if (nread < 0) {
-		ALOGE("Meticulus: orien:Error in reading data from Magnetometer\n");
-		return -1;
-	}
-	sscanf(buf, "%d %d %d", &data_mag[0], &data_mag[1], &data_mag[2]);
-
-	mag_x = (data_mag[0] * MAG_RESOLUTION);
-	mag_y = (data_mag[1] * MAG_RESOLUTION);
-	if (mag_x == 0) {
-		if (mag_y < 0)
-			values->orientation.azimuth = 180;
-		else
-			values->orientation.azimuth = 0;
-	} else {
-		mag_xy = mag_y / mag_x;
-		if (mag_x > 0)
-			values->orientation.azimuth = round(270 +
+			reading[0] = round(270 +
 						(atan(mag_xy) * RADIANS_TO_DEGREES));
 		else
-			values->orientation.azimuth = round(90 +
+			reading[0] = round(90 +
 						(atan(mag_xy) * RADIANS_TO_DEGREES));
 	}
 
@@ -704,12 +602,35 @@ static int poll_orientation(sensors_event_t *values)
 	acc_z = (float) data_acc[2];
 	acc_z *= CONVERT_A;
 
-	values->sensor = HANDLE_ORIENTATION;
-	values->type = SENSOR_TYPE_ORIENTATION;
-	values->version = sizeof(struct sensors_event_t);
-	values->orientation.status = SENSOR_STATUS_ACCURACY_HIGH;
-	values->orientation.pitch = round(atan(acc_y / sqrt(acc_x*acc_x + acc_z*acc_z)) * RADIANS_TO_DEGREES);
-	values->orientation.roll = round(atan(acc_x / sqrt(acc_y*acc_y + acc_z*acc_z)) * RADIANS_TO_DEGREES);
+	reading[1] = round(atan(acc_y / sqrt(acc_x*acc_x + acc_z*acc_z)) * RADIANS_TO_DEGREES);
+	reading[2] = round(atan(acc_x / sqrt(acc_y*acc_y + acc_z*acc_z)) * RADIANS_TO_DEGREES);
+	if(orient_enabled) {
+	    o->sensor = HANDLE_ORIENTATION;
+	    o->type = SENSOR_TYPE_ORIENTATION;
+	    o->version = sizeof(struct sensors_event_t);
+	    o->orientation.status = SENSOR_STATUS_ACCURACY_HIGH;
+	    o->orientation.azimuth = reading[0];
+	    o->orientation.pitch = reading[1];
+	    o->orientation.roll = reading[2];
+	}
+	if(gyro_enabled) {
+	    gyro[0] = reading[0] * DEGREES_TO_RADIANS;
+	    gyro[1] = reading[1] * DEGREES_TO_RADIANS;
+	    gyro[2] = reading[2] * DEGREES_TO_RADIANS;
+
+	    g->sensor = HANDLE_GYROSCOPE;
+	    g->type = SENSOR_TYPE_GYROSCOPE;
+	    g->version = sizeof(struct sensors_event_t);
+	    g->orientation.status = SENSOR_STATUS_ACCURACY_HIGH;
+	    g->gyro.x = (gyro[0] - last_gyro[0]) * (1000000 / delay_orient);
+	    g->gyro.y = (gyro[1] - last_gyro[1]) * (1000000 / delay_orient);
+	    g->gyro.z = (gyro[2] - last_gyro[2]) * (1000000 / delay_orient);
+
+	    last_gyro[0] = gyro[0];
+	    last_gyro[1] = gyro[1];
+	    last_gyro[2] = gyro[2];
+
+	}
 
 	close(fd_acc);
 	close(fd_mag);
@@ -718,16 +639,20 @@ static int poll_orientation(sensors_event_t *values)
 
 void *orient_getdata()
 {
-	sensors_event_t data;
+	sensors_event_t orient;
+	sensors_event_t gyro;
 	int ret;
 
 	while (!orient_thread_exit) {
 		usleep(delay_orient);
-		ret = poll_orientation(&data);
+		ret = poll_orientation(&orient, &gyro);
 		/* If return value = 0 queue the element */
 		if (ret)
 			return NULL;
-		add_queue(HANDLE_ORIENTATION, data);
+		if(orient_enabled)
+		    add_queue(HANDLE_ORIENTATION, orient);
+		if(gyro_enabled)
+		    add_queue(HANDLE_GYROSCOPE, gyro);
 	}
 	return NULL;
 }
@@ -878,6 +803,7 @@ static int m_poll_activate(struct sensors_poll_device_t *dev,
 	if(DEBUG)
 		ALOGD("Meticulus: Entering function %s with handle = %d (orient),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
+		orient_enabled = enabled;
 		status = activate_orientation(enabled);
 		break;
 	case HANDLE_ACCELEROMETER:
@@ -908,7 +834,8 @@ static int m_poll_activate(struct sensors_poll_device_t *dev,
 	if(DEBUG)
 		ALOGD("Meticulus: Entering function %s with handle = %d (gyro),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
-		status = activate_gyro(enabled);	
+		gyro_enabled = enabled;
+		status = activate_orientation(enabled);
 		break;
 	default:
 		if(DEBUG)
@@ -994,7 +921,7 @@ static int m_poll_set_delay(struct sensors_poll_device_t *dev,
 	case HANDLE_ORIENTATION:
 		if (microseconds >= MINDELAY_ORIENTATION) {
 			delay_orient = microseconds;
-			ret = set_delay_acc(microseconds);
+			ret = 0;
 		}
 		break;
 	case HANDLE_ACCELEROMETER:
@@ -1023,9 +950,8 @@ static int m_poll_set_delay(struct sensors_poll_device_t *dev,
 		break;
 	case HANDLE_GYROSCOPE:
 		if (microseconds >= MINDELAY_GYROSCOPE) {
-			delay_gyro = microseconds;
-//			ret = set_delay_acc(microseconds) && set_delay_mag(microseconds);
-			
+			delay_orient = microseconds;
+			ret = 0;
 		}
 		break;
 	default:
