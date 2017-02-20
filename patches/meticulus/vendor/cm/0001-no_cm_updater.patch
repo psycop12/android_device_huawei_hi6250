@@ -1,0 +1,25 @@
+From 4af3e2d2b00c309485cd2eb775ab4702ab45646e Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Mon, 20 Feb 2017 10:11:53 -0600
+Subject: [PATCH] 0001-no_cm_updater
+
+Change-Id: I09a1625ceed56a32b07765e3f6a4ff7c65ddb3b8
+---
+ config/common.mk | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index 2446009..5a93116 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -122,7 +122,6 @@ PRODUCT_PACKAGES += \
+     AudioFX \
+     CMFileManager \
+     CMSettingsProvider \
+-    CMUpdater \
+     CMWallpapers \
+     CyanogenSetupWizard \
+     Eleven \
+-- 
+1.9.1
+
