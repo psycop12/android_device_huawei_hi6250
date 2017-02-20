@@ -1,15 +1,29 @@
-From 5bf881a9ebe82e80a06c8b9618fef312913e7a3a Mon Sep 17 00:00:00 2001
+From 867b1572a751a0d5f6f9f8623cdd8fb83da84a58 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Sun, 6 Nov 2016 11:17:21 -0600
+Date: Sun, 19 Feb 2017 07:12:08 -0600
 Subject: [PATCH] 0001-super-charger
 
-Change-Id: Ica5a4f956330ab7028c199c2e975b93381ed16c0
+Change-Id: Iec91cfd51fc2ade8ab32117ff92464cfe99cca77
 ---
- healthd/healthd_mode_charger.cpp | 99 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 97 insertions(+), 2 deletions(-)
+ healthd/Android.mk               |   2 +-
+ healthd/healthd_mode_charger.cpp | 118 ++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 117 insertions(+), 3 deletions(-)
 
+diff --git a/healthd/Android.mk b/healthd/Android.mk
+index b923724..49d1537 100644
+--- a/healthd/Android.mk
++++ b/healthd/Android.mk
+@@ -40,7 +40,7 @@ LOCAL_FORCE_STATIC_EXECUTABLE := true
+ LOCAL_MODULE_PATH := $(TARGET_ROOT_OUT_SBIN)
+ LOCAL_UNSTRIPPED_PATH := $(TARGET_ROOT_OUT_SBIN_UNSTRIPPED)
+ 
+-LOCAL_CFLAGS := -D__STDC_LIMIT_MACROS -Werror
++LOCAL_CFLAGS := -D__STDC_LIMIT_MACROS
+ 
+ HEALTHD_CHARGER_DEFINES := RED_LED_PATH \
+     GREEN_LED_PATH \
 diff --git a/healthd/healthd_mode_charger.cpp b/healthd/healthd_mode_charger.cpp
-index 6df9f12..a1ec483 100644
+index 150e9aa..b179f00 100644
 --- a/healthd/healthd_mode_charger.cpp
 +++ b/healthd/healthd_mode_charger.cpp
 @@ -69,6 +69,8 @@ char *locale;
@@ -31,7 +45,7 @@ index 6df9f12..a1ec483 100644
  static int set_tricolor_led(int on, int color)
  {
      int fd, i;
-@@ -381,10 +386,49 @@ static int draw_text(const char *str, int x, int y)
+@@ -381,12 +386,56 @@ static int draw_text(const char *str, int x, int y)
  
      return y + char_height;
  }
@@ -47,8 +61,12 @@ index 6df9f12..a1ec483 100644
  
  static void android_green(void)
  {
--    gr_color(0xa4, 0xc6, 0x39, 255);
-+    android_blue();
+     gr_color(0xa4, 0xc6, 0x39, 255);
+ }
+ 
++static void android_white(void)
++{
++    gr_color(0xff, 0xff, 0xff, 255);
 +}
 +
 +static void draw_datetime()
@@ -73,16 +91,18 @@ index 6df9f12..a1ec483 100644
 +    {
 +	/* Clear black first */
 +        android_black();
-+        gr_fill(10,200,1080,100);
++        gr_fill(10,930,1080,100);
 +
-+	android_blue();
-+	gr_text(10, 30, date, 0);
-+	gr_text(10, 130, time, 0);
++	android_white();
++	gr_text(220, 1550, date, 0);
++	gr_text(220, 1670, time, 0);
 +    }
- }
- 
++}
++
  /* returns the last y-offset of where the surface ends */
-@@ -437,6 +481,9 @@ static void redraw_screen(struct charger *charger)
+ static int draw_surface_centered(struct charger* /*charger*/, GRSurface* surface)
+ {
+@@ -437,6 +486,9 @@ static void redraw_screen(struct charger *charger)
  
      clear_screen();
  
@@ -92,7 +112,7 @@ index 6df9f12..a1ec483 100644
      /* try to display *something* */
      if (batt_anim->capacity < 0 || batt_anim->num_frames == 0)
          draw_unknown(charger);
-@@ -489,7 +536,7 @@ static void update_screen_state(struct charger *charger, int64_t now)
+@@ -489,7 +541,7 @@ static void update_screen_state(struct charger *charger, int64_t now)
      }
  
      /* animation is over, blank screen and leave */
@@ -101,10 +121,23 @@ index 6df9f12..a1ec483 100644
          reset_animation(batt_anim);
          charger->next_screen_transition = -1;
          healthd_board_mode_charger_set_backlight(false);
-@@ -575,6 +622,49 @@ static void update_screen_state(struct charger *charger, int64_t now)
+@@ -575,6 +627,63 @@ static void update_screen_state(struct charger *charger, int64_t now)
      }
  }
  
++
++static void read_persist_prop(char *key, char *prop, char *dvalue) {
++    char path[255];
++    sprintf(path,"/data/property/%s",key);
++    const char * path2 = strdup(path);
++    if(access(path2,R_OK) == 0) {
++	FILE * prop_file = fopen(path2, "rt");
++	if(!fgets(prop,255,prop_file) != NULL)
++	    prop = dvalue;
++    } else
++	prop = dvalue;
++
++}
 +
 +static void dotimezone()
 +{
@@ -135,23 +168,24 @@ index 6df9f12..a1ec483 100644
 +{
 +
 +    int wait = 0;
-+    while(access("/cache/misc/", F_OK) != 0 && wait < 10) {
++    while(access("/data/property", F_OK) != 0 && wait < 10) {
 +    	sleep(1);
 +	wait ++;
-+	LOGW("/cache/misc/ is not there... waiting...\n");
++	LOGW("/data/property is not there... waiting...\n");
 +    }
-+
-+    if(access("/cache/misc/charger/charger_show_datetime", F_OK) == 0)
-+	show_datetime = true;
-+
-+    if(access("/cache/misc/charger/charger_no_suspend", F_OK) == 0)
-+	no_suspend = true;
++    char datetime[255];
++    read_persist_prop("persist.sys.charger_showtime",datetime,"0");
++    show_datetime = (bool)atoi(datetime);
++ 
++    char suspend[255];
++    read_persist_prop("persist.sys.charger_nosuspend",suspend,"0");
++    no_suspend = (bool)atoi(suspend);
 +}
 +
  static int set_key_callback(int code, int value, void *data)
  {
      struct charger *charger = (struct charger *)data;
-@@ -833,6 +923,11 @@ void healthd_mode_charger_init(struct healthd_config* config)
+@@ -832,6 +941,11 @@ void healthd_mode_charger_init(struct healthd_config* config)
      int i;
      int epollfd;
  
@@ -163,6 +197,15 @@ index 6df9f12..a1ec483 100644
      dump_last_kmsg();
  
      LOGW("--------------- STARTING CHARGER MODE ---------------\n");
+@@ -856,7 +970,7 @@ void healthd_mode_charger_init(struct healthd_config* config)
+     int scale_count;
+     int scale_fps;  // Not in use (charger/battery_scale doesn't have FPS text
+                     // chunk). We are using hard-coded frame.disp_time instead.
+-    ret = res_create_multi_display_surface("charger/battery_scale", &scale_count, &scale_fps,
++    ret = res_create_multi_display_surface("charger/cm_battery_scale", &scale_count, &scale_fps,
+                                            &scale_frames);
+     if (ret < 0) {
+         LOGE("Cannot load battery_scale image\n");
 -- 
 1.9.1
 
