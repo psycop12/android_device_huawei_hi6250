@@ -140,4 +140,20 @@
          format is UMTS|LTE|... -->
     <string translatable="false" name="config_radio_access_family">EDGE|GPRS|GSM|HSPAP|HSPA|HSDPA|HSUPA|UMTS|LTE|LTE_CA</string>
 
+    <!-- Boolean indicating whether the wifi chipset has dual frequency band support -->
+    <bool translatable="false" name="config_wifi_dual_band_support">true</bool>
+
+    <!-- Boolean indicating if current platform supports BLE peripheral mode -->
+    <bool name="config_bluetooth_le_peripheral_mode_supported">true</bool>
+
+    <bool name="config_enableWifiDisplay">true</bool>
+
+    <!-- When true use the linux /dev/input/event subsystem to detect the switch changes
+         on the headphone/microphone jack. When false use the older uevent framework. -->
+    <bool name="config_useDevInputEventForAudioJack">true</bool>
+
+    <bool name="config_dontPreferApn">true</bool>
+
+    <bool name="config_showOperatorNameInStatusBar">true</bool>
+
 </resources>
