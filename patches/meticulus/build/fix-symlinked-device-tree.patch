@@ -1,12 +1,12 @@
-From 7424341c6202619d0b3fd74aea75d7753eb167b1 Mon Sep 17 00:00:00 2001
+From c2def5883bb7d3b64ba516c19580ac88548cf09e Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Sun, 25 Dec 2016 07:47:20 -0600
+Date: Wed, 22 Feb 2017 10:39:56 -0600
 Subject: [PATCH] fix-symlinked-device-tree
 
-Change-Id: I5533e71422676bf5132de10bfc820b8ff44046f7
 ---
- core/envsetup.mk | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ core/envsetup.mk       | 4 ++--
+ core/product_config.mk | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/core/envsetup.mk b/core/envsetup.mk
 index 1e07d8a..703881b 100644
@@ -23,6 +23,23 @@ index 1e07d8a..703881b 100644
  	)))
  ifeq ($(board_config_mk),)
    $(error No config file found for TARGET_DEVICE $(TARGET_DEVICE))
+diff --git a/core/product_config.mk b/core/product_config.mk
+index 9574c20..f48e638 100644
+--- a/core/product_config.mk
++++ b/core/product_config.mk
+@@ -181,10 +181,10 @@ include $(BUILD_SYSTEM)/device.mk
+ 
+ # A CM build needs only the CM product makefiles.
+ ifneq ($(CM_BUILD),)
+-  all_product_configs := $(shell find device -path "*/$(CM_BUILD)/lineage.mk")
++  all_product_configs := $(shell find -L device -path "*/$(CM_BUILD)/lineage.mk")
+   ifeq ($(all_product_configs),)
+     # Fall back to cm.mk
+-    all_product_configs := $(shell find device -path "*/$(CM_BUILD)/cm.mk")
++    all_product_configs := $(shell find -L device -path "*/$(CM_BUILD)/cm.mk")
+   endif
+ else
+   ifneq ($(strip $(TARGET_BUILD_APPS)),)
 -- 
 1.9.1
 
