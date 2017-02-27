@@ -6,6 +6,8 @@
 #include <string.h>
 #include <libexif/exif-entry.h>
 #include <media/stagefright/MediaBufferGroup.h>
+#include <media/IMediaSource.h>
+#include <media/stagefright/MediaSource.h>
 
 extern "C" {
 
@@ -33,15 +35,26 @@ extern int pop_seq_set(){return 0;};
 extern int __android_log_vprint(int prio, const char *tag, const char *fmt, va_list ap) {return 0;}
 extern int __chr_printLog(){return 0;}
 
+/* libwvm */
 extern android::MediaBufferGroup*   _ZN7android16MediaBufferGroupC1Ev() {
     return new android::MediaBufferGroup(0);
 }
+
 extern int _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferEb(void *obj,android::MediaBuffer **out, 
 								bool nonBlocking, size_t requestedSize) {
     android::MediaBufferGroup *mbg = static_cast<android::MediaBufferGroup *>(obj);
     return mbg->acquire_buffer(out,nonBlocking,requestedSize);
 
 }
-extern int _ZNK7android11MediaSource11ReadOptions9getSeekToEPxPNS1_8SeekModeE() {return 0;}
-extern int _ZNK7android11MediaSource11ReadOptions14getNonBlockingEv() {return 0;}
+
+extern void _ZNK7android11MediaSource11ReadOptions9getSeekToEPxPNS1_8SeekModeE(void * obj, int64_t time_us, android::MediaSource::ReadOptions::SeekMode mode) {
+    android::IMediaSource::ReadOptions *rop = static_cast<android::IMediaSource::ReadOptions *>(obj);
+    rop->setSeekTo(time_us, mode);
+}
+
+extern bool _ZNK7android11MediaSource11ReadOptions14getNonBlockingEv(void * obj) {
+    android::IMediaSource::ReadOptions *rop = static_cast<android::IMediaSource::ReadOptions *>(obj);
+    return rop->getNonBlocking();
+}
+
 }
