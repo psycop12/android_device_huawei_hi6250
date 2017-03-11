@@ -13,8 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
+ifeq ($(SLIM_BUILD),)
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+else
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/slim_overlay
+endif
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, build/target/product/full_base_telephony.mk)
