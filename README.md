@@ -1,4 +1,4 @@
-# CyanogenMod 13 for the Huawei P9 Lite (hi6250)
+# LineageOS 14.1 for the Huawei P9 Lite (hi6250)
 
 ### Kernel
 This device tree is intended to be used with this kernel repo:
@@ -16,7 +16,9 @@ branch: master
 
 ### Step 1: Setting up the Build Environment.
 
-You'll need Linux to be able to build Cyanogenmod. You have three choices here; you can:
+This "How to" is scoped for new builders with moderate PC skills.
+
+You'll need Linux to be able to build LineageOS. You have three choices here; you can:
 
 1. Install Linux natively on your computer.
 2. Dual boot Linux and Windows.
@@ -26,25 +28,26 @@ NOTE: I recommend you use Ubuntu 14.04 LTS to build. That's what I use.
 
 Now read this: http://source.android.com/source/initializing.html
 
-NOTE: When I say "read", I mean read and comprehend.
+Update OpenJava for Ubuntu 14.04: The OpenJava files listed on the above page are out-dated. Refer to this post on XDA: 
+https://forum.xda-developers.com/oneplus-3/how-to/guide-complete-guide-building-t3477198/post70646310#post70646310
 
-In addition to Android's build prerequisites CyanogenMod requires "maven"
 ```bash
-sudo apt-get install maven2
+sudo add-apt-repository ppa:openjdk-r/ppa
+sudo apt-get update
+sudo apt-get install openjdk-8-jdk
 ```
 
-NOTE: Read through the topics here as well: http://wiki.cyanogenmod.org/w/Development
 ### Step 2: Downloading the Source.
 
 NOTE: Some say that it is better to download the ROM source and put in your local manifest later. I don't know if that's best but that's what we are going to do.
 
-BEFORE YOU BEGIN: You are about to start downloading 5 - 15 Gigs of data. That could take a very long time, so plan accordingly. I like to start just before I go to sleep and let it go overnight! If you have to work, perhaps start it before work and let it go through out the day.
+BEFORE YOU BEGIN: You are about to start downloading 15 - 20 Gigs of data. That could take a very long time, so plan accordingly. I like to start just before I go to sleep and let it go overnight! If you have to work, perhaps start it before work and let it go through out the day.
 
 Execute the following commands in a linux terminal:
 ```bash
-mkdir /home/$USER/cm
-cd /home/$USER/cm
-repo init -u git://github.com/CyanogenMod/android.git -b cm-13.0
+mkdir /home/$USER/los
+cd /home/$USER/los
+repo init -u git://github.com/LineageOS/android.git -b cm-14.1
 repo sync
 ```
 WARNING: There may be times, towards the end when it seem like, the download is stuck and not making any progress because there are no updates on the screen. BE PATIENT!, open a program that will show how much bandwidth you are using to be sure!
@@ -57,20 +60,19 @@ NOTE: Meticulus Development also builds some extra features and functions into i
 
 Execute the following commands in a linux terminal:
 ```bash
-mkdir /home/$USER/cm/.repo/local_manifests
-gedit /home/$USER/cm/.repo/local_manifests/hi6250.xml
+mkdir /home/$USER/los/.repo/local_manifests
+gedit /home/$USER/los/.repo/local_manifests/hi6250.xml
 ```
 Copy the following into hi6250.xml, save and close.
 ```bash
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
   <project name="Meticulus/android_kernel_huawei_hi6250" path="kernel/huawei/hi6250" remote="github" revision="master"/>
-  <project name="Meticulus/android_device_huawei_hi6250" path="device/huawei/hi6250" remote="github" revision="cm-13.0"/>
+  <project name="Meticulus/android_device_huawei_hi6250" path="device/huawei/hi6250" remote="github" revision="master"/>
   <project name="Meticulus/android_vendor_huawei_hi6250" path="vendor/huawei/hi6250" remote="github" revision="master"/>
-  <remove-project name="platform/packages/apps/Nfc"/>
-  <project name="CyanogenMod/android_vendor_nxp-nfc_opensource_Nfc" path="vendor/nxp-nfc/opensource/Nfc" remote="github" revision="cm-13.0"/>
-  <project name="CyanogenMod/android_vendor_nxp-nfc_opensource_libnfc-nci" path="vendor/nxp-nfc/opensource/libnfc-nci" remote="github" revision="cm-13.0"/>
-  <project name="CyanogenMod/android_vendor_nxp-nfc_opensource_frameworks" path="vendor/nxp-nfc/opensource/frameworks" remote="github" revision="cm-13.0"/>
+  <project name="LineageOS/android_vendor_nxp-nfc_opensource_Nfc" path="vendor/nxp-nfc/opensource/Nfc" remote="github" revision="cm-14.1"/>
+  <project name="LineageOS/android_vendor_nxp-nfc_opensource_libnfc-nci" path="vendor/nxp-nfc/opensource/libnfc-nci" remote="github" revision="cm-14.1"/>
+  <project name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" path="vendor/nxp-nfc/opensource/frameworks" remote="github" revision="cm-14.1"/>
 </manifest>
 ```
 
@@ -79,20 +81,18 @@ Alternatively, if you would like to include Meticulus Development's "extras" the
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
   <project name="Meticulus/android_kernel_huawei_hi6250" path="kernel/huawei/hi6250" remote="github" revision="master"/>
-  <project name="Meticulus/android_device_huawei_hi6250" path="device/huawei/hi6250" remote="github" revision="cm-13.0"/>
+  <project name="Meticulus/android_device_huawei_hi6250" path="device/huawei/hi6250" remote="github" revision="master"/>
   <project name="Meticulus/android_vendor_huawei_hi6250" path="vendor/huawei/hi6250" remote="github" revision="master"/>
-  <remove-project name="platform/packages/apps/Nfc"/>
-  <project name="CyanogenMod/android_vendor_nxp-nfc_opensource_Nfc" path="vendor/nxp-nfc/opensource/Nfc" remote="github" revision="cm-13.0"/>
-  <project name="CyanogenMod/android_vendor_nxp-nfc_opensource_libnfc-nci" path="vendor/nxp-nfc/opensource/libnfc-nci" remote="github" revision="cm-13.0"/>
-  <project name="CyanogenMod/android_vendor_nxp-nfc_opensource_frameworks" path="vendor/nxp-nfc/opensource/frameworks" remote="github" revision="cm-13.0"/>
+  <project name="LineageOS/android_vendor_nxp-nfc_opensource_Nfc" path="vendor/nxp-nfc/opensource/Nfc" remote="github" revision="cm-14.1"/>
+  <project name="LineageOS/android_vendor_nxp-nfc_opensource_libnfc-nci" path="vendor/nxp-nfc/opensource/libnfc-nci" remote="github" revision="cm-14.1"/>
+  <project name="LineageOS/android_vendor_nxp-nfc_opensource_frameworks" path="vendor/nxp-nfc/opensource/frameworks" remote="github" revision="cm-14.1"/>
   <project name="Meticulus/android_packages_CodinalteParts" path="packages/apps/CodinalteParts" remote="github" revision="hi6250"/>
-  <project name="omnirom/android_packages_PerformanceControl" path="packages/apps/PerformanceControl" remote="github" revision="android-4.4"/>
 </manifest>
 ```
 
 Execute the following commands in a linux terminal:
 ```bash
-cd /home/$USER/cm
+cd /home/$USER/los
 repo sync
 ```
 
@@ -100,55 +100,39 @@ NOTE: Yes we are syncing again and No, it shouldn't take quite as long. Every ti
 
 ### Step 4: Building
 
+Turn off Ninja (optional)
+Ninja is supposed to help make incremental updates more efficient but you aren't doing an incremental update; are you?
+```bash
+export USE_NINJA=false
+```
+
+Make sure there is enough memory for Jack(recommended).
+This may not be neccessary depending on your PC's specs. On my previous laptop ( only 4Gig of mem ), I could not build without this and I keep it just in case.
+```bash
+export ANDROID_JACK_VM_ARGS="-Xmx4g -Dfile.encoding=UTF-8 -XX:+TieredCompilation"
+```
+
+Bake su, "root ", inside bacon (optional)
+```bash
+export WITH_SU=true
+```
+
 Now you will want to apply the repo patches. These patches modify code in the ROM to work with this device.
 Execute the following commands in a linux terminal:
 ```bash
-cd /home/$USER/cm/device/huawei/hi6250/patches
+cd /home/$USER/los/device/huawei/hi6250/patches
 ./patch.sh
 ```
-NOTE: If you are going to be offline while you are building, you will need download some prebuilts first.
-```bash
-cd /home/$USER/cm
-make fetchprebuilts
-```
-NOTE: Now you have everything that you need to build CyanogenMod for your Huawei P9 Lite. Build times depend on you PC performance specifications. In the following terminal command "-j8" represents the number of concurrent tasks to execute. For low specs machines (such as mine) lowering the value to "-j3" may help speed things up. For high spec'd machines raising the value may speed things up.
 
-NOTE: It may take anywhere from 5 hours to 15 hours depending on system specs for a complete build.
+NOTE: Now you have everything that you need to build LineageOS 14.1 for your hi6250 device. Build times depend on you PC performance specifications. In the following terminal command "-j8" represents the number of concurrent tasks to execute. For low specs machines (such as mine) lowering the value to "-j3" may help speed things up. For high spec'd machines raising the value may speed things up.
+
+NOTE: It may take anywhere from 1 hours to 15 hours depending on system specs for a complete build.
 Execute the following commands in a linux terminal:
 ```bash
-cd /home/$USER/cm
+cd /home/$USER/los
 . build/envsetup.sh
-lunch cm_hi6250-userdebug
+lunch lineage_hi6250-userdebug
 make -j8 bacon
 ```
 
-# Build TWRP ( optional )
-
-NOTE: Currently TWRP can only be built after a successful build of CyanogenMod 13.
-
-### Step 1: Setup build env for TWRP
-Clone OMNI's recovery (TWRP) into the build system.
-```bash
-cd /home/$USER/cm
-git clone https://github.com/omnirom/android_bootable_recovery.git -b android-6.0 bootable/recovery-twrp
-```
-
-Open the BoardConfig.mk file and remove the comment "#" before the line "RECOVERY_VARIANT := twrp".
-Save BoardConfig.mk
-
-Re-run patch.sh to patch bootable/recovery-twrp
-```bash
-cd /home/$USER/cm/device/huawei/hi6250/patches
-./patch.sh
-```
-### Step 2: Build TWRP
-
-```bash
-cd /home/$USER/cm
-. build/envsetup.sh
-lunch cm_hi6250-userdebug
-make -j8 recoveryimage
-```
-
-NOTE: remember to re-add the "#" before "RECOVERY_VARIANT := twrp" in the BoardConfig.mk before doing a clean build or it will fail to build!
 ### Please let me know if there are mistakes,typos, mis/outdated - information in these instructions by creating an "issue".
