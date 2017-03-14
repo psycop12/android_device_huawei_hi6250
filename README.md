@@ -117,11 +117,16 @@ Bake su, "root ", inside bacon (optional)
 export WITH_SU=true
 ```
 
-Now you will want to apply the repo patches. These patches modify code in the ROM to work with this device.
+Turn on autopatch (recommended)
+autopatch will apply device specific patches everytime you lunch.
+```bash
+export AUTOPATCH=true
+```
+
+If you did not turn on autopatch, you will want to apply the repo patches manually. These patches modify code in the ROM to work with this device.
 Execute the following commands in a linux terminal:
 ```bash
-cd /home/$USER/los/device/huawei/hi6250/patches
-./patch.sh
+cd /home/$USER/los/device/huawei/hi6250/patches && ./patch.sh
 ```
 
 NOTE: Now you have everything that you need to build LineageOS 14.1 for your hi6250 device. Build times depend on you PC performance specifications. In the following terminal command "-j8" represents the number of concurrent tasks to execute. For low specs machines (such as mine) lowering the value to "-j3" may help speed things up. For high spec'd machines raising the value may speed things up.

@@ -22,4 +22,14 @@ $(call inherit-product, device/huawei/hi6250/cm.mk)
 
 PRODUCT_NAME := slim_hi6250
 
+ifeq ($(AUTOPATCH),true)
+    $(shell cd device/huawei/hi6250/patches 2>&1 > /dev/null && ./patch.sh cm >&2)
+else
+    $(shell echo ---------------------------------------------------------------- >&2)
+    $(shell echo AUTOPATCH not enabled... >&2)
+    $(shell echo run manually: \"cd device/huawei/hi6250/patches \&\& ./patch.sh slim\">&2)
+    $(shell echo OR: >&2)
+    $(shell echo enable autopatch: \"export AUTOPATCH=true \&\& lunch $(PRODUCT_NAME)-userdebug\">&2)
+    $(shell echo ---------------------------------------------------------------- >&2)
+endif
 
