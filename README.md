@@ -36,6 +36,10 @@ sudo add-apt-repository ppa:openjdk-r/ppa
 sudo apt-get update
 sudo apt-get install openjdk-8-jdk
 ```
+LineageOS 14.1 uses ImageMagik in building the bootanimation.zip
+```bash
+sudo apt-get install ImageMagik
+```
 
 ### Step 2: Downloading the Source.
 
@@ -139,5 +143,10 @@ cd /home/$USER/los
 lunch lineage_hi6250-userdebug
 make -j8 bacon
 ```
+
+NOTE: These trees can also build Resurection Remix (nougat) and SlimRoms (nougat) without modification but with logical changes to these instructions.
+1. When running "repo init ...", you will obviously want to download the code for the respective ROM.
+2. When building SlimRoms (nougat) and running "lunch ...", you want slim_hi6250-userdebug.
+
 
 ### Please let me know if there are mistakes,typos, mis/outdated - information in these instructions by creating an "issue".
