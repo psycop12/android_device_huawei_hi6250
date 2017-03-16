@@ -623,9 +623,9 @@ static int poll_orientation(sensors_event_t *o, sensors_event_t *g)
 	    g->type = SENSOR_TYPE_GYROSCOPE;
 	    g->version = sizeof(struct sensors_event_t);
 	    g->orientation.status = SENSOR_STATUS_ACCURACY_HIGH;
-	    g->gyro.x = (gyro[0] - last_gyro[0]) * (1000000 / delay_orient);
-	    g->gyro.y = (gyro[1] - last_gyro[1]) * (1000000 / delay_orient);
-	    g->gyro.z = (gyro[2] - last_gyro[2]) * (1000000 / delay_orient);
+	    g->gyro.x = (gyro[0] - last_gyro[0]);
+	    g->gyro.y = (gyro[1] - last_gyro[1]);
+	    g->gyro.z = (gyro[2] - last_gyro[2]);
 
 	    last_gyro[0] = gyro[0];
 	    last_gyro[1] = gyro[1];
