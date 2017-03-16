@@ -36,9 +36,9 @@ sudo add-apt-repository ppa:openjdk-r/ppa
 sudo apt-get update
 sudo apt-get install openjdk-8-jdk
 ```
-LineageOS 14.1 uses ImageMagik in building the bootanimation.zip
+LineageOS 14.1 uses ImageMagick in building the bootanimation.zip
 ```bash
-sudo apt-get install ImageMagik
+sudo apt-get install ImageMagick
 ```
 
 ### Step 2: Downloading the Source.
