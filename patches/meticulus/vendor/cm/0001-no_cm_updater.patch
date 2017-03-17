@@ -1,25 +1,25 @@
-From 52a12b1a36e01cc561a08b5dec7b23bcf80c1097 Mon Sep 17 00:00:00 2001
+From ebd88a7053919c09d1d712f05e78d33a91fd49d9 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Tue, 21 Feb 2017 08:36:18 -0600
+Date: Fri, 17 Mar 2017 09:49:59 -0500
 Subject: [PATCH] 0001-no_cm_updater
 
-Change-Id: I06e06827edf6be1cbc3a8f5460a3f1ead00db992
+Change-Id: If225140dbb3693f2a880dc4349be893a8901157c
 ---
  config/common.mk | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/config/common.mk b/config/common.mk
-index 79bf67b..ee08f22 100644
+index fcb16a3..41c521c 100644
 --- a/config/common.mk
 +++ b/config/common.mk
-@@ -122,7 +122,6 @@ PRODUCT_PACKAGES += \
+@@ -121,7 +121,6 @@ PRODUCT_PACKAGES += \
+ PRODUCT_PACKAGES += \
      AudioFX \
-     CMFileManager \
      CMSettingsProvider \
 -    CMUpdater \
+     CustomTiles \
      LineageSetupWizard \
      Eleven \
-     ExactCalculator \
 -- 
 1.9.1
 
