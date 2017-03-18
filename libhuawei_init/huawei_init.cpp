@@ -88,15 +88,6 @@ void vendor_load_default_properties() {
     if(!strncmp(model, "NEM", 3) || !strncmp(model, "NMO", 3))
 	set_property(BOARDID_PRODUCT_PROP, "4871");
 
-    /* These models need ro.multi.rild true */
-    if(!strcmp(model, "VNS-L31") ||
-       !strcmp(model, "VNS-L22") ||
-       !strcmp(model, "NEM-L21")) {
-	set_property(MULTI_RILD_PROP, "true");
-    } else {
-	set_property(MULTI_RILD_PROP, "false");	
-    }
-
     /* These have renamed model */
     if(!strcmp(model, "NMO-L21"))
 	model = "NEM-L51"; 
@@ -106,11 +97,24 @@ void vendor_load_default_properties() {
      */
 }
 void vendor_load_system_properties() {
-    char lmodel[255];
-    if(!property_get(PRODUCT_MODEL_PROP,lmodel))
+    char lmodel[PROP_VALUE_MAX];
+    char multiril[PROP_VALUE_MAX];
+    if(!property_get(PRODUCT_MODEL_PROP,lmodel,"hi6250"))
 	klog_write(0, "libhuawei_init: Could not get property %s\n",PRODUCT_MODEL_PROP);
-
-    if(!strcmp(lmodel,"hi6250"))
+    else if(!strcmp(lmodel,"hi6250"))
 	update_property(PRODUCT_MODEL_PROP,model);
+
+    if(!property_get(MULTI_RILD_PROP,multiril, "auto"))
+	klog_write(0, "libhuawei_init: Could not get property %s\n",MULTI_RILD_PROP);
+    else if(!strcmp(multiril,"auto")) {
+    /* These models need ro.multi.rild true */
+	if(!strcmp(model, "VNS-L31") ||
+	    !strcmp(model, "VNS-L22") ||
+	    !strcmp(model, "NEM-L21")) {
+	    set_property(MULTI_RILD_PROP, "true");
+	} else {
+	    set_property(MULTI_RILD_PROP, "false");
+	}
+    }
 }
 
