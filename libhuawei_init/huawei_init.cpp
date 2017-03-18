@@ -38,11 +38,12 @@ static char *model = "hi6250";
 extern "C" int __system_property_add(char *key,int ksize,char * value,int vsize);
 extern "C" const prop_info * __system_property_find(const char * name);
 extern "C" int __system_property_update(prop_info * pi, char* value,int vsize);
-extern "C" int property_get(char *key, char *dvalue);
+extern "C" int property_get(char *key, char* value, const char *dvalue);
 
 static void set_property(char *key, char *value) {
     int error;
-    if(error = __system_property_add(key,strlen(key),value,strlen(value))) {
+    error = __system_property_add(key,strlen(key),value,strlen(value));
+    if(error) {
 	klog_write(0, "libhuawei_init: Could not set %s to %s error %d\n",key,value,error);
     }
 }
@@ -50,7 +51,8 @@ static void set_property(char *key, char *value) {
 static void update_property(char *key, char *value) {
     int error;
     prop_info* pi = (prop_info*) __system_property_find(key);
-    if(error = __system_property_update(pi,value,strlen(value))) {
+    error = __system_property_update(pi,value,strlen(value));
+    if(error) {
 	klog_write(0, "libhuawei_init: Could not update %s to %s error %d\n",key,value,error);
     }
 }
