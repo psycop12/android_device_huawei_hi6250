@@ -29,7 +29,7 @@
 #include <unistd.h>
 #define BASE "/sys/firmware/devicetree/base/"
 #define PRODUCT_PATH BASE"hisi,product_name"
-#define MULTI_RILD_PROP "ro.config.mulirild"
+#define MULTI_RILD_PROP "ro.multi.rild"
 #define BOARDID_PRODUCT_PROP "ro.boardid.product"
 #define PRODUCT_MODEL_PROP "ro.product.model"
 
