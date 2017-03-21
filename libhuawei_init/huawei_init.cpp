@@ -30,6 +30,7 @@
 #define BASE "/sys/firmware/devicetree/base/"
 #define PRODUCT_PATH BASE"hisi,product_name"
 #define MULTI_RILD_PROP "ro.multi.rild"
+#define CONFIG_MULTI_RILD_PROP "ro.config.multirild"
 #define BOARDID_PRODUCT_PROP "ro.boardid.product"
 #define PRODUCT_MODEL_PROP "ro.product.model"
 
@@ -101,6 +102,7 @@ void vendor_load_default_properties() {
 void vendor_load_system_properties() {
     char lmodel[PROP_VALUE_MAX];
     char multiril[PROP_VALUE_MAX];
+    char configmultiril[PROP_VALUE_MAX];
     if(!property_get(PRODUCT_MODEL_PROP,lmodel,"hi6250"))
 	klog_write(0, "libhuawei_init: Could not get property %s\n",PRODUCT_MODEL_PROP);
     else if(!strcmp(lmodel,"hi6250"))
@@ -116,6 +118,19 @@ void vendor_load_system_properties() {
 	    set_property(MULTI_RILD_PROP, "true");
 	} else {
 	    set_property(MULTI_RILD_PROP, "false");
+	}
+    }
+
+    if(!property_get(CONFIG_MULTI_RILD_PROP,configmultiril, "auto"))
+	klog_write(0, "libhuawei_init: Could not get property %s\n",CONFIG_MULTI_RILD_PROP);
+    else if(!strcmp(configmultiril,"auto")) {
+    /* These models need ro.multi.rild true */
+	if(!strcmp(model, "VNS-L31") ||
+	    !strcmp(model, "VNS-L22") ||
+	    !strcmp(model, "NEM-L21")) {
+	    set_property(CONFIG_MULTI_RILD_PROP, "true");
+	} else {
+	    set_property(CONFIG_MULTI_RILD_PROP, "false");
 	}
     }
 }
