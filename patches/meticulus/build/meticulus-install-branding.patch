@@ -1,18 +1,18 @@
-From eecbe3942e98ce521c17e03fe0f9d2c345303b49 Mon Sep 17 00:00:00 2001
+From 1983ed35999f1d510ec2bbc01265bef2ac9f10a8 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Mon, 12 Sep 2016 08:22:47 -0500
+Date: Wed, 22 Mar 2017 07:42:45 -0500
 Subject: [PATCH] meticulus-install-branding
 
-Change-Id: I9c4b52193fde6859959263fd7ca3b7a43ff0e88d
+Change-Id: I3cefbba03ac459e46d8cda7c8073b1382e45c523
 ---
- tools/releasetools/ota_from_target_files.py | 32 ++++++++++++++++++++++++-----
- 1 file changed, 27 insertions(+), 5 deletions(-)
+ tools/releasetools/ota_from_target_files.py | 31 ++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
 
 diff --git a/tools/releasetools/ota_from_target_files.py b/tools/releasetools/ota_from_target_files.py
-index bc40873..d3deb33 100755
+index e926c2b..00afcc0 100755
 --- a/tools/releasetools/ota_from_target_files.py
 +++ b/tools/releasetools/ota_from_target_files.py
-@@ -522,7 +522,6 @@ def CopyInstallTools(output_zip):
+@@ -555,7 +555,6 @@ def CopyInstallTools(output_zip):
        install_target = os.path.join("install", os.path.relpath(root, install_path), f)
        output_zip.write(install_source, install_target)
  
@@ -20,7 +20,7 @@ index bc40873..d3deb33 100755
  def WriteFullOTAPackage(input_zip, output_zip):
    # TODO: how to determine this?  We don't know what version it will
    # be installed on top of. For now, we expect the API just won't
-@@ -612,10 +611,33 @@ set_stage("%(bcb_dev)s", "3/3");
+@@ -648,10 +647,32 @@ set_stage("%(bcb_dev)s", "3/3");
  reboot_now("%(bcb_dev)s", "recovery");
  else if get_stage("%(bcb_dev)s") == "3/3" then
  """ % bcb_dev)
@@ -52,9 +52,8 @@ index bc40873..d3deb33 100755
 +  script.Print("            .:+syyhhhhyys+/.            ");
 +  script.Print("                                        ");
 +  script.Print("Built for you by:                       ");
-+  script.Print("		Meticulus                ");
-+  script.Print("      http://meticulus.co.vu  ");
-+  script.Print("LineageOS 14.1 for hi6250");
++  script.Print("               Meticulus                ");
++  script.Print("               http://meticulus.co.vu   ");
  
    script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
    device_specific.FullOTA_InstallBegin()
