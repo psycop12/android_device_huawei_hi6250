@@ -1,9 +1,9 @@
-From 40113092b6d573be98bf294fd670914fe4c5b59f Mon Sep 17 00:00:00 2001
+From bb3b4f860f438de62b2333ab5e2c1e5662e47a25 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Tue, 21 Feb 2017 09:39:30 -0600
+Date: Fri, 24 Mar 2017 11:57:08 -0500
 Subject: [PATCH] 0001-CodinalteParts-Integration
 
-Change-Id: Id2c56410bb4261ca9a6ae4037f170fc3f57e68c3
+Change-Id: I8f1bc456b5048fe07c5caf26c57b6754db40c292
 ---
  res/values-af/meticulus.xml        | 5 +++++
  res/values-am/meticulus.xml        | 5 +++++
@@ -372,14 +372,14 @@ index 0000000..4ed0289
 +</resources>
 diff --git a/res/values-de/meticulus.xml b/res/values-de/meticulus.xml
 new file mode 100644
-index 0000000..a7f4fba
+index 0000000..5afaddf
 --- /dev/null
 +++ b/res/values-de/meticulus.xml
 @@ -0,0 +1,5 @@
 +<?xml version="1.0" encoding="utf-8"?>
 +<resources>
 +<string name="meticulus_sponsors">Sponsoren</string>
-+<string name="meticulus_sponsors_summary">Genial Menschen Wer gemacht Dies Rom möglich!</string>
++<string name="meticulus_sponsors_summary">Geniale Menschen die diese Rom möglich gemacht haben!</string>
 +</resources>
 diff --git a/res/values-el/meticulus.xml b/res/values-el/meticulus.xml
 new file mode 100644
@@ -1361,7 +1361,7 @@ index 0000000..f1e8660
 +    <string name="meticulus_sponsors_summary">Awesome people who made this ROM possible!</string>
 +</resources>
 diff --git a/res/xml/device_info_settings.xml b/res/xml/device_info_settings.xml
-index b30a7c0..df731c1 100644
+index b366d9d..8dc1020 100644
 --- a/res/xml/device_info_settings.xml
 +++ b/res/xml/device_info_settings.xml
 @@ -45,6 +45,14 @@
