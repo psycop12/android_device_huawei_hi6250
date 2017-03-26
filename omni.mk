@@ -26,7 +26,7 @@ $(call inherit-product, vendor/omni/config/common.mk)
 PRODUCT_NAME := omni_hi6250
 
 ifeq ($(AUTOPATCH),true)
-    $(shell cd device/huawei/hi6250/patches 2>&1 > /dev/null && ./patch.sh cm >&2)
+    $(shell cd device/huawei/hi6250/patches 2>&1 > /dev/null && ./patch.sh omni >&2)
 else
     $(shell echo ---------------------------------------------------------------- >&2)
     $(shell echo AUTOPATCH not enabled... >&2)
