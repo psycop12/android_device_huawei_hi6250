@@ -248,7 +248,11 @@ static void power_hint(struct power_module *module, power_hint_t hint,
 		if(!low_power)
 		    power_hint_interactive(0);
 		break;
+#ifdef CMEXTRAS
 	case POWER_HINT_SET_PROFILE:
+#else
+	case POWER_HINT_POWER_PROFILE:
+#endif
 		if(data != NULL)
 		    var = *(int *) data;
 		DEBUG_LOG("POWER_HINT_PROFILE %d", var);	
@@ -287,9 +291,11 @@ static int get_feature(struct power_module *module, feature_t feature) {
 	case POWER_FEATURE_DOUBLE_TAP_TO_WAKE:
 	    retval = 1;
 	    break;
+#ifdef CMEXTRAS
 	case POWER_FEATURE_SUPPORTED_PROFILES:
 	    retval = 3;
 	    break;
+#endif
         default:
 	    ALOGE("Unknown feature %d", feature);
             break;
@@ -305,9 +311,11 @@ static void set_feature(struct power_module *module, feature_t feature, int stat
 	case POWER_FEATURE_DOUBLE_TAP_TO_WAKE:
 	    set_dt2w(state);
 	    break;
+#ifdef CMEXTRAS
 	case POWER_FEATURE_SUPPORTED_PROFILES:
 	    ALOGI("POWER_FEATURE_SUPPORTED_PROFILES: %d",state);
 	    break;
+#endif
         default:
 	    ALOGE("Unknown feature %d", feature);
             break;
@@ -333,5 +341,7 @@ struct power_module HAL_MODULE_INFO_SYM = {
     .setInteractive = power_set_interactive,
     .powerHint = power_hint,
     .setFeature = set_feature,
+#ifdef CMEXTRAS
     .getFeature = get_feature,
+#endif
 };

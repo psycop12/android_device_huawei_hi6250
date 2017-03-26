@@ -26,4 +26,8 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_MODULE := lights.hi6250
 
+ifneq ($(TARGET_PRODUCT),omni_hi6250)
+LOCAL_CFLAGS += -DLEDSMODE
+endif
+
 include $(BUILD_SHARED_LIBRARY)

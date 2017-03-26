@@ -13,10 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-ifeq ($(SLIM_BUILD),)
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+ifeq ($(TARGET_PRODUCT), lineage_hi6250)
+    DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
+else ifeq ($(TARGET_PRODUCT), slim_hi6250)
+    DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/slim_overlay
+else ifeq ($(TARGET_PRODUCT), omni_hi6250)
+    DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/slim_overlay
 else
-DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/slim_overlay
+    DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 endif
 
 # Inherit from those products. Most specific first.

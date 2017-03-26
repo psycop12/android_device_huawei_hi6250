@@ -144,9 +144,9 @@ lunch lineage_hi6250-userdebug
 make -j8 bacon
 ```
 
-NOTE: These trees can also build Resurection Remix (nougat) and SlimRoms (nougat) without modification but with logical changes to these instructions.
+NOTE: These trees can also build Resurection Remix (nougat), SlimRoms (nougat), and OmniRom (nougat) without modification but with logical changes to these instructions.
 1. When running "repo init ...", you will obviously want to download the code for the respective ROM.
-2. When building SlimRoms (nougat) and running "lunch ...", you want slim_hi6250-userdebug.
+2. When building SlimRoms (nougat) or OmniRom (nougat) and running "lunch ...", you want slim_hi6250-userdebug or omni_hi6260-userdebug respectively.
 
 
 ### Please let me know if there are mistakes,typos, mis/outdated - information in these instructions by creating an "issue".

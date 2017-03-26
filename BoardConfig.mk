@@ -143,7 +143,9 @@ TW_CRYPTO_MNT_POINT := "/data"
 TW_CRYPTO_FS_OPTIONS := "noatime,nosuid,nodev,discard,noauto_da_alloc,journal_async_commit,errors=panic    wait,check"
 TW_CRYPTO_FS_FLAGS := "0x00000406"
 TW_CRYPTO_KEY_LOC := "footer"
+ifneq ($(TARGET_PRODUCT), omni_hi6250)
 TW_USE_TOOLBOX := true
+endif
 TW_EXCLUDE_SUPERSU := false
 TW_EXTRA_LANGUAGES := true
 

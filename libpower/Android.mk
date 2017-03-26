@@ -22,4 +22,8 @@ LOCAL_SRC_FILES := power.c stock_power_interface.c
 LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_MODULE_TAGS := optional
 
+ifneq ($(TARGET_PRODUCT), omni_hi6250)
+LOCAL_CFLAGS += -DCMEXTRAS
+endif
+
 include $(BUILD_SHARED_LIBRARY)
