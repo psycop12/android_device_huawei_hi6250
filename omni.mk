@@ -25,6 +25,9 @@ $(call inherit-product, vendor/omni/config/common.mk)
 
 PRODUCT_NAME := omni_hi6250
 
+PRODUCT_PACKAGES += \
+    messaging
+
 ifeq ($(AUTOPATCH),true)
     $(shell cd device/huawei/hi6250/patches 2>&1 > /dev/null && ./patch.sh omni >&2)
 else
