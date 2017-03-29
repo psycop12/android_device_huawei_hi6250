@@ -22,6 +22,9 @@ $(call inherit-product, device/huawei/hi6250/cm.mk)
 
 PRODUCT_NAME := slim_hi6250
 
+PRODUCT_PACKAGES += \
+    messaging
+
 ifeq ($(AUTOPATCH),true)
     $(shell cd device/huawei/hi6250/patches 2>&1 > /dev/null && ./patch.sh cm >&2)
 else

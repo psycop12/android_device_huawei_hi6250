@@ -26,14 +26,15 @@ $(call inherit-product, vendor/omni/config/common.mk)
 PRODUCT_NAME := omni_hi6250
 
 PRODUCT_PACKAGES += \
-    messaging
+    messaging \
+    charger_res_images
 
 ifeq ($(AUTOPATCH),true)
     $(shell cd device/huawei/hi6250/patches 2>&1 > /dev/null && ./patch.sh omni >&2)
 else
     $(shell echo ---------------------------------------------------------------- >&2)
     $(shell echo AUTOPATCH not enabled... >&2)
-    $(shell echo run manually: \"cd device/huawei/hi6250/patches \&\& ./patch.sh cm\">&2)
+    $(shell echo run manually: \"cd device/huawei/hi6250/patches \&\& ./patch.sh omni\">&2)
     $(shell echo OR: >&2)
     $(shell echo enable autopatch: \"export AUTOPATCH=true \&\& lunch $(PRODUCT_NAME)-userdebug\">&2)
     $(shell echo ---------------------------------------------------------------- >&2)
