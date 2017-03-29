@@ -16,10 +16,15 @@ import /init.huawei.rc
 import /init.hi6250.usb.rc
 import /init.meticulus.rc
 import /lpm.rc
+#
+# Meticulus: uncomment the following line
+# to activate adb very early. Helps to
+# troubleshoot boot issues.
+#
+#import /earlyadb.rc
 
 on early-boot
 
-    verity_update_state
     symlink /sdcard /mnt/sdcard
     symlink /sdcard /storage/sdcard0
 
@@ -29,7 +34,17 @@ on early-boot
 on early-init
 
 on init
-    verity_load_state
+
+    write /sys/class/android_usb/android0/bDeviceClass 0
+    write /sys/class/android_usb/android0/iManufacturer Huawei
+    write /sys/class/android_usb/android0/iProduct P9-lite
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 04E8
+    write /sys/class/android_usb/android0/idProduct 6860
+    write /sys/class/android_usb/android0/f_acm/instances 1
+    write /sys/class/android_usb/android0/functions mtp,adb
+    write /sys/class/android_usb/android0/enable 1
+    start adbd
      
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
     chmod 664 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq

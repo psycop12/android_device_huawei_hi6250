@@ -65,6 +65,7 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.device.rc:root/init.device.rc \
         $(LOCAL_PATH)/rootdir/ueventd.6193.rc:root/ueventd.6193.rc \
         $(LOCAL_PATH)/rootdir/lpm.rc:root/lpm.rc \
+        $(LOCAL_PATH)/rootdir/earlyadb.rc:root/earlyadb.rc \
         $(LOCAL_PATH)/rootdir/sbin:root/sbin \
         $(LOCAL_PATH)/rootdir/sbin/teecd:root/sbin/teecd \
         $(LOCAL_PATH)/rootdir/sbin/oeminfo_nvm_server:root/sbin/oeminfo_nvm_server \
