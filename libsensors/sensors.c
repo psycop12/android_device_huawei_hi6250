@@ -18,7 +18,7 @@
 
 #define DEBUG 1
 
-#define LOG_TAG "Sensors"
+#define LOG_TAG "Meticulus Sensors"
 #include <hardware/sensors.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -99,15 +99,15 @@ static int write_cmd(char const *path, char *cmd, int size)
 	fd = open(path, O_WRONLY);
 	if (fd < 0) {
 		mesg= strerror(errno);
-		ALOGE("Meticulus: Cannot open %s, fd = %d, msg = %s\n", path, fd, mesg);
+		ALOGE("Cannot open %s, fd = %d, msg = %s\n", path, fd, mesg);
 		return -ENODEV;
 	}
 
 	ret = write(fd, cmd, size);
 	if (ret != size) {
 		mesg= strerror(errno);
-		ALOGE("Meticulus: path = %s\n", path);
-		ALOGE("Meticulus: Error. Wrote: %d, should have written: %d, msg = %s\n", ret, size, strerror(errno));
+		ALOGE("path = %s\n", path);
+		ALOGE("Error. Wrote: %d, should have written: %d, msg = %s\n", ret, size, strerror(errno));
 	}
 
 	close(fd);
@@ -125,7 +125,7 @@ static int activate_light(int enable)
 
 	if (enable) {
 		if(DEBUG)
-			ALOGD("Meticulus: %s: ========= count_light = %d, lightid = %d\n", __func__, count_light, light_id);
+			ALOGD("%s: ========= count_light = %d, lightid = %d\n", __func__, count_light, light_id);
 		if (count_light == 0) {
 			write_cmd(PATH_DELAY_LIGHT, "200\n", 4);
 			write_cmd(PATH_ENABLE_LIGHT, "1\n", 2);
@@ -140,7 +140,7 @@ static int activate_light(int enable)
 			ret = pthread_create(&light_thread, &light_attr,
 					&light_getdata, NULL);
 			if(ret && DEBUG)
-				ALOGD("Meticulus: could not create thread!");
+				ALOGD("could not create thread!");
 			pthread_attr_destroy(&light_attr);
 			count_light++;
 		} else {
@@ -171,7 +171,7 @@ static int activate_acc(int enable)
 
 	if (enable) {
 		if(DEBUG)
-			ALOGD("Meticulus: %s: ========= count_acc = %d, accid = %d\n", __func__, count_acc, acc_id);
+			ALOGD("%s: ========= count_acc = %d, accid = %d\n", __func__, count_acc, acc_id);
 		if (count_acc == 0) {
 			write_cmd(PATH_DELAY_ACC, "200\n", 4);
 			write_cmd(PATH_ENABLE_ACC, "1\n", 2);
@@ -186,7 +186,7 @@ static int activate_acc(int enable)
 			ret = pthread_create(&acc_thread, &acc_attr,
 					&acc_getdata, NULL);
 			if(ret && DEBUG)
-				ALOGD("Meticulus: could not create thread!");
+				ALOGD("could not create thread!");
 			pthread_attr_destroy(&acc_attr);
 			count_acc++;
 		} else {
@@ -406,7 +406,7 @@ static int poll_accelerometer(sensors_event_t *values)
 
 	fd = open(PATH_DATA_ACC, O_RDONLY);
 	if (fd < 0) {
-		ALOGE("Meticulus: Cannot open %s\n", PATH_DATA_ACC);
+		ALOGE("Cannot open %s\n", PATH_DATA_ACC);
 		return -ENODEV;
 	}
 
@@ -414,7 +414,7 @@ static int poll_accelerometer(sensors_event_t *values)
 	lseek(fd, 0, SEEK_SET);
 	nread = read(fd, buf, SIZE_OF_BUF);
 	if (nread < 0) {
-		ALOGE("Meticulus: Error in reading data from accelerometer\n");
+		ALOGE("Error in reading data from accelerometer\n");
 		return -1;
 	}
 	sscanf(buf, "%d %d %d", &data[0], &data[1], &data[2]);
@@ -487,7 +487,7 @@ static int poll_magnetometer(sensors_event_t *values)
 
 	fd = open(PATH_DATA_MAG, O_RDONLY);
 	if (fd < 0) {
-		ALOGE("Meticulus: Cannot open %s\n", PATH_DATA_MAG);
+		ALOGE("Cannot open %s\n", PATH_DATA_MAG);
 		return -ENODEV;
 	}
 
@@ -495,7 +495,7 @@ static int poll_magnetometer(sensors_event_t *values)
 	lseek(fd, 0, SEEK_SET);
 	nread = read(fd, buf, SIZE_OF_BUF);
 	if (nread < 0) {
-		ALOGE("Meticulus: Error in reading data from magnetometer\n");
+		ALOGE("Error in reading data from magnetometer\n");
 		return -1;
 	}
 	sscanf(buf, "%d %d %d", &data[0], &data[1], &data[2]);
@@ -552,12 +552,12 @@ static int poll_orientation(sensors_event_t *o, sensors_event_t *g)
 
 	fd_acc = open(PATH_DATA_ACC , O_RDONLY);
 	if (fd_acc < 0) {
-		ALOGE("Meticulus: orient:Cannot open %s\n", PATH_DATA_ACC);
+		ALOGE("orient:Cannot open %s\n", PATH_DATA_ACC);
 		return -ENODEV;
 	}
 	fd_mag = open(PATH_DATA_MAG, O_RDONLY);
 	if (fd_mag < 0) {
-		ALOGE("Meticulus: orien:Cannot open %s\n", PATH_DATA_MAG);
+		ALOGE("orien:Cannot open %s\n", PATH_DATA_MAG);
 		return -ENODEV;
 	}
 
@@ -565,7 +565,7 @@ static int poll_orientation(sensors_event_t *o, sensors_event_t *g)
 	lseek(fd_mag, 0, SEEK_SET);
 	nread = read(fd_mag, buf, SIZE_OF_BUF);
 	if (nread < 0) {
-		ALOGE("Meticulus: orien:Error in reading data from Magnetometer\n");
+		ALOGE("orien:Error in reading data from Magnetometer\n");
 		return -1;
 	}
 	sscanf(buf, "%d %d %d", &data_mag[0], &data_mag[1], &data_mag[2]);
@@ -591,7 +591,7 @@ static int poll_orientation(sensors_event_t *o, sensors_event_t *g)
 	lseek(fd_acc, 0, SEEK_SET);
 	nread = read(fd_acc, buf, SIZE_OF_BUF);
 	if (nread < 0) {
-		ALOGE("Meticulus orient:Error in reading data from Accelerometer\n");
+		ALOGE("orient:Error in reading data from Accelerometer\n");
 		return -1;
 	}
 	sscanf(buf, "%d %d %d", &data_acc[0], &data_acc[1], &data_acc[2]);
@@ -671,7 +671,7 @@ static int poll_light(sensors_event_t *values)
 
 	fd = open(PATH_DATA_LIGHT, O_RDONLY);
 	if (fd < 0) {
-		ALOGE("Meticulus: Cannot open %s\n", PATH_DATA_MAG);
+		ALOGE("Cannot open %s\n", PATH_DATA_MAG);
 		return -ENODEV;
 	}
 
@@ -679,7 +679,7 @@ static int poll_light(sensors_event_t *values)
 	lseek(fd, 0, SEEK_SET);
 	nread = read(fd, buf, SIZE_OF_BUF);
 	if (nread < 0) {
-		ALOGE("Meticulus: Error in reading data from magnetometer\n");
+		ALOGE("Error in reading data from magnetometer\n");
 		return -1;
 	}
 	sscanf(buf, "%d %d %d", &data[0], &data[1], &data[2]);
@@ -722,7 +722,7 @@ static int poll_proximity(sensors_event_t *values)
 
 	fd = open(PATH_DATA_PROX, O_RDONLY);
 	if (fd < 0) {
-		ALOGE("Meticulus: Cannot open %s\n", PATH_DATA_MAG);
+		ALOGE("Cannot open %s\n", PATH_DATA_MAG);
 		return -ENODEV;
 	}
 
@@ -730,7 +730,7 @@ static int poll_proximity(sensors_event_t *values)
 	lseek(fd, 0, SEEK_SET);
 	nread = read(fd, buf, SIZE_OF_BUF);
 	if (nread < 0) {
-		ALOGE("Meticulus: Error in reading data from magnetometer\n");
+		ALOGE("Error in reading data from magnetometer\n");
 		return -1;
 	}
 	sscanf(buf, "%d %d %d", &data[0], &data[1], &data[2]);
@@ -789,8 +789,8 @@ struct sensors_module_t HAL_MODULE_INFO_SYM = {
 		.version_major = 1,
 		.version_minor = 0,
 		.id = SENSORS_HARDWARE_MODULE_ID,
-		.name = "HI6250 Sensors Module",
-		.author = "Jonathan Jason Dennis [Meticulus]",
+		.name = "Meticulus Sensors",
+		.author = "Meticulus Development",
 		.methods = &m_sensors_module_methods,
 	},
 	.get_sensors_list = m_sensors_get_sensors_list
@@ -806,45 +806,45 @@ static int m_poll_activate(struct sensors_poll_device_t *dev,
 	switch (handle) {
 	case HANDLE_ORIENTATION:
 	if(DEBUG)
-		ALOGD("Meticulus: Entering function %s with handle = %d (orient),"
+		ALOGD("Entering function %s with handle = %d (orient),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
 		orient_enabled = enabled;
 		status = activate_orientation(enabled);
 		break;
 	case HANDLE_ACCELEROMETER:
 	if(DEBUG)
-		ALOGD("Meticulus: Entering function %s with handle = %d (acc),"
+		ALOGD("Entering function %s with handle = %d (acc),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
 		status = activate_acc(enabled);
 		break;
 	case HANDLE_MAGNETIC_FIELD:
 	if(DEBUG)
-		ALOGD("Meticulus: Entering function %s with handle = %d (mag),"
+		ALOGD("Entering function %s with handle = %d (mag),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
 		status = activate_mag(enabled);
 		break;
 	case HANDLE_PROXIMITY:
 	if(DEBUG)
-		ALOGD("Meticulus: Entering function %s with handle = %d (prox),"
+		ALOGD("Entering function %s with handle = %d (prox),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
 		status = activate_prox(enabled);	
 		break;
 	case HANDLE_LIGHT:
 	if(DEBUG)
-		ALOGD("Meticulus: Entering function %s with handle = %d (light),"
+		ALOGD("Entering function %s with handle = %d (light),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
 		status = activate_light(enabled);	
 		break;
 	case HANDLE_GYROSCOPE:
 	if(DEBUG)
-		ALOGD("Meticulus: Entering function %s with handle = %d (gyro),"
+		ALOGD("Entering function %s with handle = %d (gyro),"
 				" enable = %d\n", __FUNCTION__, handle, enabled);
 		gyro_enabled = enabled;
 		status = activate_orientation(enabled);
 		break;
 	default:
 		if(DEBUG)
-			ALOGD("Meticulus: This sensor/handle is not supported %s\n",
+			ALOGD("This sensor/handle is not supported %s\n",
 					__FUNCTION__);
 		break;
 	}
@@ -919,7 +919,7 @@ static int m_poll_set_delay(struct sensors_poll_device_t *dev,
 	int microseconds = ns / 1000;
 	int ret = 0;
 	if(DEBUG)
-		ALOGD("Meticulus: set delay = %d in microseconds for handle = %d\n"
+		ALOGD("set delay = %d in microseconds for handle = %d\n"
 								, microseconds, handle);
 
 	switch (handle) {
@@ -961,7 +961,7 @@ static int m_poll_set_delay(struct sensors_poll_device_t *dev,
 		break;
 	default:
 		if(DEBUG)
-			ALOGD("Meticulus libsensors:This sensor/handle is not supported %s\n",
+			ALOGD("This sensor/handle is not supported %s\n",
 					__FUNCTION__);
 		break;
 	}
@@ -1010,7 +1010,7 @@ static int m_poll_close(struct hw_device_t *dev)
 	struct sensors_poll_device_t *poll_device =
 		(struct sensors_poll_device_t *) dev;
 	if(DEBUG)
-		ALOGD("Meticulus: Closing poll data context.\n");
+		ALOGD("Closing poll data context.\n");
 
 	pthread_cond_destroy(&data_available_cv);
 	pthread_mutex_destroy(&sensordata_mutex);
@@ -1025,7 +1025,7 @@ static int m_open_sensors(const struct hw_module_t *module,
 		const char *name, struct hw_device_t **device)
 {
 	if(DEBUG)
-		ALOGD("Meticulus: Entering function %s with param name = %s\n",
+		ALOGD("Entering function %s with param name = %s\n",
 			__FUNCTION__, name);
 
 	int status = -EINVAL;
