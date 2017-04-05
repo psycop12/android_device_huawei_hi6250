@@ -1,15 +1,14 @@
-From 2b876a21f50812be3e6daee5680d519dc7302cc7 Mon Sep 17 00:00:00 2001
+From 17f085b1ff8de6d1a015b3138d3b6b56e84a512e Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Tue, 28 Mar 2017 09:57:10 -0500
+Date: Wed, 5 Apr 2017 05:17:56 -0500
 Subject: [PATCH] 0001-RIL-patch
 
-Change-Id: I7d153b230e38d58e4fe46047b79cc8735e35de5a
+Change-Id: Iba3795ab0356e0d9c7674f890a3b439a1da2bd68
 ---
  Android.mk                                         |   5 +
- src/java/com/android/internal/telephony/Phone.java |   6 +-
  .../android/internal/telephony/PhoneFactory.java   |  29 +++-
  src/java/com/android/internal/telephony/RIL.java   | 159 +++++++++++----------
- 4 files changed, 119 insertions(+), 80 deletions(-)
+ 3 files changed, 116 insertions(+), 77 deletions(-)
 
 diff --git a/Android.mk b/Android.mk
 index 5de6ac1..717a7e8 100644
@@ -27,30 +26,6 @@ index 5de6ac1..717a7e8 100644
  LOCAL_MODULE_TAGS := optional
  LOCAL_MODULE := telephony-common
  LOCAL_PROTOC_OPTIMIZE_TYPE := nano
-diff --git a/src/java/com/android/internal/telephony/Phone.java b/src/java/com/android/internal/telephony/Phone.java
-index 4435344..085bb36 100644
---- a/src/java/com/android/internal/telephony/Phone.java
-+++ b/src/java/com/android/internal/telephony/Phone.java
-@@ -1851,7 +1851,7 @@ public abstract class Phone extends Handler implements PhoneInternalInterface {
-         // Only set preferred network types to that which the modem supports
-         int modemRaf = getRadioAccessFamily();
-         int rafFromType = RadioAccessFamily.getRafFromNetworkType(networkType);
--
-+/*
-         if (modemRaf == RadioAccessFamily.RAF_UNKNOWN
-                 || rafFromType == RadioAccessFamily.RAF_UNKNOWN) {
-             Rlog.d(LOG_TAG, "setPreferredNetworkType: Abort, unknown RAF: "
-@@ -1865,8 +1865,8 @@ public abstract class Phone extends Handler implements PhoneInternalInterface {
-             }
-             return;
-         }
--
--        int filteredRaf = (rafFromType & modemRaf);
-+*/
-+        int filteredRaf = (rafFromType);
-         int filteredType = RadioAccessFamily.getNetworkTypeFromRaf(filteredRaf);
- 
-         Rlog.d(LOG_TAG, "setPreferredNetworkType: networkType = " + networkType
 diff --git a/src/java/com/android/internal/telephony/PhoneFactory.java b/src/java/com/android/internal/telephony/PhoneFactory.java
 index bb6e1bc..da5648d 100644
 --- a/src/java/com/android/internal/telephony/PhoneFactory.java
