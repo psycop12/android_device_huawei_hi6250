@@ -1,2 +1,6 @@
 allow zygote servicemanager:binder { call };
 allow zygote system_server:binder { call transfer };
+allow zygote properties_device:file r_file_perms;
+allow zygote kernel_devicetree:file r_file_perms;
+allow zygote kernel_devicetree:dir { search };
+allow zygote self:capability { sys_nice };

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2016 Jonathan Jason Dennis [Meticulus]
+# Copyright (C) 2017 Jonathan Jason Dennis [Meticulus]
 #                                       theonejohnnyd@gmail.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-allow fsck userdata_blkdev:blk_file rw_file_perms;
-allow fsck cache_blkdev:blk_file rw_file_perms;
-allow fsck splash2_blkdev:blk_file rw_file_perms;
-allow fsck secure_storage_blkdev:blk_file rw_file_perms;
+allow fsck kernel_devicetree:file r_file_perms;
+allow fsck properties_device:file r_file_perms;
+allow fsck userdata_blkdev:blk_file r_file_perms;
+allow fsck cache_blkdev:blk_file r_file_perms;

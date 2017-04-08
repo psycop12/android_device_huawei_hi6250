@@ -43,3 +43,6 @@ allow start_connectivity gnss_data_file:file { setattr rw_file_perms };
 allow start_connectivity bluetooth_device: chr_file { getattr setattr };
 allow start_connectivity hisi_log:dir { setattr rw_dir_perms };
 allow start_connectivity oam_hisi_device:chr_file { getattr setattr };
+allow start_connectivity toolbox_exec:file { r_file_perms execute execute_no_trans };
+allow start_connectivity properties_device:file r_file_perms;
+allow start_connectivity kernel_devicetree:file r_file_perms;

@@ -1,18 +1,26 @@
-From 82bbc203e49489919d94e3ac1bec8b4e538abd55 Mon Sep 17 00:00:00 2001
+From c926997bb401fc25078e23123659eb70876144f1 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Sat, 24 Dec 2016 23:54:56 -0600
+Date: Sat, 8 Apr 2017 09:00:05 -0500
 Subject: [PATCH] 0001-sepolicy-patch
 
-Change-Id: Ibf7951110149ab2c43a3a527cf38b3205348fc44
+Change-Id: I3a0fd8b691620e3ed9be358743881c7e50e8eeb8
 ---
- domain.te | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ domain.te | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/domain.te b/domain.te
-index dcd877c..8df6c5f 100644
+index a74833c..eef0774 100644
 --- a/domain.te
 +++ b/domain.te
-@@ -340,11 +340,11 @@ neverallow { domain -recovery } contextmount_type:dir_file_class_set
+@@ -158,6 +158,7 @@ neverallow {
+   -vold
+   -dumpstate
+   -system_server
++  -tee
+   userdebug_or_eng(`-perfprofd')
+ } self:capability sys_ptrace;
+ 
+@@ -342,11 +343,11 @@ neverallow { domain -recovery } contextmount_type:dir_file_class_set
  # system_app_service rather than the generic type.
  # New service_types are defined in service.te and new mappings
  # from service name to service_type are defined in service_contexts.

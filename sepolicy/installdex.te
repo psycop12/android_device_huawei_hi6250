@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2016 Jonathan Jason Dennis [Meticulus]
+# Copyright (C) 2017 Jonathan Jason Dennis [Meticulus]
 #                                       theonejohnnyd@gmail.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,17 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# chr_logd
-#
 
-type chr_logd, domain;
-type chr_logd_exec, exec_type, file_type;
-
-init_daemon_domain(chr_logd)
-
-allow chr_logd log_device:chr_file rw_file_perms;
-allow chr_logd hisi_log:file create_file_perms;
-allow chr_logd hisi_log:sock_file { unlink create setattr };
-allow chr_logd hisi_log:dir rw_dir_perms;
-allow chr_logd kernel_devicetree:file r_file_perms;
-allow chr_logd properties_device:file r_file_perms;
+allow installd properties_device:file r_file_perms;
+allow installd kernel_devicetree:file r_file_perms;

@@ -184,3 +184,6 @@
 
 # GNSS data files
 /data/gnss(/.*)?		u:object_r:gnss_data_file:s0
+
+# devicetree
+/sys/firmware/devicetree(/.*?)  u:object_r:kernel_devicetree:s0

@@ -33,3 +33,6 @@ allow oeminfo_nvm oeminfo_nvm_device:chr_file rw_file_perms;
 allow oeminfo_nvm oeminfo_blkdev:blk_file rw_file_perms;
 allow oeminfo_nvm device:dir rw_dir_perms;
 allow oeminfo_nvm device:file create_file_perms;
+allow oeminfo_nvm kernel_devicetree:file r_file_perms;
+allow oeminfo_nvm properties_device:file r_file_perms;
+allow oeminfo_nvm proc:file r_file_perms;

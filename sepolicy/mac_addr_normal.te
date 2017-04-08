@@ -31,3 +31,5 @@ allow mac_addr_normal bluetooth_data_file:dir r_dir_perms;
 allow mac_addr_normal bluetooth_data_file:file { setattr rw_file_perms };
 allow mac_addr_normal device:dir rw_dir_perms;
 allow mac_addr_normal device:file { unlink rw_file_perms };
+allow mac_addr_normal properties_device:file r_file_perms;
+allow mac_addr_normal kernel_devicetree:file r_file_perms;

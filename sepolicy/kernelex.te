@@ -15,6 +15,8 @@
 # limitations under the License.
 #
 
+type kernel_devicetree, sysfs_type, file_type;
+
 allow kernel device:dir { read write add_name create setattr getattr };
 allow kernel device:blk_file create_file_perms;
 allow kernel self:capability mknod;

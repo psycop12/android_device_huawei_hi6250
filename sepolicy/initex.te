@@ -32,3 +32,5 @@ allow init oeminfo_nvm_device:chr_file { getattr setattr };
 allow init zram0_blkdev:blk_file rw_file_perms;
 allow init cache_blkdev:blk_file { setattr };
 allow init kmsg_device:chr_file rw_file_perms;
+allow init properties_device:file { r_file_perms relabelto };
+allow init init:process noatsecure;

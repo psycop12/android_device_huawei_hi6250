@@ -31,3 +31,5 @@ allow perfhub hwcamcfgsvr:binder { call transfer };
 allow perfhub hwcamcfgsvr:fd { use };
 allow perfhub surfaceflinger_service:service_manager { find };
 allow perfhub surfaceflinger:fd { use };
+allow perfhub properties_device:file r_file_perms;
+allow perfhub kernel_devicetree:file r_file_perms;
