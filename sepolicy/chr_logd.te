@@ -24,7 +24,8 @@ init_daemon_domain(chr_logd)
 
 allow chr_logd log_device:chr_file rw_file_perms;
 allow chr_logd hisi_log:file create_file_perms;
-allow chr_logd hisi_log:sock_file { unlink create setattr };
+allow chr_logd hisi_log:sock_file { create_file_perms };
 allow chr_logd hisi_log:dir rw_dir_perms;
 allow chr_logd kernel_devicetree:file r_file_perms;
 allow chr_logd properties_device:file r_file_perms;
+allow chr_logd system_data_file:file create_file_perms;

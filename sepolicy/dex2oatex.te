@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2016 Jonathan Jason Dennis [Meticulus]
+# Copyright (C) 2017 Jonathan Jason Dennis [Meticulus]
 #                                       theonejohnnyd@gmail.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,14 +15,5 @@
 # limitations under the License.
 #
 
-allow servicemanager perfhub:dir r_dir_perms;
-allow servicemanager perfhub:file r_file_perms;
-allow servicemanager perfhub:process { getattr };
-allow servicemanager hwcamcfgsvr:dir r_dir_perms;
-allow servicemanager hwcamcfgsvr:file r_file_perms;
-allow servicemanager hwcamcfgsvr:process { getattr };
-allow servicemanager zygote:dir r_dir_perms;
-allow servicemanager zygote:file r_file_perms;
-allow servicemanager zygote:process { getattr };
-allow servicemanager properties_device:file r_file_perms;
-allow servicemanager kernel_devicetree:file r_file_perms;
+allow dex2oat properties_device:file r_file_perms;
+allow dex2oat kernel_devicetree:file r_file_perms;
