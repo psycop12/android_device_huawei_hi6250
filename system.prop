@@ -96,3 +96,7 @@ persist.sys.lights_HAL_n=0xff0000ff
 # Meticulus Power HAL
 #
 persist.sys.stock_power_HAL=false
+#
+#
+#i
+persist.sys.strictmode.disable=true
