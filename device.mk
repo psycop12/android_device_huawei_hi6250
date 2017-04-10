@@ -65,7 +65,6 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.device.rc:root/init.device.rc \
         $(LOCAL_PATH)/rootdir/ueventd.6193.rc:root/ueventd.6193.rc \
         $(LOCAL_PATH)/rootdir/lpm.rc:root/lpm.rc \
-        $(LOCAL_PATH)/rootdir/earlyadb.rc:root/earlyadb.rc \
         $(LOCAL_PATH)/rootdir/sbin:root/sbin \
         $(LOCAL_PATH)/rootdir/sbin/teecd:root/sbin/teecd \
         $(LOCAL_PATH)/rootdir/sbin/oeminfo_nvm_server:root/sbin/oeminfo_nvm_server \
@@ -77,6 +76,11 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/sbin/volisnotd:root/sbin/volisnotd \
         $(LOCAL_PATH)/rootdir/sbin/ntfs-3gd:root/sbin/ntfs-3gd \
         $(LOCAL_PATH)/rootdir/sbin/logctl_service:root/sbin/logctl_service
+
+ifneq ($(BOOTDEBUG),)
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/rootdir/init.bootdebug.rc:root/init.bootdebug.rc
+endif
 
 # Recovery ramdisk, libraries and modules.
 PRODUCT_COPY_FILES += \

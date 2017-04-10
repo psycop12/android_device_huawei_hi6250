@@ -37,3 +37,8 @@ PRODUCT_PACKAGES += \
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.zygote=zygote64_32 \
     ro.secure=0
+
+ifneq ($(BOOTDEBUG),)
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    ro.adb.secure=0
+endif
