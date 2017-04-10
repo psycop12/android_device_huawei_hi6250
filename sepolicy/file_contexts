@@ -33,8 +33,14 @@
 /dev/fingerprint	u:object_r:fingerprint_device:s0
 /dev/hwgnss		u:object_r:gnss_device:s0
 /dev/hwbfgdbg		u:object_r:oam_hisi_device:s0
-/dev/hwbt		u:object_r:bluetooth_device:s0
+/dev/hwbt		u:object_r:hci_attach_dev:s0
 /dev/flp		u:object_r:flp_device:s0
+
+/dev/ttyp[0-9a-z]*		u:object_r:tty_device:s0
+/dev/ttyHWGS[0-9]*		u:object_r:tty_device:s0
+/dev/ttyAMA[0-2]*		u:object_r:tty_device:s0
+/dev/ttyAMA[4-6]*		u:object_r:tty_device:s0
+/dev/ptyp[0-9a-z]*		u:object_r:tty_device:s0
 
 # oeminfo_nvm device?
 /dev/nve0		u:object_r:oeminfo_nvm_device:s0
@@ -159,7 +165,8 @@
 
 # Logs
 /data/hwzd_logs(/.*)?		u:object_r:hisi_log:s0
-/data/sec_storage_data(/.*)?		u:object_r:hisi_log:s0
+/data/sec_storage_data(/.*)?	u:object_r:hisi_log:s0
+/splash2(/.*)?			u:object_r:hisi_log:s0
 /data/hwlogdir(/.*)?		u:object_r:hisi_log:s0
 
 # Log Devices

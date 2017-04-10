@@ -44,4 +44,8 @@ allow hwcamcfgsvr proc:file r_file_perms;
 allow hwcamcfgsvr kernel_devicetree:file r_file_perms;
 allow hwcamcfgsvr properties_device:file r_file_perms;
 allow hwcamcfgsvr cameraserver:binder { transfer };
+allow hwcamcfgsvr cameraserver:fd { use };
 allow hwcamcfgsvr camera_data_file:file create_file_perms;
+allow hwcamcfgsvr permission_service:service_manager { find };
+allow hwcamcfgsvr sysfs:file r_file_perms;
+allow hwcamcfgsvr system_server:fd { use };

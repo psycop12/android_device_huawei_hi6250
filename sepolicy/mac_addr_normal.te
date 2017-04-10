@@ -25,10 +25,10 @@ init_daemon_domain(mac_addr_normal)
 allow mac_addr_normal oeminfo_nvm:unix_stream_socket { connectto };
 allow mac_addr_normal socket_device:sock_file rw_file_perms;
 allow mac_addr_normal self:capability { dac_override chown fowner };
-allow mac_addr_normal wifi_data_file:dir r_dir_perms;
-allow mac_addr_normal wifi_data_file:file { setattr rw_file_perms };
-allow mac_addr_normal bluetooth_data_file:dir r_dir_perms;
-allow mac_addr_normal bluetooth_data_file:file { setattr rw_file_perms };
+allow mac_addr_normal wifi_data_file:dir rw_dir_perms;
+allow mac_addr_normal wifi_data_file:file create_file_perms;
+allow mac_addr_normal bluetooth_data_file:dir rw_dir_perms;
+allow mac_addr_normal bluetooth_data_file:file create_file_perms;
 allow mac_addr_normal device:dir rw_dir_perms;
 allow mac_addr_normal device:file { unlink rw_file_perms };
 allow mac_addr_normal properties_device:file r_file_perms;

@@ -36,3 +36,5 @@ allow oeminfo_nvm device:file create_file_perms;
 allow oeminfo_nvm kernel_devicetree:file r_file_perms;
 allow oeminfo_nvm properties_device:file r_file_perms;
 allow oeminfo_nvm proc:file r_file_perms;
+allow oeminfo_nvm sysfs:file r_file_perms;
+allow oeminfo_nvm sysfs:dir r_dir_perms;
