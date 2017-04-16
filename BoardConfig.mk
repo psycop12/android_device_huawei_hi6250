@@ -116,6 +116,7 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 BACKLIGHT_PATH := "/sys/class/leds/lcd_backlight0/brightness"
 HEALTHD_BACKLIGHT_LEVEL := 102
+HEALTHD_FORCE_BACKLIGHT_CONTROL := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/huawei/hi6250/rootdir/fstab.hi6250
