@@ -1,15 +1,15 @@
-From 5ebd6f6a98969438744bb8cff5a68dd0578a4fe3 Mon Sep 17 00:00:00 2001
+From 9f455a83865487823f4f2eeee9fd17f37bae2a65 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Sun, 25 Dec 2016 08:36:50 -0600
+Date: Wed, 19 Apr 2017 06:05:58 -0500
 Subject: [PATCH] 0001-ril-patch
 
-Change-Id: Ibc0a5bdc904fec3fa37775eae6f8bd71d839babc
+Change-Id: I61b325546e4d10c52b37296b7a693db0778093f4
 ---
  src/java/android/telephony/SmsMessage.java         |  2 +-
- src/java/com/android/internal/telephony/RIL.java   | 43 +++++-----
+ src/java/com/android/internal/telephony/RIL.java   | 43 +++++++-------
  .../telephony/dataconnection/DcTracker.java        |  4 +-
- .../internal/telephony/uicc/IccFileHandler.java    | 91 +++++++---------------
- 4 files changed, 53 insertions(+), 87 deletions(-)
+ .../internal/telephony/uicc/IccFileHandler.java    | 65 +++++++---------------
+ 4 files changed, 45 insertions(+), 69 deletions(-)
 
 diff --git a/src/java/android/telephony/SmsMessage.java b/src/java/android/telephony/SmsMessage.java
 index 9dc5776..bb0553a 100644
@@ -25,10 +25,10 @@ index 9dc5776..bb0553a 100644
  
      /**
 diff --git a/src/java/com/android/internal/telephony/RIL.java b/src/java/com/android/internal/telephony/RIL.java
-index 537107e..a1b0cdd 100644
+index 4101463..44764cd 100644
 --- a/src/java/com/android/internal/telephony/RIL.java
 +++ b/src/java/com/android/internal/telephony/RIL.java
-@@ -108,11 +108,11 @@ class RILRequest {
+@@ -100,11 +100,11 @@ class RILRequest {
      //***** Class Variables
      static Random sRandom = new Random();
      static AtomicInteger sNextSerial = new AtomicInteger(0);
@@ -45,7 +45,7 @@ index 537107e..a1b0cdd 100644
  
      //***** Instance Variables
      int mSerial;
-@@ -189,7 +189,7 @@ class RILRequest {
+@@ -181,7 +181,7 @@ class RILRequest {
          }
      }
  
@@ -54,7 +54,7 @@ index 537107e..a1b0cdd 100644
      }
  
      static void
-@@ -263,7 +263,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -255,7 +255,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
       * Wake lock timeout should be longer than the longest timeout in
       * the vendor ril.
       */
@@ -63,7 +63,7 @@ index 537107e..a1b0cdd 100644
  
      // Wake lock default timeout associated with ack
      private static final int DEFAULT_ACK_WAKE_LOCK_TIMEOUT_MS = 200;
-@@ -341,11 +341,11 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -333,11 +333,11 @@ public class RIL extends BaseCommands implements CommandsInterface {
  
      // The number of the required config values for broadcast SMS stored in the C struct
      // RIL_CDMA_BroadcastServiceInfo
@@ -78,7 +78,7 @@ index 537107e..a1b0cdd 100644
              new DisplayManager.DisplayListener() {
          @Override
          public void onDisplayAdded(int displayId) { }
-@@ -365,7 +365,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -357,7 +357,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
          }
      };
  
@@ -87,7 +87,7 @@ index 537107e..a1b0cdd 100644
          @Override
          public void onReceive(Context context, Intent intent) {
              boolean oldState = mIsDevicePlugged;
-@@ -580,7 +580,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -572,7 +572,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
       * @return Length of message less header, or -1 on end of stream.
       * @throws IOException
       */
@@ -96,7 +96,7 @@ index 537107e..a1b0cdd 100644
              throws IOException {
          int countRead;
          int offset;
-@@ -1453,7 +1453,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -1436,7 +1436,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
          send(rr);
      }
  
@@ -105,7 +105,7 @@ index 537107e..a1b0cdd 100644
      constructGsmSendSmsRilRequest (RILRequest rr, String smscPDU, String pdu) {
          rr.mParcel.writeInt(2);
          rr.mParcel.writeString(smscPDU);
-@@ -1489,7 +1489,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -1474,7 +1474,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
          send(rr);
      }
  
@@ -114,7 +114,7 @@ index 537107e..a1b0cdd 100644
      constructCdmaSendSmsRilRequest(RILRequest rr, byte[] pdu) {
          int address_nbr_of_digits;
          int subaddr_nbr_of_digits;
-@@ -1739,7 +1739,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -1727,7 +1727,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
       *  Translates EF_SMS status bits to a status value compatible with
       *  SMS AT commands.  See TS 27.005 3.1.
       */
@@ -123,7 +123,7 @@ index 537107e..a1b0cdd 100644
          switch(status & 0x7) {
              case SmsManager.STATUS_ON_ICC_READ:
                  return 1;
-@@ -2515,7 +2515,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -2504,7 +2504,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
       * Update the screen state. Send screen state ON if the default display is ON or the device
       * is plugged.
       */
@@ -132,7 +132,7 @@ index 537107e..a1b0cdd 100644
          final int oldState = mRadioScreenState;
          mRadioScreenState = (mDefaultDisplayState == Display.STATE_ON || mIsDevicePlugged)
                  ? RADIO_SCREEN_ON : RADIO_SCREEN_OFF;
-@@ -2550,8 +2550,9 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -2539,8 +2539,9 @@ public class RIL extends BaseCommands implements CommandsInterface {
      protected RadioState getRadioStateFromInt(int stateInt) {
          RadioState state;
  
@@ -143,7 +143,7 @@ index 537107e..a1b0cdd 100644
              case 0: state = RadioState.RADIO_OFF; break;
              case 1: state = RadioState.RADIO_UNAVAILABLE; break;
              case 2:
-@@ -2570,7 +2571,9 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -2559,7 +2560,9 @@ public class RIL extends BaseCommands implements CommandsInterface {
          }
          return state;
      }
@@ -154,7 +154,7 @@ index 537107e..a1b0cdd 100644
      protected void switchToRadioState(RadioState newState) {
          setRadioState(newState);
      }
-@@ -2622,7 +2625,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -2611,7 +2614,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
          }
      }
  
@@ -163,7 +163,7 @@ index 537107e..a1b0cdd 100644
      decrementWakeLock(RILRequest rr) {
          synchronized(rr) {
              switch(rr.mWakeLockType) {
-@@ -2648,7 +2651,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
+@@ -2637,7 +2640,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
          }
      }
  
@@ -173,10 +173,10 @@ index 537107e..a1b0cdd 100644
          if (wakeLockType == FOR_WAKELOCK) {
              synchronized (mWakeLock) {
 diff --git a/src/java/com/android/internal/telephony/dataconnection/DcTracker.java b/src/java/com/android/internal/telephony/dataconnection/DcTracker.java
-index af84e01..cced655 100644
+index 2f33d3b..c6a8bb5 100644
 --- a/src/java/com/android/internal/telephony/dataconnection/DcTracker.java
 +++ b/src/java/com/android/internal/telephony/dataconnection/DcTracker.java
-@@ -2565,9 +2565,7 @@ public class DcTracker extends Handler {
+@@ -2620,9 +2620,7 @@ public class DcTracker extends Handler {
                  // can declare the DUN APN sharable by default traffic, thus still satisfying
                  // those requests and not torn down organically.
                  if ((apnContext.getApnType() == PhoneConstants.APN_TYPE_DUN && teardownForDun())
@@ -188,10 +188,10 @@ index af84e01..cced655 100644
                  } else {
                      cleanup = false;
 diff --git a/src/java/com/android/internal/telephony/uicc/IccFileHandler.java b/src/java/com/android/internal/telephony/uicc/IccFileHandler.java
-index 54e05f7..881b4c3 100644
+index 6f944bd..b96ad23 100644
 --- a/src/java/com/android/internal/telephony/uicc/IccFileHandler.java
 +++ b/src/java/com/android/internal/telephony/uicc/IccFileHandler.java
-@@ -289,7 +289,7 @@ public abstract class IccFileHandler extends Handler implements IccConstants {
+@@ -291,7 +291,7 @@ public abstract class IccFileHandler extends Handler implements IccConstants {
                          fileid, 0, onLoaded);
  
          mCi.iccIOForApp(COMMAND_GET_RESPONSE, fileid, getEFPath(fileid),
@@ -200,7 +200,7 @@ index 54e05f7..881b4c3 100644
      }
  
      /**
-@@ -447,30 +447,17 @@ public abstract class IccFileHandler extends Handler implements IccConstants {
+@@ -449,30 +449,17 @@ public abstract class IccFileHandler extends Handler implements IccConstants {
  
                  data = result.payload;
  
@@ -240,7 +240,7 @@ index 54e05f7..881b4c3 100644
                  sendResult(response, recordSize, null);
                  break;
  
-@@ -488,32 +475,20 @@ public abstract class IccFileHandler extends Handler implements IccConstants {
+@@ -490,32 +477,20 @@ public abstract class IccFileHandler extends Handler implements IccConstants {
                  data = result.payload;
                  path = lc.mPath;
  
@@ -283,42 +283,6 @@ index 54e05f7..881b4c3 100644
  
                   if (lc.mLoadAll) {
                       lc.results = new ArrayList<byte[]>(lc.mCountRecords);
-@@ -541,27 +516,17 @@ public abstract class IccFileHandler extends Handler implements IccConstants {
- 
-                 fileid = msg.arg1;
- 
--                if (UiccTlvData.isUiccTlvData(data)) {
--                    UiccTlvData tlvData = UiccTlvData.parse(data);
--
--                    if (tlvData.mFileSize < 0) {
--                        throw new IccFileTypeMismatch();
--                    }
--
--                    size = tlvData.mFileSize;
--                } else {
--                    if (TYPE_EF != data[RESPONSE_DATA_FILE_TYPE]) {
--                        throw new IccFileTypeMismatch();
--                    }
--
--                    if (EF_TYPE_TRANSPARENT != data[RESPONSE_DATA_STRUCTURE]) {
--                        throw new IccFileTypeMismatch();
--                    }
-+                if (TYPE_EF != data[RESPONSE_DATA_FILE_TYPE]) {
-+                    throw new IccFileTypeMismatch();
-+                }
- 
--                    size = ((data[RESPONSE_DATA_FILE_SIZE_1] & 0xff) << 8)
--                           + (data[RESPONSE_DATA_FILE_SIZE_2] & 0xff);
-+                if (EF_TYPE_TRANSPARENT != data[RESPONSE_DATA_STRUCTURE]) {
-+                    throw new IccFileTypeMismatch();
-                 }
- 
-+                size = ((data[RESPONSE_DATA_FILE_SIZE_1] & 0xff) << 8)
-+                       + (data[RESPONSE_DATA_FILE_SIZE_2] & 0xff);
-+
-                 mCi.iccIOForApp(COMMAND_READ_BINARY, fileid, getEFPath(fileid),
-                                 0, 0, size, null, null, mAid,
-                                 obtainMessage(EVENT_READ_BINARY_DONE,
 -- 
 1.9.1
 
