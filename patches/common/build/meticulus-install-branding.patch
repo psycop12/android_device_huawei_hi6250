@@ -1,18 +1,18 @@
-From 1983ed35999f1d510ec2bbc01265bef2ac9f10a8 Mon Sep 17 00:00:00 2001
+From f2330c4ac82110b28dae975d6ccacfcab28d27c1 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Wed, 22 Mar 2017 07:42:45 -0500
+Date: Wed, 19 Apr 2017 06:10:18 -0500
 Subject: [PATCH] meticulus-install-branding
 
-Change-Id: I3cefbba03ac459e46d8cda7c8073b1382e45c523
+Change-Id: I0b774fb58a63efbd35c9c2cbd5bba1bbc5663132
 ---
- tools/releasetools/ota_from_target_files.py | 31 ++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+ tools/releasetools/ota_from_target_files.py | 29 +++++++++++++++++++++++++++--
+ 1 file changed, 27 insertions(+), 2 deletions(-)
 
 diff --git a/tools/releasetools/ota_from_target_files.py b/tools/releasetools/ota_from_target_files.py
-index e926c2b..00afcc0 100755
+index a3b9627..6f355bb 100755
 --- a/tools/releasetools/ota_from_target_files.py
 +++ b/tools/releasetools/ota_from_target_files.py
-@@ -555,7 +555,6 @@ def CopyInstallTools(output_zip):
+@@ -588,7 +588,6 @@ def CopyInstallTools(output_zip):
        install_target = os.path.join("install", os.path.relpath(root, install_path), f)
        output_zip.write(install_source, install_target)
  
@@ -20,14 +20,11 @@ index e926c2b..00afcc0 100755
  def WriteFullOTAPackage(input_zip, output_zip):
    # TODO: how to determine this?  We don't know what version it will
    # be installed on top of. For now, we expect the API just won't
-@@ -648,10 +647,32 @@ set_stage("%(bcb_dev)s", "3/3");
- reboot_now("%(bcb_dev)s", "recovery");
- else if get_stage("%(bcb_dev)s") == "3/3" then
- """ % bcb_dev)
+@@ -638,7 +637,33 @@ def WriteFullOTAPackage(input_zip, output_zip):
+     ts = GetBuildProp("ro.build.date.utc", OPTIONS.info_dict)
+     ts_text = GetBuildProp("ro.build.date", OPTIONS.info_dict)
+     script.AssertOlderBuild(ts, ts_text)
 -
--  # Dump fingerprints
--  script.Print("Target: %s" % CalculateFingerprint(
--      oem_props, oem_dict, OPTIONS.info_dict))
 + 
 +  script.Print("                                        ");
 +  script.Print("            .:+syyhhhhyyo+:.            ");
@@ -54,9 +51,10 @@ index e926c2b..00afcc0 100755
 +  script.Print("Built for you by:                       ");
 +  script.Print("               Meticulus                ");
 +  script.Print("               http://meticulus.co.vu   ");
++ 
+   AppendAssertions(script, OPTIONS.info_dict, oem_dict)
+   device_specific.FullOTA_Assertions()
  
-   script.AppendExtra("ifelse(is_mounted(\"/system\"), unmount(\"/system\"));")
-   device_specific.FullOTA_InstallBegin()
 -- 
 1.9.1
 
