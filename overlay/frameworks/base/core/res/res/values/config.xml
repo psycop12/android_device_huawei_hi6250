@@ -149,4 +149,9 @@
 
     <!-- Flag specifying whether VoLTE is available on device -->
     <bool name="config_device_volte_available">true</bool>
-</resources>
+
+    <!-- Doze mode -->
+    <bool name="config_dozeAfterScreenOff">true</bool>
+    <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
+    <integer name="config_screenBrightnessDoze">1</integer>
+    <string name="config_dozeComponent">com.android.systemui/com.android.systemui.doze.DozeService</string></resources>
