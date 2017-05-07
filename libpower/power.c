@@ -236,6 +236,7 @@ static void power_hint(struct power_module *module, power_hint_t hint,
 		DEBUG_LOG("POWER_HINT_LOW_POWER %d", var);
 		power_hint_low_power(var);
 		break;
+#ifndef AOSP
 	case POWER_HINT_CPU_BOOST:
 		if(data != NULL)
 		    var = *(int *) data;
@@ -248,10 +249,13 @@ static void power_hint(struct power_module *module, power_hint_t hint,
 		if(!low_power)
 		    power_hint_interactive(0);
 		break;
+#endif
 #ifdef CMEXTRAS
 	case POWER_HINT_SET_PROFILE:
 #else
+#ifndef AOSP
 	case POWER_HINT_POWER_PROFILE:
+#endif
 #endif
 		if(data != NULL)
 		    var = *(int *) data;

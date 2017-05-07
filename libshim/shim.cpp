@@ -37,7 +37,11 @@ extern int __chr_printLog(){return 0;}
 
 /* libwvm */
 extern android::MediaBufferGroup*   _ZN7android16MediaBufferGroupC1Ev() {
+#ifdef AOSP
+    return new android::MediaBufferGroup();
+#else
     return new android::MediaBufferGroup(0);
+#endif
 }
 
 extern int _ZN7android16MediaBufferGroup14acquire_bufferEPPNS_11MediaBufferEb(void *obj,android::MediaBuffer **out, 

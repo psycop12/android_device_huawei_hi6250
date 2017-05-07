@@ -70,7 +70,7 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
 TARGET_INIT_VENDOR_LIB := libhuawei_init
 
 # Linker
-LD_SHIM_LIBS := '/system/lib64/libcutils.so|libshim.so:/system/lib/libcutils.so|libshim.so:/system/lib64/liblog.so|libshim.so:/system/lib/liblog.so|libshim.so:/system/lib64/libexif.so|libshim.so:/system/lib/libexif.so|libshim.so:/system/lib64/libaudio_route.so|libshim.so:/system/lib/libaudio_route.so|libshim.so:/system/lib/hw/audio.primary.hisi.so|libshim_icu.so:/system/vendor/lib64/libril.so|libshim_icu.so:/system/lib/hw/camera.hi6250.so|libshim_camera.so:/system/bin/wpa_supplicant_hisi|libshim_libssl.so:/system/bin/wpa_supplicant_hisi|libshim_libssl2.so:/system/bin/wpa_supplicant_hisi|libshim_libcrypto.so:/system/bin/wpa_supplicant_hisi|libshim.so:/system/lib64/hwcam/hwcam.hi6250.m.VENUS.so|libshim_camera.so:/system/lib64/hwcam/hwcam.hi6250.m.VENUS.so|libshim_libui.so:/system/lib64/hwcam/hwcam.hi6250.m.NEMO.so|libshim_camera.so:/system/lib64/hwcam/hwcam.hi6250.m.NEMO.so|libshim_libui.so:/system/lib64/libcamera_algo.so|libshim_algo.so:/system/lib64/libcamera_algo.so|libshim_libui.so:/system/lib64/hw/copybit.real.so|libshim_libui.so:/system/lib64/hw/copybit.real.so|libshim_libgui.so:/system/bin/hostapd|libshim_libssl.so:/system/bin/hostapd|libshim_libssl2.so:/system/bin/hostapd|libshim_libcrypto.so:/system/bin/hostapd|libshim.so:/system/vendor/lib/libwvm.so|libshim.so'
+LD_SHIM_LIBS := '/system/lib64/libcutils.so|libshim.so:/system/lib/libcutils.so|libshim.so:/system/lib64/liblog.so|libshim.so:/system/lib/liblog.so|libshim.so:/system/lib64/libexif.so|libshim.so:/system/lib/libexif.so|libshim.so:/system/lib64/libaudio_route.so|libshim.so:/system/lib/libaudio_route.so|libshim.so:/system/lib/hw/audio.primary.hisi.so|libshim_icu.so:/system/vendor/lib64/libril.so|libshim_icu.so:/system/lib/hw/camera.hi6250.so|libshim_camera.so:/system/bin/wpa_supplicant_hisi|libshim_libssl.so:/system/bin/wpa_supplicant_hisi|libshim_libssl2.so:/system/bin/wpa_supplicant_hisi|libshim_libcrypto.so:/system/bin/wpa_supplicant_hisi|libshim.so:/system/lib64/hwcam/hwcam.hi6250.m.VENUS.so|libshim_camera.so:/system/lib64/hwcam/hwcam.hi6250.m.VENUS.so|libshim_libui.so:/system/lib64/hwcam/hwcam.hi6250.m.NEMO.so|libshim_camera.so:/system/lib64/hwcam/hwcam.hi6250.m.NEMO.so|libshim_libui.so:/system/lib64/libcamera_algo.so|libshim_algo.so:/system/lib64/libcamera_algo.so|libshim_libui.so:/system/lib64/hw/copybit.real.so|libshim_libui.so:/system/lib64/hw/copybit.real.so|libshim_libgui.so:/system/bin/hostapd|libshim_libssl.so:/system/bin/hostapd|libshim_libssl2.so:/system/bin/hostapd|libshim_libcrypto.so:/system/bin/hostapd|libshim.so:/system/vendor/lib/libwvm.so|libshim.so:/system/bin/rild|libshim_icu.so'
 
 
 # RIL
@@ -151,6 +151,12 @@ TW_EXCLUDE_SUPERSU := false
 TW_EXTRA_LANGUAGES := true
 
 
- # SELinux
- BOARD_SEPOLICY_DIRS += \
+# SELinux
+BOARD_SEPOLICY_DIRS += \
 	device/huawei/hi6250/sepolicy
+
+ifneq ($(TARGET_PRODUCT), aosp_hi6250)
+BOARD_SEPOLICY_DIRS += \
+	device/huawei/hi6250/cm_sepolicy
+endif
+

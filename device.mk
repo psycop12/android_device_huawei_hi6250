@@ -19,6 +19,8 @@ else ifeq ($(TARGET_PRODUCT), slim_hi6250)
     DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/slim_overlay
 else ifeq ($(TARGET_PRODUCT), omni_hi6250)
     DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/slim_overlay
+else ifeq ($(TARGET_PRODUCT), aosp_hi6250)
+    DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/slim_overlay
 else
     DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 endif
@@ -107,6 +109,9 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml
 
 ifeq ($(TARGET_PRODUCT), omni_hi6250)
+    PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/configs/etc/omni_media_codecs.xml:system/etc/media_codecs.xml
+else ifeq ($(TARGET_PRODUCT), aosp_hi6250)
     PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/etc/omni_media_codecs.xml:system/etc/media_codecs.xml
 else 

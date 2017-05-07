@@ -24,4 +24,8 @@ LOCAL_MODULE := libshim
 LOCAL_SRC_FILES := shim.cpp
 LOCAL_SHARED_LIBRARIES := liblog libexif libmedia libstagefright_foundation
 
+ifeq ($(TARGET_PRODUCT), aosp_hi6250)
+LOCAL_CFLAGS += -DAOSP
+endif
+
 include $(BUILD_SHARED_LIBRARY)
