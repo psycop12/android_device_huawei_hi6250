@@ -1,8 +1,9 @@
-From ae83a53b857873525a1d36a9619a0e0fc24e601c Mon Sep 17 00:00:00 2001
+From 9cba94eb6d9971a055b6a47d78fba904a8ce2e66 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Sun, 30 Apr 2017 10:23:00 -0500
+Date: Fri, 12 May 2017 09:30:53 -0500
 Subject: [PATCH] 0001-linker-Add-support-for-dynamic-shim-libs
 
+Change-Id: Ib6ebc5a47f3b01003c35478e6311b2c34a68b379
 ---
  libc/bionic/libc_init_common.cpp |  1 +
  linker/linker.cpp                | 67 ++++++++++++++++++++++++++++++++++++++++
@@ -21,10 +22,10 @@ index 4f1226d..71c0b5f 100644
      "LD_USE_LOAD_BIAS",
      "LOCALDOMAIN",
 diff --git a/linker/linker.cpp b/linker/linker.cpp
-index 39aa2ca..c32ce04 100644
+index 9dc928e..d3ca6d0 100644
 --- a/linker/linker.cpp
 +++ b/linker/linker.cpp
-@@ -1223,6 +1223,67 @@ typedef linked_list_t<soinfo> SoinfoLinkedList;
+@@ -1230,6 +1230,67 @@ typedef linked_list_t<soinfo> SoinfoLinkedList;
  typedef linked_list_t<const char> StringLinkedList;
  typedef std::vector<LoadTask*> LoadTaskList;
  
@@ -92,7 +93,7 @@ index 39aa2ca..c32ce04 100644
  
  // This function walks down the tree of soinfo dependencies
  // in breadth-first order and
-@@ -1661,6 +1722,7 @@ static const char* fix_dt_needed(const char* dt_needed, const char* sopath __unu
+@@ -1668,6 +1729,7 @@ static const char* fix_dt_needed(const char* dt_needed, const char* sopath __unu
  
  template<typename F>
  static void for_each_dt_needed(const soinfo* si, F action) {
@@ -100,7 +101,7 @@ index 39aa2ca..c32ce04 100644
    for (const ElfW(Dyn)* d = si->dynamic; d->d_tag != DT_NULL; ++d) {
      if (d->d_tag == DT_NEEDED) {
        action(fix_dt_needed(si->get_string(d->d_un.d_val), si->get_realpath()));
-@@ -1670,6 +1732,7 @@ static void for_each_dt_needed(const soinfo* si, F action) {
+@@ -1677,6 +1739,7 @@ static void for_each_dt_needed(const soinfo* si, F action) {
  
  template<typename F>
  static void for_each_dt_needed(const ElfReader& elf_reader, F action) {
@@ -108,15 +109,15 @@ index 39aa2ca..c32ce04 100644
    for (const ElfW(Dyn)* d = elf_reader.dynamic(); d->d_tag != DT_NULL; ++d) {
      if (d->d_tag == DT_NEEDED) {
        action(fix_dt_needed(elf_reader.get_string(d->d_un.d_val), elf_reader.name()));
-@@ -2371,6 +2434,7 @@ void* do_dlopen(const char* name, int flags, const android_dlextinfo* extinfo,
+@@ -2397,6 +2460,7 @@ void* do_dlopen(const char* name, int flags, const android_dlextinfo* extinfo,
    }
  
    ProtectedDataGuard guard;
 +  reset_g_active_shim_libs();
-   soinfo* si = find_library(ns, name, flags, extinfo, caller);
+   soinfo* si = find_library(ns, translated_name, flags, extinfo, caller);
    if (si != nullptr) {
      si->call_constructors();
-@@ -4185,6 +4249,7 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
+@@ -4217,6 +4281,7 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
    // doesn't cost us anything.
    const char* ldpath_env = nullptr;
    const char* ldpreload_env = nullptr;
@@ -124,15 +125,15 @@ index 39aa2ca..c32ce04 100644
    if (!getauxval(AT_SECURE)) {
      ldpath_env = getenv("LD_LIBRARY_PATH");
      if (ldpath_env != nullptr) {
-@@ -4194,6 +4259,7 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
+@@ -4226,6 +4291,7 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
      if (ldpreload_env != nullptr) {
        INFO("[ LD_PRELOAD set to \"%s\" ]", ldpreload_env);
      }
 +    ldshim_libs_env = getenv("LD_SHIM_LIBS");
    }
  
-   const char* executable_path = get_executable_path();
-@@ -4249,6 +4315,7 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
+   struct stat file_stat;
+@@ -4284,6 +4350,7 @@ static ElfW(Addr) __linker_init_post_relocation(KernelArgumentBlock& args, ElfW(
    // Use LD_LIBRARY_PATH and LD_PRELOAD (but only if we aren't setuid/setgid).
    parse_LD_LIBRARY_PATH(ldpath_env);
    parse_LD_PRELOAD(ldpreload_env);
