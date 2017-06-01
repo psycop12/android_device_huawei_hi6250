@@ -94,7 +94,5 @@ if [[ "$ROM" == "cm" ]];then
 	./patch.sh common false
 elif [[ "$ROM" == "slim" ]]; then
 	./patch.sh common false
-elif [[ "$ROM" == "meticulus" ]]; then
-	./patch.sh cm false
 fi
 

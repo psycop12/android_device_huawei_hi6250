@@ -45,6 +45,5 @@ do
 done
 }
 
-clear_set meticulus
 clear_set cm
 clear_set common
