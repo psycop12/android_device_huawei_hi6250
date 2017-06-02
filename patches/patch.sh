@@ -26,6 +26,10 @@ if [[ "$ROM" == "" ]]; then
 		ROM="cm"
 	elif [[ -e vendor/slim ]]; then
 		ROM="slim"
+	elif [[ -e vendor/omni ]]; then
+		ROM="omni"
+	else
+		ROM="aosp"
 	fi
 	echo "ROM not specified. found $ROM"
 	sleep 1
@@ -90,9 +94,7 @@ do
 	cd $THISDIR
 done
 cd $THISDIR
-if [[ "$ROM" == "cm" ]];then
-	./patch.sh common false
-elif [[ "$ROM" == "slim" ]]; then
+if [[ "$ROM" != "common" ]];then
 	./patch.sh common false
 fi
 
