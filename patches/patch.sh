@@ -64,7 +64,6 @@ do
 	patch -p1 --follow-symlinks --no-backup-if-mismatch  < $PATCH &> /dev/null
 	if [[ $? -gt 0 ]]; then
 		checkerror 1 "PATCH FAILED!!! $PATCH" $PATCHFATAL
-		exit 9
 	fi
 
 	cd $THISDIR
