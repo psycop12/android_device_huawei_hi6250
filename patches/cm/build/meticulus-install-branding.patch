@@ -1,15 +1,15 @@
-From f2330c4ac82110b28dae975d6ccacfcab28d27c1 Mon Sep 17 00:00:00 2001
+From b2ca599b319fa952580405683b9749425fdb4d6a Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Wed, 19 Apr 2017 06:10:18 -0500
+Date: Fri, 2 Jun 2017 06:54:25 -0500
 Subject: [PATCH] meticulus-install-branding
 
-Change-Id: I0b774fb58a63efbd35c9c2cbd5bba1bbc5663132
+Change-Id: I719b975a85916411052f25937bcef0e6177eba89
 ---
- tools/releasetools/ota_from_target_files.py | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ tools/releasetools/ota_from_target_files.py | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/tools/releasetools/ota_from_target_files.py b/tools/releasetools/ota_from_target_files.py
-index a3b9627..6f355bb 100755
+index a9a8dd0..6d184e5 100755
 --- a/tools/releasetools/ota_from_target_files.py
 +++ b/tools/releasetools/ota_from_target_files.py
 @@ -588,7 +588,6 @@ def CopyInstallTools(output_zip):
@@ -20,11 +20,10 @@ index a3b9627..6f355bb 100755
  def WriteFullOTAPackage(input_zip, output_zip):
    # TODO: how to determine this?  We don't know what version it will
    # be installed on top of. For now, we expect the API just won't
-@@ -638,7 +637,33 @@ def WriteFullOTAPackage(input_zip, output_zip):
-     ts = GetBuildProp("ro.build.date.utc", OPTIONS.info_dict)
-     ts_text = GetBuildProp("ro.build.date", OPTIONS.info_dict)
-     script.AssertOlderBuild(ts, ts_text)
--
+@@ -687,6 +686,32 @@ else if get_stage("%(bcb_dev)s") == "3/3" then
+ 
+     # Stage 3/3: Make changes.
+     script.Comment("Stage 3/3")
 + 
 +  script.Print("                                        ");
 +  script.Print("            .:+syyhhhhyyo+:.            ");
@@ -50,11 +49,10 @@ index a3b9627..6f355bb 100755
 +  script.Print("                                        ");
 +  script.Print("Built for you by:                       ");
 +  script.Print("               Meticulus                ");
-+  script.Print("               http://meticulus.co.vu   ");
-+ 
-   AppendAssertions(script, OPTIONS.info_dict, oem_dict)
-   device_specific.FullOTA_Assertions()
++  script.Print("               http://meticulus.co.vu   "); 
  
+   # Dump fingerprints
+   script.Print("Target: %s" % CalculateFingerprint(
 -- 
 1.9.1
 
