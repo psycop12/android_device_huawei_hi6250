@@ -459,7 +459,7 @@ void add_queue(int sensor_type, sensors_event_t data)
 	return;
 }
 
-void* acc_getdata(void* arg)
+void* acc_getdata()
 {
 	sensors_event_t data;
 	int ret;
