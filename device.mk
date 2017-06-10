@@ -61,7 +61,6 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.connectivity.gps.rc:root/init.connectivity.gps.rc \
         $(LOCAL_PATH)/rootdir/init.connectivity.rc:root/init.connectivity.rc \
         $(LOCAL_PATH)/rootdir/fstab.zram512m:root/fstab.zram512m \
-        $(LOCAL_PATH)/rootdir/init.hi6250.usb.rc:root/init.hi6250.usb.rc \
         $(LOCAL_PATH)/rootdir/ueventd.4871.rc:root/ueventd.4871.rc \
         $(LOCAL_PATH)/rootdir/init.device.rc:root/init.device.rc \
         $(LOCAL_PATH)/rootdir/ueventd.6193.rc:root/ueventd.6193.rc \
@@ -78,11 +77,6 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/sbin/ntfs-3gd:root/sbin/ntfs-3gd \
         $(LOCAL_PATH)/rootdir/sbin/logctl_service:root/sbin/logctl_service
 
-ifneq ($(BOOTDEBUG),)
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/rootdir/init.bootdebug.rc:root/init.bootdebug.rc
-endif
-
 # Recovery ramdisk, libraries and modules.
 PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.recovery.balong_modem.rc:root/init.recovery.balong_modem.rc \
@@ -96,6 +90,19 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/recovery/fstabSwitcher:recovery/root/sbin/fstabSwitcher \
 	$(LOCAL_PATH)/recovery/fstab.hi6250.stock:recovery/root/fstab.hi6250.stock \
 	$(LOCAL_PATH)/recovery/fstab.hi6250.bootdevice:recovery/root/fstab.hi6250.bootdevice \
+
+ifneq ($(BOOTDEBUG),)
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/rootdir/init.bootdebug.rc:root/init.bootdebug.rc
+
+$(shell rm $(OUT)/root/init.hi6250.usb.rc 2>  /dev/null)
+else
+PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/rootdir/init.hi6250.usb.rc:root/init.hi6250.usb.rc
+
+$(shell rm $(PRODUCT_OUT)/root/init.bootdebug.rc 2> /dev/null)
+endif
+
 # Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/etc/media_profiles.xml:system/etc/media_profiles.xml \
