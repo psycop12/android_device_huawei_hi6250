@@ -20,6 +20,9 @@
 ifeq ($(USER), meticulus)
 $(shell echo "Using Meticulus's Ninja" >&2)
 $(shell cp -f $(LOCAL_PATH)/prebuilt/ninja prebuilts/build-tools/linux-x86/bin/ninja)
+
+PRODUCT_PACKAGES += \
+    CodinalteParts
 else
 $(shell cd prebuilts/build-tools && git checkout linux-x86/bin/ninja)
 endif
