@@ -38,7 +38,6 @@ $(call inherit-product, build/target/product/core_64_bit.mk)
 # Ramdisk
 PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.hi6250.rc:root/init.hi6250.rc \
-        $(LOCAL_PATH)/rootdir/init.meticulus.rc:root/init.meticulus.rc \
         $(LOCAL_PATH)/rootdir/init.platform.rc:root/init.platform.rc \
         $(LOCAL_PATH)/rootdir/init.hisi.rc:root/init.hisi.rc \
         $(LOCAL_PATH)/rootdir/init.connectivity.hisi.rc:root/init.connectivity.hisi.rc \

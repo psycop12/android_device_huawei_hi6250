@@ -21,6 +21,11 @@ ifeq ($(USER), meticulus)
 $(shell echo "Using Meticulus's Ninja" >&2)
 $(shell cp -f $(LOCAL_PATH)/prebuilt/ninja prebuilts/build-tools/linux-x86/bin/ninja)
 
+# Meticulus init rc
+PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/rootdir/init.meticulus.rc:root/init.meticulus.rc
+
+# Meticulus Settings Integration
 PRODUCT_PACKAGES += \
     CodinalteParts
 else
