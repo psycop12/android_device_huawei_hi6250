@@ -16,7 +16,7 @@ import /init.huawei.rc
 import /init.hi6250.usb.rc
 import /init.meticulus.rc
 import /lpm.rc
-
+import /init.bootdebug.rc
 
 on early-boot
 
