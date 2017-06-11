@@ -100,7 +100,7 @@ else
 PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.hi6250.usb.rc:root/init.hi6250.usb.rc
 
-$(shell rm $(PRODUCT_OUT)/root/init.bootdebug.rc 2> /dev/null)
+$(shell rm $(OUT)/root/init.bootdebug.rc 2> /dev/null)
 endif
 
 # Media
