@@ -52,6 +52,10 @@ do
         if [[ "$(basename $PATCH)" == *critical* ]];then
 	    PATCHFATAL="-fatal"
 	fi
+        if [[ "$(basename $PATCH)" == *meticulus* ]] && [[ "$USER" != meticulus ]]; then
+	    checkerror 1 "Skipping $(basename $PATCH): You are not Meticulus."
+	    continue;
+	fi
 
 	cd $TOPDIR
 	if [[ ! -e $REPO ]]; then
