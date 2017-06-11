@@ -20,6 +20,9 @@ $(call inherit-product-if-exists, vendor/cm/config/common_full_phone.mk)
 # Inherit device configuration
 $(call inherit-product, device/huawei/hi6250/device.mk)
 
+# Inherit Meticulus's customizations
+$(call inherit-product, device/huawei/hi6250/meticulus.mk)
+
 # Device identifier
 PRODUCT_DEVICE := hi6250
 PRODUCT_NAME := cm_hi6250
@@ -42,3 +45,4 @@ ifneq ($(BOOTDEBUG),)
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.adb.secure=0
 endif
+
