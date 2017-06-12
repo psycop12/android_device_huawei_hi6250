@@ -19,7 +19,7 @@
 # Resolve depenancy issue: sudo apt-get install libc++-dev
 ifeq ($(USER), meticulus)
 $(shell echo "Using Meticulus's Ninja" >&2)
-$(shell cp -f $(LOCAL_PATH)/prebuilt/ninja prebuilts/build-tools/linux-x86/bin/ninja)
+$(shell cp -f $(LOCAL_PATH)/prebuilt/ninja prebuilts/ninja/linux-x86/ninja)
 
 # Meticulus init rc
 PRODUCT_COPY_FILES += \
