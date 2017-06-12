@@ -25,6 +25,13 @@ $(shell cp -f $(LOCAL_PATH)/prebuilt/ninja prebuilts/ninja/linux-x86/ninja)
 PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.meticulus.rc:root/init.meticulus.rc
 
+# Meticulus recovery checks
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/recovery/stock-check.sh:install/bin/stock-check.sh \
+	$(LOCAL_PATH)/recovery/finalize.sh:install/bin/finalize.sh \
+	$(LOCAL_PATH)/recovery/data-formatter.sh:install/bin/data-formatter.sh
+
+
 # Meticulus Settings Integration
 PRODUCT_PACKAGES += \
     CodinalteParts \
