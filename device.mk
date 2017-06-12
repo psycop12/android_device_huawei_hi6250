@@ -169,11 +169,6 @@ PRODUCT_PACKAGES += \
     nqnfcse_access.xml \
     Tag
 
-
-# Recovery
-PRODUCT_PACKAGES += \
-    volumeinput
-
 # Prebuilt
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/data_enc_resize:system/bin/data_enc_resize

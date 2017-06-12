@@ -27,7 +27,12 @@ PRODUCT_COPY_FILES += \
 
 # Meticulus Settings Integration
 PRODUCT_PACKAGES += \
-    CodinalteParts
+    CodinalteParts \
+    volumeinput
+
+# Meticulus Releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
+
 else
 $(shell cd prebuilts/build-tools && git checkout linux-x86/bin/ninja)
 endif

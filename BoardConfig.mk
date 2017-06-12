@@ -63,9 +63,6 @@ HISI_TARGET_PRODUCT := hi6250
 TARGET_ARM_TYPE := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
-# Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
-
 # Init
 TARGET_INIT_VENDOR_LIB := libhuawei_init
 
