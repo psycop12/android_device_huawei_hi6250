@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# AOSP overlay
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay/aosp
+
 # Inherit Slim common Phone stuff.
 $(call inherit-product-if-exists, vendor/slim/config/common_full_phone.mk)
 

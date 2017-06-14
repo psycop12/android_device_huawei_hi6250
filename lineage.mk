@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# Common overlay
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay/cm
+
 # Inherit cm
 $(call inherit-product, device/huawei/hi6250/cm.mk)
 

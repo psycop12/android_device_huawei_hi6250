@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# AOSP overlay
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay/aosp
+
 # Inherit cm
 $(call inherit-product, device/huawei/hi6250/cm.mk)
 

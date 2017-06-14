@@ -14,6 +14,9 @@
 # limitations under the License.
 #
 
+# AOSP overlay
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay/aosp
+
 # APN's from LOS13
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/etc/apns-conf.xml:system/etc/apns-conf.xml
