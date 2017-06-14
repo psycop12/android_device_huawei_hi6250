@@ -33,6 +33,8 @@ ifneq ($(TARGET_PRODUCT),pa_hi6250)
 LOCAL_CFLAGS += -DLEDSMODE
 endif
 endif
+else
+# Debug for omni
+LOCAL_CFLAGS += -DDEBUG
 endif
-
 include $(BUILD_SHARED_LIBRARY)
