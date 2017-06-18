@@ -1,28 +1,76 @@
-From 2da3835662d527bd718619b1c13bad70066e8eef Mon Sep 17 00:00:00 2001
+From 41e0c6c7d3e7fec1d291c8359ef2461e0966b9aa Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Thu, 21 Jul 2016 09:49:37 -0500
-Subject: [PATCH] recovery branding
+Date: Sat, 17 Jun 2017 09:15:23 -0500
+Subject: [PATCH] "0001-recovery-branding _______________________________
 
+*Previous From 05ec3c74ba2901e5b95538b671259c9f9d51b815 Mon Sep 17 00:00:00 2001
+*Previous From: Meticulus <theonejohnnyd@gmail.com>
+*Previous Date: Sat, 17 Jun 2017 09:07:24 -0500
+*Previous Subject: [PATCH] "0001-recovery-branding _______________________________
+*
+**Previous From f07a3f49e20baec2d01d4558811e672d7f80019c Mon Sep 17 00:00:00 2001
+**Previous From: Meticulus <theonejohnnyd@gmail.com>
+**Previous Date: Sat, 17 Jun 2017 08:58:28 -0500
+**Previous Subject: [PATCH] "0001-recovery-branding _______________________________
+**
+***Previous From 2da3835662d527bd718619b1c13bad70066e8eef Mon Sep 17 00:00:00 2001
+***Previous From: Meticulus <theonejohnnyd@gmail.com>
+***Previous Date: Thu, 21 Jul 2016 09:49:37 -0500
+***Previous Subject: [PATCH] recovery branding
+***"""
 ---
- gui/theme/common/portrait.xml | 5 +++++
- 1 file changed, 5 insertions(+)
+ data.cpp                      | 1 +
+ gui/theme/common/portrait.xml | 7 +++----
+ variables.h                   | 2 ++
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
+diff --git a/data.cpp b/data.cpp
+index 553c9a4..11cf371 100644
+--- a/data.cpp
++++ b/data.cpp
+@@ -529,6 +529,7 @@ void DataManager::SetDefaultValues()
+ 	mConst.SetValue("false", "0");
+ 
+ 	mConst.SetValue(TW_VERSION_VAR, TW_VERSION_STR);
++	mConst.SetValue(MD_VERSION_VAR, MD_VERSION_STR);
+ 	mPersist.SetValue("tw_button_vibrate", "80");
+ 	mPersist.SetValue("tw_keyboard_vibrate", "40");
+ 	mPersist.SetValue("tw_action_vibrate", "160");
 diff --git a/gui/theme/common/portrait.xml b/gui/theme/common/portrait.xml
-index 03e3982..348da9f 100644
+index e9be654..456a90f 100644
 --- a/gui/theme/common/portrait.xml
 +++ b/gui/theme/common/portrait.xml
-@@ -172,6 +172,11 @@
+@@ -168,14 +168,13 @@
+ 
+ 			<text style="text_l">
+ 				<placement x="%col1_x_header%" y="%row3_header_y%"/>
+-				<text>{@twrp_header=Team Win Recovery Project}</text>
++				<text>{@twrp_header=Team Win Recovery Project} v%tw_version%</text>
  			</text>
  
  			<text style="text_m">
-+				<placement x="%col1_x_header%" y="%row4_header_y%"/>
-+				<text>                    Meticulus Development</text>
-+			</text>
-+
-+			<text style="text_m">
- 				<condition var1="tw_no_cpu_temp" var2="0"/>
+-				<condition var1="tw_no_cpu_temp" var2="0"/>
  				<placement x="%col1_x_header%" y="%row4_header_y%"/>
- 				<text>%tw_version%</text>
+-				<text>%tw_version%</text>
+-			</text>
++				<text>Meticulus Development: v%md_version%</text>
++			</text>	
+ 
+ 			<button style="main_button">
+ 				<placement x="%indent%" y="%row2a_y%"/>
+diff --git a/variables.h b/variables.h
+index 241c7dc..99133e5 100644
+--- a/variables.h
++++ b/variables.h
+@@ -18,6 +18,8 @@
+ #define _VARIABLES_HEADER_
+ 
+ #define TW_VERSION_STR              "3.0.2-0"
++#define MD_VERSION_STR              "5"
++#define MD_VERSION_VAR              "md_version"
+ 
+ #define TW_USE_COMPRESSION_VAR      "tw_use_compression"
+ #define TW_FILENAME                 "tw_filename"
 -- 
 1.9.1
 
