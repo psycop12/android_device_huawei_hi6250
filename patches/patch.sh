@@ -23,7 +23,11 @@ checkerror() {
 if [[ "$ROM" == "" ]]; then
 	cd $TOPDIR
 	if [[ -e vendor/cm ]]; then
-		ROM="cm"
+		if [[ $(cat vendor/cm/README.mkdn | grep -c "Resurrection Remix") -gt 0 ]]; then
+			ROM="rr"
+		else
+			ROM="cm"
+		fi
 	elif [[ -e vendor/slim ]]; then
 		ROM="slim"
 	elif [[ -e vendor/omni ]]; then
