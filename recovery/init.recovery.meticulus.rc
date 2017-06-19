@@ -1,0 +1,2 @@
+on init
+  write /sys/touchscreen/easy_wakeup_gesture 1

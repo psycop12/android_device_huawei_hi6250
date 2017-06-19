@@ -25,6 +25,10 @@ $(shell cp -f $(LOCAL_PATH)/prebuilt/ninja prebuilts/ninja/linux-x86/ninja)
 PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.meticulus.rc:root/init.meticulus.rc
 
+# Meticulus recovery init rc
+PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/recovery/init.recovery.meticulus.rc:root/init.recovery.meticulus.rc
+
 # Meticulus recovery checks
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/recovery/stock-check.sh:install/bin/stock-check.sh \
