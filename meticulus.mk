@@ -14,8 +14,7 @@
 # limitations under the License.
 #
 
-ifeq (,$(filter meticulus,$(USER)))
-
+ifeq ($(I_AM_METICULUS), true)
 # Use my custom build ninja that prints to screen sequentially
 # so you can see whats going on.
 # Resolve depenancy issue: sudo apt-get install libc++-dev

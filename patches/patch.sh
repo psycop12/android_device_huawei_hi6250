@@ -56,7 +56,7 @@ do
         if [[ "$(basename $PATCH)" == *critical* ]];then
 	    PATCHFATAL="-fatal"
 	fi
-        if [[ "$(basename $PATCH)" == *meticulus* ]] && [[ "$USER" != meticulus ]]; then
+        if [[ "$(basename $PATCH)" == *meticulus* ]] && [[ "$I_AM_METICULUS" != true ]]; then
 	    checkerror 1 "Skipping $(basename $PATCH): You are not Meticulus."
 	    continue;
 	fi
