@@ -14,10 +14,11 @@
 # limitations under the License.
 #
 
+ifeq (,$(filter meticulus,$(USER)))
+
 # Use my custom build ninja that prints to screen sequentially
 # so you can see whats going on.
 # Resolve depenancy issue: sudo apt-get install libc++-dev
-ifeq ($(USER), meticulus)
 $(shell echo "Using Meticulus's Ninja" >&2)
 $(shell cp -f $(LOCAL_PATH)/prebuilt/ninja prebuilts/ninja/linux-x86/ninja)
 
@@ -40,6 +41,14 @@ PRODUCT_PACKAGES += \
 # Meticulus Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
 
+ifeq ($(TARGET_PRODUCT), omni_hi6250)
+# TWRP EMUI4.X Support
+TW_EMUI4_SUPPORT := true
+
+# Meticulus Recovery Extras
+$(call inherit-product, vendor/huawei/hi6250/meticulus_recovery.mk)
+
+endif ## USER eq meticulus
 else
 $(shell cd prebuilts/build-tools && git checkout linux-x86/bin/ninja)
 endif

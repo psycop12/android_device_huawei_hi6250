@@ -43,3 +43,5 @@ else
     $(shell echo ---------------------------------------------------------------- >&2)
 endif
 
+include device/huawei/hi6250/twrp.mk
+
