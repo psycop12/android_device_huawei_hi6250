@@ -114,7 +114,7 @@ NOTE: Yes we are syncing again and No, it shouldn't take quite as long. Every ti
 
 ### Step 4: Building
 
-Are you Meticulus? (optional)
+#### Are you Meticulus? (optional)
 If you want to include Meticulus Development extras
 
 Terminal:
@@ -122,7 +122,7 @@ Terminal:
 export I_AM_METICULUS=true
 ```
 
-Turn off Ninja (optional)
+#### Turn off Ninja (optional)
 Ninja is supposed to help make incremental updates more efficient but you aren't doing an incremental update; are you?
 
 Terminal:
@@ -130,7 +130,7 @@ Terminal:
 export USE_NINJA=false
 ```
 
-Make sure there is enough memory for Jack(recommended).
+#### Make sure there is enough memory for Jack(recommended).
 This may not be neccessary depending on your PC's specs. On my previous laptop ( only 4Gig of mem ), I could not build without this and I keep it just in case.
 
 Terminal:
@@ -138,15 +138,15 @@ Terminal:
 export ANDROID_JACK_VM_ARGS="-Xmx4g -Dfile.encoding=UTF-8 -XX:+TieredCompilation"
 ```
 
-Bake su, "root ", inside bacon (optional)
+#### Bake su, "root ", inside bacon (optional)
 
 Terminal:
 ```bash
 export WITH_SU=true
 ```
 
-Turn on autopatch (recommended)
-autopatch will apply device specific patches everytime you lunch.
+#### Turn on autopatch (recommended)
+This will apply device specific patches everytime you lunch.
 
 Terminal:
 ```bash
