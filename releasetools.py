@@ -64,33 +64,33 @@ def FullOTA_Assertions(info):
 
 
 def FullOTA_InstallBegin(info):
-  info.script.AppendExtra('ui_print("                                                                   ");');
-  info.script.AppendExtra('ui_print("                       .:+syyhhhhyyo+:.                            ");');
-  info.script.AppendExtra('ui_print("                   `/sdddyo+/::::/+oyddhs:`                        ");');
-  info.script.AppendExtra('ui_print("                 -sddy+-              -+yddo.                      ");');
-  info.script.AppendExtra('ui_print("               .yddo.                    .odds.                    ");');
-  info.script.AppendExtra('ui_print("		   /dds`   .-`            `-.   `sdd/   		");');
-  info.script.AppendExtra('ui_print("             odd/    sddd/          /ddds    /ddo                  ");');
-  info.script.AppendExtra('ui_print("            +dd:     hdddd/        /ddddh     :dd+                 ");');
-  info.script.AppendExtra('ui_print("           .ddo      hddddd/      :dddddh      odd.                ");');
-  info.script.AppendExtra('ui_print("           odd`      hdd+hdd:    :ddh+ddh      `ddo                ");');
-  info.script.AppendExtra('ui_print("           ydh       hdd/`hdd:  :ddh`/ddh       hdy                ");');
-  info.script.AppendExtra('ui_print("           ydh       hdd/ `hdd:-ddh` /ddh       hdy                ");');
-  info.script.AppendExtra('ui_print("           odd`      hdd/  .hddddh.  /ddh      `ddo                ");');
-  info.script.AppendExtra('ui_print("           -dd       hdd/   .hddh.   /ddh      +dd-                ");');
-  info.script.AppendExtra('ui_print("            odd-     hdd/    `//`    /ddh     -ddo                 ");');
-  info.script.AppendExtra('ui_print("             sdd:    ydd:            :ddy    :dds                  ");');
-  info.script.AppendExtra('ui_print("              +ddo`   .`              `.   `odd                    ");');
-  info.script.AppendExtra('ui_print("               .yddo.                    .oddy-                    ");');
-  info.script.AppendExtra('ui_print("                 -sddy+-              -/ydds:                      ");');
-  info.script.AppendExtra('ui_print("                   `/sdddyo+/::::/+oyddds/`                        ");');
-  info.script.AppendExtra('ui_print("                       .:+syyhhhhyys+/.                            ");');
-  info.script.AppendExtra('ui_print("                                                                   ");');
-  info.script.AppendExtra('ui_print("                     Meticulus Development                         ");');
-  info.script.AppendExtra('ui_print("                     http://meticulus.co.vu                        ");');
-  info.script.AppendExtra('ui_print("                                                                   ");');
-  info.script.AppendExtra('ui_print("            With contributions by and our thanks to:               ");');
-  info.script.AppendExtra('ui_print("                   dady8889 @ Github		                ");');
+  info.script.AppendExtra('ui_print("                                                   ");');
+  info.script.AppendExtra('ui_print("                     .:+syyhhhhyyo+:.              ");');
+  info.script.AppendExtra('ui_print("                 `/sdddyo+/::::/+oyddhs:`          ");');
+  info.script.AppendExtra('ui_print("               -sddy+-              -+yddo.        ");');
+  info.script.AppendExtra('ui_print("             .yddo.                    .odds.      ");');
+  info.script.AppendExtra('ui_print("            /dds`   .-`            `-.   `sdd/     ");');
+  info.script.AppendExtra('ui_print("           odd/    sddd/          /ddds    /ddo    ");');
+  info.script.AppendExtra('ui_print("          +dd:     hdddd/        /ddddh     :dd+   ");');
+  info.script.AppendExtra('ui_print("         .ddo      hddddd/      :dddddh      odd.  ");');
+  info.script.AppendExtra('ui_print("         odd`      hdd+hdd:    :ddh+ddh      `ddo  ");');
+  info.script.AppendExtra('ui_print("         ydh       hdd/`hdd:  :ddh`/ddh       hdy  ");');
+  info.script.AppendExtra('ui_print("         ydh       hdd/ `hdd:-ddh` /ddh       hdy  ");');
+  info.script.AppendExtra('ui_print("         odd`      hdd/  .hddddh.  /ddh      `ddo  ");');
+  info.script.AppendExtra('ui_print("         -dd       hdd/   .hddh.   /ddh      +dd-  ");');
+  info.script.AppendExtra('ui_print("          odd-     hdd/    `//`    /ddh     -ddo   ");');
+  info.script.AppendExtra('ui_print("           sdd:    ydd:            :ddy    :dds    ");');
+  info.script.AppendExtra('ui_print("            +ddo`   .`              `.   `odd      ");');
+  info.script.AppendExtra('ui_print("             .yddo.                    .oddy-      ");');
+  info.script.AppendExtra('ui_print("               -sddy+-              -/ydds:        ");');
+  info.script.AppendExtra('ui_print("                 `/sdddyo+/::::/+oyddds/`          ");');
+  info.script.AppendExtra('ui_print("                     .:+syyhhhhyys+/.              ");');
+  info.script.AppendExtra('ui_print("                                                   ");');
+  info.script.AppendExtra('ui_print("                   Meticulus Development           ");');
+  info.script.AppendExtra('ui_print("                   http://meticulus.co.vu          ");');
+  info.script.AppendExtra('ui_print("                                                   ");');
+  info.script.AppendExtra('ui_print("        		Our Thanks to:   		");');
+  info.script.AppendExtra('ui_print("                   dady8889 @ Github               ");');
 
 def FullOTA_InstallEnd(info):
   info.script.AppendExtra('package_extract_dir("override", "/system");')
