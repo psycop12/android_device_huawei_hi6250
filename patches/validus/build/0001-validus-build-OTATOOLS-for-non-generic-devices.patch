@@ -1,0 +1,50 @@
+From b0b7e99b42101272bec14121a24d674e376d2bf6 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Sat, 24 Jun 2017 13:59:35 -0500
+Subject: [PATCH] validus: build OTATOOLS for non-generic devices
+
+-mkuserimg.sh is not in $PATH and therefore fails when
+executed from releasetools. I have not tested this yet.
+What I did was copy mkuserimg.sh from los14
+to out/host/linux-x64/bin to get it to work. So, test this
+the next chance I get.
+
+-Default to ext4 fs format when creating images.
+---
+ core/Makefile                     | 6 +++---
+ tools/releasetools/build_image.py | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/core/Makefile b/core/Makefile
+index 1ce67ad..9227fc1 100644
+--- a/core/Makefile
++++ b/core/Makefile
+@@ -1704,9 +1704,9 @@ endif
+ ifeq ($(TARGET_PRODUCT),sdk)
+ build_ota_package := false
+ endif
+-ifneq ($(filter generic%,$(TARGET_DEVICE)),)
+-build_ota_package := false
+-endif
++#ifneq ($(filter generic%,$(TARGET_DEVICE)),)
++#build_ota_package := false
++#endif
+ ifeq ($(TARGET_NO_KERNEL),true)
+ build_ota_package := false
+ endif
+diff --git a/tools/releasetools/build_image.py b/tools/releasetools/build_image.py
+index 80c1db2..af3b818 100755
+--- a/tools/releasetools/build_image.py
++++ b/tools/releasetools/build_image.py
+@@ -374,7 +374,7 @@ def BuildImage(in_dir, prop_dict, out_file, target_out=None):
+       fs_config = merged_fs_config
+ 
+   build_command = []
+-  fs_type = prop_dict.get("fs_type", "")
++  fs_type = prop_dict.get("fs_type", "ext4")
+   run_fsck = False
+ 
+   fs_spans_partition = True
+-- 
+1.9.1
+

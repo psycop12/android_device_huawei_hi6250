@@ -32,6 +32,8 @@ if [[ "$ROM" == "" ]]; then
 		ROM="slim"
 	elif [[ -e vendor/omni ]]; then
 		ROM="omni"
+	elif [[ -e vendor/validus ]]; then
+		ROM="validus"
 	else
 		ROM="aosp"
 	fi
