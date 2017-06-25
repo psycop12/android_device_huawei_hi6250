@@ -25,6 +25,9 @@ $(call inherit-product, vendor/validus/config/common_full_phone.mk)
 
 PRODUCT_NAME := validus_hi6250
 
+PRODUCT_PACKAGES += \
+    mkuserimg.sh
+
 ifeq ($(AUTOPATCH),true)
     $(shell cd device/huawei/hi6250/patches 2>&1 > /dev/null && ./patch.sh validus >&2)
 else
