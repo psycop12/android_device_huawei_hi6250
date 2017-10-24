@@ -1,25 +1,32 @@
-From ebd88a7053919c09d1d712f05e78d33a91fd49d9 Mon Sep 17 00:00:00 2001
+From 0a1a43458927f4aae2eec6dafb1662d3081ea019 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Fri, 17 Mar 2017 09:49:59 -0500
-Subject: [PATCH] 0001-no_cm_updater
+Date: Sat, 21 Oct 2017 08:09:02 -0500
+Subject: [PATCH] "0001-no_cm_updater_meticulus _______________________________
 
-Change-Id: If225140dbb3693f2a880dc4349be893a8901157c
+*Previous From ebd88a7053919c09d1d712f05e78d33a91fd49d9 Mon Sep 17 00:00:00 2001
+*Previous From: Meticulus <theonejohnnyd@gmail.com>
+*Previous Date: Fri, 17 Mar 2017 09:49:59 -0500
+*Previous Subject: [PATCH] 0001-no_cm_updater
+*
+*Change-Id: If225140dbb3693f2a880dc4349be893a8901157c"
+
+Change-Id: Ifbe4059f98547106cacb32f39e32350b7274caba
 ---
  config/common.mk | 1 -
  1 file changed, 1 deletion(-)
 
 diff --git a/config/common.mk b/config/common.mk
-index fcb16a3..41c521c 100644
+index 2d27a50..c8b309d 100644
 --- a/config/common.mk
 +++ b/config/common.mk
-@@ -121,7 +121,6 @@ PRODUCT_PACKAGES += \
- PRODUCT_PACKAGES += \
-     AudioFX \
-     CMSettingsProvider \
--    CMUpdater \
-     CustomTiles \
-     LineageSetupWizard \
-     Eleven \
+@@ -125,7 +125,6 @@ PRODUCT_PACKAGES += \
+     Jelly \
+     LockClock \
+     Trebuchet \
+-    Updater \
+     WallpaperPicker \
+     WeatherProvider
+ 
 -- 
-1.9.1
+2.7.4
 
