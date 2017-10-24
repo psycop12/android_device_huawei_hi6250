@@ -22,21 +22,18 @@
 /* Load variant specific props here */
 
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <stdlib.h>
 #include <string.h>
 #include <cutils/klog.h>
 #include <sys/system_properties.h>
 #include <unistd.h>
+#include <stdio.h>
 #define BASE "/sys/firmware/devicetree/base/"
 #define PRODUCT_PATH BASE"hisi,product_name"
-#define MULTI_RILD_PROP "ro.multi.rild"
-#define CONFIG_MULTI_RILD_PROP "ro.config.multirild"
-/* 
- * Meticulus: even though this prop is mispelled, it might be that
- * this prop was originally misspelled by Huawei, and therefore
- * does work properly. 
- */
-#define CONFIG_MULI_RILD_PROP "ro.config.mulirild"
+#define MODEM_ID_PATH BASE"hisi,modem_id"
+#define PHONE_PROP_PATH "/system/phone.prop"
 #define BOARDID_PRODUCT_PROP "ro.boardid.product"
 #define PRODUCT_MODEL_PROP "ro.product.model"
 
@@ -51,7 +48,7 @@ static void set_property(char *key, char *value) {
     int error;
     error = __system_property_add(key,strlen(key),value,strlen(value));
     if(error) {
-	klog_write(0, "libhuawei_init: Could not set %s to %s error %d\n",key,value,error);
+	klog_write(0, "huawei_init: Could not set %s to %s error %d\n",key,value,error);
     }
 }
 
@@ -60,7 +57,7 @@ static void update_property(char *key, char *value) {
     prop_info* pi = (prop_info*) __system_property_find(key);
     error = __system_property_update(pi,value,strlen(value));
     if(error) {
-	klog_write(0, "libhuawei_init: Could not update %s to %s error %d\n",key,value,error);
+	klog_write(0, "huawei_init: Could not update %s to %s error %d\n",key,value,error);
     }
 }
 
@@ -70,10 +67,10 @@ static char * read_string(char * path) {
 
     int fd = open(PRODUCT_PATH, O_RDONLY);
     if(fd < 0) {
-	klog_write(0,"Could not open %s!\n", path);
+	klog_write(0,"huawei_init: Could not open %s!\n", path);
     }
     if(read(fd,var,255) < 1) {
-	klog_write(0,"Unable to read %s!\n", path);
+	klog_write(0,"huawei_init: Unable to read %s!\n", path);
     }
     return strdup(var);
 }
@@ -84,7 +81,7 @@ static int read_int(char * path) {
 
 void vendor_load_default_properties() {
     model = read_string(PRODUCT_PATH);
-    klog_write(0,"libhuawei_init: model is %s\n",model);
+    klog_write(0,"huawei_init: model is %s\n",model);
 
     /* bail if model is NULL */
     if(!model)
@@ -105,53 +102,54 @@ void vendor_load_default_properties() {
      * ro.boardid.product will not be set so the camera will not work.
      */
 }
+static void load_modem_props() {
+    int fd = -1,retval = 0,on = 0;
+    FILE * pf;
+    char buff[255];
+    char modemid[255];
+    fd = open(MODEM_ID_PATH, O_RDONLY);
+    if(fd < 0 ) {
+	klog_write(0, "huawei_init: Couldn't get modem id?");
+	return;
+    }
+    size_t size = read(fd, buff, 254);
+    klog_write(0,"modemid = 0X%X%X%X%X%X\n", buff[0], buff[1],buff[2],buff[3],buff[4]);
+    sprintf(modemid, "[0X%X%X%X%X%X]:\n", buff[0], buff[1],buff[2],buff[3],buff[4]);
+    pf = fopen(PHONE_PROP_PATH, "r");
+    if(pf < 0) {
+	klog_write(0, "huawei_init: Couldn't read phone.prop?");
+	return;
+    }
+    char * linebuf;
+    size = 0;
+    while(getline(&linebuf, &size, pf) > -1) {
+	if(!strcmp(linebuf, modemid)) {
+	    klog_write(0, "huawei_init: Found! %s",linebuf);
+	    on = 1;
+	    continue;	
+	}
+	if(on && linebuf[0] == '\n') {
+	    break;
+	}
+	else if(on) {
+	    char *eol = strstr(linebuf, "\n");
+	    eol[0] = '\0';
+	    char *eq = strstr(linebuf, "=");
+	    eq[0] = '\0';
+	    char *value = (char *)eq + 1;
+	    if(!strcmp("persist.radio.multisim.config", linebuf)) {
+		value = "single";
+	    }
+	    set_property(linebuf, value);
+	}
+	linebuf = NULL;
+	size = 0;
+    }
+    if(!on) {
+	klog_write(0, "huaei_init: modemid '%s' was not found in phone.prop",modemid);
+    }
+}
 void vendor_load_system_properties() {
-    char lmodel[PROP_VALUE_MAX];
-    char multiril[PROP_VALUE_MAX];
-    char configmultiril[PROP_VALUE_MAX];
-    char configmuliril[PROP_VALUE_MAX];
-    if(!property_get(PRODUCT_MODEL_PROP,lmodel,"hi6250"))
-	klog_write(0, "libhuawei_init: Could not get property %s\n",PRODUCT_MODEL_PROP);
-    else if(!strcmp(lmodel,"hi6250"))
-	update_property(PRODUCT_MODEL_PROP,model);
-
-    if(!property_get(MULTI_RILD_PROP,multiril, "auto"))
-	klog_write(0, "libhuawei_init: Could not get property %s\n",MULTI_RILD_PROP);
-    else if(!strcmp(multiril,"auto")) {
-    /* These models need ro.multi.rild true */
-	if(!strcmp(model, "VNS-L31") ||
-	    !strcmp(model, "VNS-L22") ||
-	    !strcmp(model, "NEM-L21")) {
-	    set_property(MULTI_RILD_PROP, "true");
-	} else {
-	    set_property(MULTI_RILD_PROP, "false");
-	}
-    }
-
-    if(!property_get(CONFIG_MULTI_RILD_PROP,configmultiril, "auto"))
-	klog_write(0, "libhuawei_init: Could not get property %s\n",CONFIG_MULTI_RILD_PROP);
-    else if(!strcmp(configmultiril,"auto")) {
-    /* These models need ro.multi.rild true */
-	if(!strcmp(model, "VNS-L31") ||
-	    !strcmp(model, "VNS-L22") ||
-	    !strcmp(model, "NEM-L21")) {
-	    set_property(CONFIG_MULTI_RILD_PROP, "true");
-	} else {
-	    set_property(CONFIG_MULTI_RILD_PROP, "false");
-	}
-    }
-
-    if(!property_get(CONFIG_MULI_RILD_PROP,configmuliril, "auto"))
-	klog_write(0, "libhuawei_init: Could not get property %s\n",CONFIG_MULI_RILD_PROP);
-    else if(!strcmp(configmuliril,"auto")) {
-    /* These models need ro.multi.rild true */
-	if(!strcmp(model, "VNS-L31") ||
-	    !strcmp(model, "VNS-L22") ||
-	    !strcmp(model, "NEM-L21")) {
-	    set_property(CONFIG_MULI_RILD_PROP, "true");
-	} else {
-	    set_property(CONFIG_MULI_RILD_PROP, "false");
-	}
-    }
+    load_modem_props();
 }
 
