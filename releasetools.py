@@ -24,6 +24,7 @@ import time
 LOCAL_DIR = os.path.dirname(os.path.abspath(__file__))
 TARGET_DIR = os.getenv('OUT')
 UTILITIES_DIR = os.path.join(TARGET_DIR, 'symbols')
+ROM = os.getenv ('TARGET_PRODUCT').split("_",1)
 
 def addFolderToZip(info, directory, basedir):
     list = os.listdir(directory)
@@ -89,7 +90,7 @@ def FullOTA_InstallBegin(info):
   info.script.AppendExtra('ui_print("                   Meticulus Development           ");');
   info.script.AppendExtra('ui_print("                   http://meticulus.co.vu          ");');
   info.script.AppendExtra('ui_print("                                                   ");');
-  info.script.AppendExtra('ui_print("        		Our Thanks to:   		");');
+  info.script.AppendExtra('ui_print("                   Our Thanks to:                  ");');
   info.script.AppendExtra('ui_print("                   dady8889 @ Github               ");');
 
 def FullOTA_InstallEnd(info):
