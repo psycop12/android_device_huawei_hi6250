@@ -112,9 +112,13 @@ static void load_modem_props() {
 	klog_write(0, "huawei_init: Couldn't get modem id?");
 	return;
     }
+    /* Meticulus:
+     * The modem id is not characters, so convert to hex.
+     */
     size_t size = read(fd, buff, 254);
     klog_write(0,"modemid = 0X%X%X%X%X%X\n", buff[0], buff[1],buff[2],buff[3],buff[4]);
     sprintf(modemid, "[0X%X%X%X%X%X]:\n", buff[0], buff[1],buff[2],buff[3],buff[4]);
+    close(fd);
     pf = fopen(PHONE_PROP_PATH, "r");
     if(pf < 0) {
 	klog_write(0, "huawei_init: Couldn't read phone.prop?");
@@ -122,6 +126,10 @@ static void load_modem_props() {
     }
     char * linebuf;
     size = 0;
+    /* Meticulus:
+     * Loop through the prop file and look for the modem id.
+     * Once found, set all props until you get empty line
+     */
     while(getline(&linebuf, &size, pf) > -1) {
 	if(!strcmp(linebuf, modemid)) {
 	    klog_write(0, "huawei_init: Found! %s",linebuf);
@@ -129,11 +137,14 @@ static void load_modem_props() {
 	    continue;	
 	}
 	if(on && linebuf[0] == '\n') {
+	    /* Meticulus: Empty line so we are done */
 	    break;
 	}
 	else if(on) {
+            /* Meticulus: Convert 'new line' to endof char * */
 	    char *eol = strstr(linebuf, "\n");
 	    eol[0] = '\0';
+            /* Meticulus: Convert '=' to 'end of char * */
 	    char *eq = strstr(linebuf, "=");
 	    eq[0] = '\0';
 	    char *value = (char *)eq + 1;
@@ -145,6 +156,7 @@ static void load_modem_props() {
 	linebuf = NULL;
 	size = 0;
     }
+    fclose(pf);
     if(!on) {
 	klog_write(0, "huaei_init: modemid '%s' was not found in phone.prop",modemid);
     }
