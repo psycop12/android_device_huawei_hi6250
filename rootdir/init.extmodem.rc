@@ -9,7 +9,7 @@ on fs
 on post-fs
 
 on post-fs-data
-    mkdir /data/hwzd_logs/3rdcp-log 0775 radio nvram
+    mkdir /data/log/3rdcp-log 0775 radio nvram
 
     mkdir /data/nvram/ 0770 root nvram
     mkdir /data/nvram/md_via 0770 root nvram
@@ -79,7 +79,7 @@ on boot
     write  /sys/devices/platform/antennafpga.0/ice40bin_download_dir "start"
     chown system system /sys/devices/platform/antennafpga.0/ice40bin_scan_fpga_table
 
-service modemlogcat_VIA /system/bin/modemlogcat_via -t /dev/ttySPI1 -c /system/etc/modemConfig/viacbp82d_log.bcfg -p /data/hwzd_logs/cp_log/ -r 30 -n 9
+service modemlogcat_VIA /vendor/bin/modemlogcat_via -t /dev/ttySPI1 -p /data/log/cp_log/ -r 30 -n 9
     class late_start
     user root
     group system

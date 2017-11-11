@@ -9,6 +9,7 @@ on init
     chown logd system /dev/hwlog_switch
 
 
+    mount tmpfs none /sys/fs/cgroup mode=0750,uid=0,gid=1000
     mkdir /sys/fs/cgroup/pids 0750 root system
     mount cgroup none /sys/fs/cgroup/pids pids
     mkdir /sys/fs/cgroup/pids/unconfirm_app 0750 root system
@@ -29,10 +30,10 @@ on fs
     restorecon       /sys/class/leds/torch/flash_thermal_protect
 
 on post-fs
-    chmod 0440 /proc/kmsg_boot
-    chmod 0440 /dev/log/main_boot
-    chmod 0440 /dev/log/system_boot
-    chmod 0440 /dev/log/radio_boot
+    sys_wp_init_action
+
+on charger
+    class_start core
 
 on post-fs-data
 
@@ -51,11 +52,56 @@ on post-fs-data
     chown root system /data/hisi_logs
     restorecon_recursive /data/hisi_logs
 
+    mkdir /data/log/press10
+    chmod 0770 /data/log/press10
+    chown system system /data/log/press10
+    restorecon_recursive /data/log/press10
+
+    mkdir /data/log/isp-log
+    chmod 0774 /data/log/isp-log
+    chown system system /data/log/isp-log
+    restorecon_recursive /data/log/isp-log
+
+    mkdir /data/apkpush
+    chmod 0770 /data/apkpush
+    chown system cache /data/apkpush
+    restorecon_recursive /data/apkpush
+
+    mkdir /data/misc/hsm
+    chmod 0770 /data/misc/hsm
+    chown system system /data/misc/hsm
+    restorecon_recursive /data/misc/hsm
+
+    mkdir /data/cota
+    chmod 0775 /data/cota
+    chown system system /data/cota
+    restorecon_recursive /data/cota
+
+    mkdir /data/cota/cloud
+    chmod 0770 /data/cota/cloud
+    chown system system /data/cota/cloud
+    restorecon_recursive /data/cota/cloud
+    
+    mkdir /data/misc/hwpush
+    chmod 0770 /data/misc/hwpush
+    chown system system /data/misc/hwpush
+    restorecon_recursive /data/misc/hwpush
+    
     chown root system /sys/kernel/exmbist_test/test_entry
     chmod 0664 /sys/kernel/exmbist_test/test_entry
 
     chown root system /sys/kernel/exmbist_test/test_entry
     chmod 0664 /sys/kernel/exmbist_test/test_result
+
+    mkdir /data/misc/oma
+    chmod 0770 /data/misc/oma
+    chown system system /data/misc/oma
+    restorecon_recursive /data/misc/oma
+
+	mkdir /splash2/boot_fail
+	chmod 0775 /splash2/boot_fail
+	chown root system /splash2/boot_fail
+	restorecon_recursive /splash2/boot_fail
 
 on early-boot
     mount debugfs /sys/kernel/debug /sys/kernel/debug mode=0775,gid=1000
@@ -64,6 +110,12 @@ on boot
     chmod 0660 /dev/hwlog_tag
     chown system system /dev/hwlog_tag
     chmod 0662 /dev/hwlog_jank
+    chown root system /dev/hwlog_jank
+    chmod 0662 /dev/hwlog_bdat
+    chmod 0660 /dev/hwlog_ptm
+    chown root system /dev/hwlog_ptm
+
+    chmod 0660 /dev/bdat
 
     chmod 0660 /sys/class/hw_power/charger/charge_data/adc_conv_rate
     chown system system /sys/class/hw_power/charger/charge_data/adc_conv_rate
@@ -95,9 +147,21 @@ on boot
     chown system system /sys/class/hw_power/charger/charge_data/voltage_sys
     chmod 0660 /sys/class/hw_power/charger/charge_data/vr_charger_type
     chown system system /sys/class/hw_power/charger/charge_data/vr_charger_type
+    chmod 0660 /sys/class/hw_power/charger/direct_charger/enable_charger
+    chown system system /sys/class/hw_power/charger/direct_charger/enable_charger
+    chmod 0660 /sys/class/hw_power/charger/direct_charger/iin_thermal
+    chown system system /sys/class/hw_power/charger/direct_charger/iin_thermal
+    chmod 0660 /sys/class/hw_power/coul/coul_data/cali_adc
+    chown system system /sys/class/hw_power/coul/coul_data/cali_adc
+    chmod 0660 /sys/class/misc/hw_bfm/bfm_ctl
+    chown system system /sys/class/misc/hw_bfm/bfm_ctl
+    chown system system /dev/hw_bfm
+    chmod 0660 /dev/hw_bfm
     chown root system /sys/devices/system/cpu/cpu0/cpufreq/msg_policy
     chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/msg_policy
 
+on property:sys.printservice=*
+    printservice ${sys.printservice}
     
 on restart-sdcardfs
     mkdir /data/media 0770 media_rw media_rw    
@@ -126,9 +190,6 @@ on property:vold.decrypt=trigger_default_encryption
 
 on property:vold.decrypt=trigger_shutdown_framework
     trigger data_not_ready
-    stop oeminfo_nvm
-    stop teecd
-    stop perfhub
 on start_main_class
     class_start main
 
@@ -136,14 +197,17 @@ on start_latestart_class
     class_start late_start
 
 on start_other_action
-    start gpsdaemon
     exec /system/bin/start_110x_service.sh
 
 on nonencrypted
     trigger start_latestart_class
     trigger data_ready
 
+on verify_cust_oeminfo_action
+    verify_cust_oeminfo
+
 on data_ready
+    verify_cust_oeminfo
     setprop sys.userdata_is_ready 1
     write /proc/post-fs-data 1
     write /proc/apanic_console 1
@@ -157,17 +221,6 @@ on data_not_ready
 
 on property:bastet.service.enable=true
     start bastetd
-
-service jankservice /system/bin/jankservice
-    class late_start
-
-service systeminfo /system/bin/systeminfo
-    class main
-    user root
-    seclabel u:r:systeminfo:s0
-    disabled
-    oneshot	
-
 
 service fuse_sdcard1rw /system/bin/sdcard -u 1023 -g 1023 /mnt/media_rw/sdcard1 /storage/sdcard1
    class late_start
@@ -189,12 +242,153 @@ service preparesdservice /system/bin/vdc volume storagetosd
 on property:persist.sys.primarysd=*
    start preparesdservice
 
-service hiscoutmanager /system/bin/hiscoutmanager
+service hiscoutmanager /system/vendor/bin/hiscoutmanager
     class late_start
     user root
     group system
     oneshot
     seclabel u:r:hiscoutmanager:s0
+	
+service iked /system/vendor/bin/iked
+    class late_start
+    user root
+	disabled
+    group system
+    seclabel u:r:iked:s0
+	
+on property:ro.config.hw_vowifi=true
+    start iked
+	
+service logserver /system/bin/logserver
+    class late_start
+    user root
+    group system
+    oneshot
+    seclabel u:r:logserver:s0
+
+service imonitor /system/bin/imonitor
+    class late_start
+    user root
+    group system log
+    seclabel u:r:logserver:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service imonitorv /system/vendor/bin/imonitor
+    class late_start
+    user root
+    group system log
+    seclabel u:r:logserver:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service logctl_service /sbin/logctl_service -m 1
+    class late_start
+    user root
+    group system
+    oneshot
+    seclabel u:r:hisilogcat:s0
+
+service logcat_service /sbin/logctl_service -m 1 -t 1
+    class late_start
+    user root
+    group system
+    oneshot
+    seclabel u:r:hisilogcat:s0
+
+service fac_log_service /system/vendor/bin/factory_log_service -m 1
+    class late_start
+    user root
+    group system
+    disabled
+    oneshot
+    seclabel u:r:hisilogcat:s0
+
+service applogcat /system/bin/logcat -v threadtime -r4096 -z 10 -n 5 -f /data/log/android_logs/applogcat-log
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service hilogcat /system/vendor/bin/hilogcat -r16 -z 10 -n 5 -f /data/log/hilogcat_log/hilogcat-log
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service rillogcat /system/bin/logcat -b radio -v threadtime -r4096 -z 5 -n 5 -f /data/log/android_logs/rillogcat-log
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service kmsglogcat /sbin/kmsgcat -r 4096 -z 5 -n 5 -f /data/log/android_logs/kmsgcat-log
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service isplogcat /vendor/bin/isplogcat
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service inputlogcat /system/vendor/bin/eventcat -lrt -k 1024 -z 5 -m 5 -f /data/log/input-log/input-log
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service chargelogcat /system/vendor/bin/chargelogcat -r 4096 -n 5 -z 4 -t 5 -p /data/log/charge-log/
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service sleeplogcat /system/vendor/bin/sleeplogcat -t 1 -p /data/log/sleeplog/ -f /system/vendor/etc/pwrlog.cfg
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service eventslogcat /system/bin/logcat -b events -v threadtime -r4096 -z 2 -n 2 -f /data/log/android_logs/eventslogcat-log
+    class late_start
+    user root
+    group system
+    disabled
+    seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service modemlogcat /vendor/bin/modemlogcat_lte -z -l
+    class late_start
+    user root
+    group system
+    disabled
+    oneshot
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
+
+service modematserver /vendor/bin/modemlogcat_lte -f hidp
+    class late_start
+    user root
+    group system
+    disabled
+    oneshot
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
 
 service dumptool /system/bin/dumptool
     class late_start
@@ -215,12 +409,12 @@ service stop_ddrtest /system/bin/do_ddrtest
     disabled
     oneshot
 
-service thermal-daemon /system/bin/thermal-daemon
+service thermal-daemon /vendor/bin/thermal-daemon
     class main
     user system
     group system
 
-service limit_current /system/bin/limit_current -l
+service limit_current /vendor/bin/limit_current -l
     user system
     group system
     disabled
@@ -228,19 +422,28 @@ service limit_current /system/bin/limit_current -l
 service hwpged /system/bin/hwpged
     class main
     socket MsgHubSock stream 0660 root system
+    socket iawared seqpacket 0660 system system
     user root
+    group readproc
+
+service mobicache /system/bin/mobicache
+    class main
+    user root
+    group readproc
 
 service powerlogd /system/bin/powerlogd
     class core
     socket powerlogd stream 0600 system system
     socket powerlogdr seqpacket 0600 system system
     socket powerlogdw dgram 0220 system system
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
 
-service chargemonitor /system/bin/chargemonitor
+service chargemonitor /system/vendor/bin/chargemonitor
     class late_start
     user root
     group system
     seclabel u:r:hisilogcat:s0
+    writepid /dev/cpuset/system-background/tasks /dev/cpuctl/bg_non_interactive/tasks
 
 on property:debug.rt.ddr.test=1
     stop ddrtest
@@ -252,16 +455,28 @@ on property:debug.rt.ddr.test=3
 on property:debug.rt.ddr.test=4
     start stop_ddrtest
 
-service mapper /system/bin/sh /system/bin/mappersh
+service mapper /system/bin/sh /vendor/bin/mappersh
     class late_start
     user root
     group system
     disabled
+    seclabel u:r:mapper:s0
+
+on property:persist.sys.huawei.debug.on=*
+    restart logcat_service
 
 on property:ro.logsystem.usertype=*
     write /proc/log-usertype ${ro.logsystem.usertype}
 
-service bastetd /system/bin/bastetd
+service bastetd /vendor/bin/bastetd
     class main
     user root
     group root
+
+service mini_bugreport /system/bin/dumpstate -m -v \
+        -o /data/log/press10/mini_bugreport
+    user root
+    group system
+    oneshot
+    disabled
+    keycodes 116 193

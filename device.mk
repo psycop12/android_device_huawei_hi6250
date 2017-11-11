@@ -22,52 +22,14 @@ $(call inherit-product, build/target/product/full_base_telephony.mk)
 $(call inherit-product, build/target/product/languages_full.mk)
 
 # Blobs
-$(call inherit-product, vendor/huawei/hi6250/vendor.mk)
+# $(call inherit-product, vendor/huawei/hi6250/vendor.mk)
 
 # 64 bit
 $(call inherit-product, build/target/product/core_64_bit.mk)
 
 # Ramdisk
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/rootdir/init.hi6250.rc:root/init.hi6250.rc \
-        $(LOCAL_PATH)/rootdir/init.platform.rc:root/init.platform.rc \
-        $(LOCAL_PATH)/rootdir/init.hisi.rc:root/init.hisi.rc \
-        $(LOCAL_PATH)/rootdir/init.connectivity.hisi.rc:root/init.connectivity.hisi.rc \
-        $(LOCAL_PATH)/rootdir/init.connectivity.bcm43455.rc:root/init.connectivity.bcm43455.rc \
-        $(LOCAL_PATH)/rootdir/fstab.hi6250:root/fstab.hi6250 \
-        $(LOCAL_PATH)/rootdir/resetFactory.cfg:root/resetFactory.cfg \
-        $(LOCAL_PATH)/rootdir/init.51312.rc:root/init.51312.rc \
-        $(LOCAL_PATH)/rootdir/init.post-fs-data.rc:root/init.post-fs-data.rc \
-        $(LOCAL_PATH)/rootdir/init.balong_modem.rc:root/init.balong_modem.rc \
-        $(LOCAL_PATH)/rootdir/init.tee.rc:root/init.tee.rc \
-        $(LOCAL_PATH)/rootdir/init.manufacture.rc:root/init.manufacture.rc \
-        $(LOCAL_PATH)/rootdir/init.huawei.rc:root/init.huawei.rc \
-        $(LOCAL_PATH)/rootdir/init.audio.rc:root/init.audio.rc \
-        $(LOCAL_PATH)/rootdir/init.4871.rc:root/init.4871.rc \
-        $(LOCAL_PATH)/rootdir/init.6193.rc:root/init.6193.rc \
-        $(LOCAL_PATH)/rootdir/init.connectivity.bcm43xx.rc:root/init.connectivity.bcm43xx.rc \
-        $(LOCAL_PATH)/rootdir/init.extmodem.rc:root/init.extmodem.rc \
-        $(LOCAL_PATH)/rootdir/ueventd.hi6250.rc:root/ueventd.hi6250.rc \
-        $(LOCAL_PATH)/rootdir/fstab.zram256m:root/fstab.zram256m \
-        $(LOCAL_PATH)/rootdir/ueventd.51312.rc:root/ueventd.51312.rc \
-        $(LOCAL_PATH)/rootdir/init.connectivity.gps.rc:root/init.connectivity.gps.rc \
-        $(LOCAL_PATH)/rootdir/init.connectivity.rc:root/init.connectivity.rc \
-        $(LOCAL_PATH)/rootdir/fstab.zram512m:root/fstab.zram512m \
-        $(LOCAL_PATH)/rootdir/ueventd.4871.rc:root/ueventd.4871.rc \
-        $(LOCAL_PATH)/rootdir/init.device.rc:root/init.device.rc \
-        $(LOCAL_PATH)/rootdir/ueventd.6193.rc:root/ueventd.6193.rc \
-        $(LOCAL_PATH)/rootdir/lpm.rc:root/lpm.rc \
-        $(LOCAL_PATH)/rootdir/sbin:root/sbin \
-        $(LOCAL_PATH)/rootdir/sbin/teecd:root/sbin/teecd \
-        $(LOCAL_PATH)/rootdir/sbin/oeminfo_nvm_server:root/sbin/oeminfo_nvm_server \
-        $(LOCAL_PATH)/rootdir/sbin/check_root:root/sbin/check_root \
-        $(LOCAL_PATH)/rootdir/sbin/kmsgcat:root/sbin/kmsgcat \
-        $(LOCAL_PATH)/rootdir/sbin/hw_crit_service_sys:root/sbin/hw_crit_service_sys \
-        $(LOCAL_PATH)/rootdir/sbin/hw_ueventd:root/sbin/hw_ueventd \
-        $(LOCAL_PATH)/rootdir/sbin/hdbd:root/sbin/hdbd \
-        $(LOCAL_PATH)/rootdir/sbin/volisnotd:root/sbin/volisnotd \
-        $(LOCAL_PATH)/rootdir/sbin/ntfs-3gd:root/sbin/ntfs-3gd \
-        $(LOCAL_PATH)/rootdir/sbin/logctl_service:root/sbin/logctl_service
+	$(call find-copy-subdir-files,*,device/huawei/hi6250/rootdir/,root/)
 
 # Recovery ramdisk, libraries and modules.
 PRODUCT_COPY_FILES += \
@@ -75,18 +37,6 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/rootdir/init.recovery.huawei.rc:root/init.recovery.huawei.rc \
         $(LOCAL_PATH)/rootdir/init.recovery.hisi.rc:root/init.recovery.hisi.rc \
         $(LOCAL_PATH)/recovery/init.recovery.hi6250.rc:root/init.recovery.hi6250.rc
-
-ifneq ($(BOOTDEBUG),)
-PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/rootdir/init.bootdebug.rc:root/init.bootdebug.rc
-
-$(shell rm $(OUT)/root/init.hi6250.usb.rc 2>  /dev/null)
-else
-PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/rootdir/init.hi6250.usb.rc:root/init.hi6250.usb.rc
-
-$(shell rm $(OUT)/root/init.bootdebug.rc 2> /dev/null)
-endif
 
 # Media
 PRODUCT_COPY_FILES += \
@@ -114,19 +64,19 @@ PRODUCT_PACKAGES += \
     audio.r_submix.default
 
 # Hardware
-PRODUCT_PACKAGES += \
-    power.hi6250 \
-    hwcomposer.hi6250 \
-    libcopybit_wrapper \
-    lights.hi6250 \
-    sensors.hi6250
+#PRODUCT_PACKAGES += \
+#    power.hi6250 \
+#    hwcomposer.hi6250 \
+#    libcopybit_wrapper \
+#    lights.hi6250 \
+#    sensors.hi6250
 
 # Shim libs
-PRODUCT_PACKAGES += \
-    libshim \
-    libshim_icu \
-    libshim_camera \
-    libshim_algo
+#PRODUCT_PACKAGES += \
+#    libshim \
+#    libshim_icu \
+#    libshim_camera \
+#    libshim_algo
 
 # Hack for adb
 PRODUCT_COPY_FILES += \
@@ -136,8 +86,8 @@ PRODUCT_COPY_FILES += \
 #    $(LOCAL_PATH)/configs/etc/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf
 
 # Bluetooth
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/etc/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
+#PRODUCT_COPY_FILES += \
+#    $(LOCAL_PATH)/configs/etc/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
 # Fingerprint
 PRODUCT_PACKAGES += \

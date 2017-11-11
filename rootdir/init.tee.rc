@@ -8,6 +8,18 @@ service teecd /sbin/teecd
     socket tee-multi-user stream 660 root system
     class core
     user root
-    group root
+    group root readproc
     seclabel u:r:tee:s0
 
+service teelogcat /vendor/bin/tlogcat -f
+class late_start
+user root
+group system
+disabled
+seclabel u:r:hisilogcat:s0
+
+on property:persist.sys.huawei.debug.on=1
+start teelogcat
+
+on property:persist.sys.huawei.debug.on=0
+stop teelogcat

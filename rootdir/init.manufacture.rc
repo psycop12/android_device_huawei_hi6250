@@ -1,7 +1,6 @@
 on early-init
 
 
-
 on init
     mkdir /cust
     mkdir /splash2
@@ -10,46 +9,14 @@ on init
     mkdir /3rdmodemnvmbkp
 
 on early-fs
-    wait /dev/block/platform/hi_mci.0/by-name/oeminfo
+    wait /dev/block/bootdevice/by-name/oeminfo
     start oeminfo_nvm
 
 on fs
 
-    mount ext4 /dev/block/platform/hi_mci.0/by-name/cust /cust wait ro nosuid nodev
+    mount ext4 /dev/block/bootdevice/by-name/cust /cust wait ro nosuid nodev
 
 
-
-    wait /dev/block/mmcblk0p35
-    chown system system /dev/block/mmcblk0p35
-    chmod 0660 /dev/block/mmcblk0p35
-
-    wait /dev/block/mmcblk0p36
-    chown system system /dev/block/mmcblk0p36
-    chmod 0660 /dev/block/mmcblk0p36
-
-    wait /dev/block/platform/hi_mci.0/by-name/hisitest0
-    chown system system /dev/block/platform/hi_mci.0/by-name/hisitest0
-    chmod 0660 /dev/block/platform/hi_mci.0/by-name/hisitest0
-
-    wait /dev/block/platform/hi_mci.0/by-name/hisitest1
-    chown system system /dev/block/platform/hi_mci.0/by-name/hisitest1
-    chmod 0660 /dev/block/platform/hi_mci.0/by-name/hisitest1
-
-    wait /dev/block/platform/hi_mci.0/by-name/hisitest2
-    chown system system /dev/block/platform/hi_mci.0/by-name/hisitest2
-    chmod 0660 /dev/block/platform/hi_mci.0/by-name/hisitest2
-
-    wait /dev/block/platform/hi_mci.0/by-name/reserved1
-    chown system system /dev/block/platform/hi_mci.0/by-name/reserved1
-    chmod 0660 /dev/block/platform/hi_mci.0/by-name/reserved1
-
-    wait /dev/block/mmcblk0p23
-    chown system system /dev/block/mmcblk0p23
-    chmod 0660 /dev/block/mmcblk0p23
-
-    wait /dev/block/mmcblk0
-    chown system system /dev/block/mmcblk0
-    chmod 0660 /dev/block/mmcblk0
 
     restorecon       /sys/class/leds/red/brightness
     restorecon       /sys/class/leds/green/brightness
@@ -100,9 +67,12 @@ on boot
 
 
 
-service atcmdserver  /system/bin/atcmdserver
+service atcmdserver  /vendor/bin/atcmdserver
     class main
     disabled
+
+service commu_server  /system/vendor/bin/commu_server
+    class main
 
 service oeminfo_nvm /sbin/oeminfo_nvm_server
     class core
@@ -110,17 +80,27 @@ service oeminfo_nvm /sbin/oeminfo_nvm_server
     ioprio rt 4
     seclabel u:r:oeminfo_nvm:s0
 
-service diagserver /system/bin/diagserver
+service diagserver /vendor/bin/diagserver
     class main
     user root
     disabled
+
+on charger
+    start atcmdserver
+    start diagserver
 
 service goldeneye /system/bin/goldeneye
     class main
     user root
 
-#on property:sys.boot_completed=1
-#    start check_root
+service check_root /sbin/check_root
+    class main
+    oneshot
+    seclabel u:r:check_root:s0
+
+
+on property:sys.boot_completed=1
+    start check_root
 
 on property:ro.runmode=factory
     chmod 0775 /data/media/0/Music
@@ -129,11 +109,11 @@ on property:ro.runmode=factory
     chown media_rw media_rw /data/media/0/Music
     chown media_rw media_rw /data/media/0/Pictures
 
-service hwnffserver  /system/bin/hwnffserver
+service hwnffserver  /vendor/bin/hwnffserver
     class main
     socket hwnff stream 0660 root mount
 
-service data_cleanner /system/bin/data_cleaner
+service data_cleanner /vendor/bin/data_cleaner
     class core
     oneshot
 

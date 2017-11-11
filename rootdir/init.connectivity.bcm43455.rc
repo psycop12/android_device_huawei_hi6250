@@ -13,9 +13,9 @@ on post-fs-data
 
 on early-boot
 on property:bluetooth.log.file.create=true
-   mkdir /data/hwzd_logs/bt
-   chown bluetooth bluetooth /data/hwzd_logs/bt
-   chmod 775 /data/hwzd_logs/bt
+   mkdir /data/log/bt
+   chown bluetooth bluetooth /data/log/bt
+   chmod 775 /data/log/bt
 
    setprop bluetooth.log.file.create false
 
@@ -42,13 +42,13 @@ on boot
     chown system system /dev/vio
 
 
-service macaddr /system/bin/mac_addr_normalization
+service macaddr /vendor/bin/mac_addr_normalization
     class core
     user root
     group root bluetooth net_bt_stack wifi
     oneshot
 
-service wifi_wakeup_src /system/bin/wifiwakeupsrc
+service wifi_wakeup_src /vendor/bin/wifiwakeupsrc
     class core
     user root
     group root wifi

@@ -1,7 +1,7 @@
 on early-init
 
 on init
-    write /sys/module/block2mtd/parameters/block2mtd /dev/block/mmcblk0p7
+    write /sys/module/hisi_nve/parameters/nve /dev/block/bootdevice/by-name/nvme
     wait /dev/nve0
     chmod 0770 /dev/nve0
     chown root system /dev/nve0
@@ -15,6 +15,12 @@ on post-fs
     chmod 0440 /proc/uid_cputime/show_uid_stat
     chown system system /proc/uid_cputime/remove_uid_range
     chmod 0660 /proc/uid_cputime/remove_uid_range
+    chown system system /proc/uid_iostats/show_uid_iostats
+    chmod 0440 /proc/uid_iostats/show_uid_iostats
+    chown system system /proc/uid_iostats/uid_iomonitor_list
+    chmod 0660 /proc/uid_iostats/uid_iomonitor_list
+    chown system system /proc/uid_iostats/remove_uid_list
+    chmod 0660 /proc/uid_iostats/remove_uid_list
 
 on post-fs-data
     setprop persist.sys.kmemleak.debug 0
@@ -94,9 +100,17 @@ on boot
 
     chown radio radio /proc/modemstatus
 
+on data_ready
+    write /proc/data-ready 1
+
+on data_not_ready
+    write /proc/data-ready 0
+
+
 
 service ril-daemon /system/bin/rild
-    class late_start
+    disabled
+    class core
     socket rild stream 660 root radio
     socket rild-ims stream 660 root radio
     socket rildm2 stream 660 root radio
@@ -104,11 +118,10 @@ service ril-daemon /system/bin/rild
     socket rildc1 stream 660 radio system
     socket rildc2 stream 660 radio system
     socket rildc3 stream 660 radio system
-    socket sap_uim_socket1 stream 660 bluetooth bluetooth
+    
     socket rild-debug stream 660 radio system
     user root
-    group radio cache inet misc audio log
-    disabled
+    group radio cache inet misc audio sdcard_r sdcard_rw log readproc system
 
 service ril-daemon1 /system/bin/rild -c 1
     disabled
@@ -119,8 +132,8 @@ service ril-daemon1 /system/bin/rild -c 1
     user root
     group radio cache inet misc audio sdcard_r sdcard_rw log
 
-#on property:sys.userdata_is_ready=1
-#    start ril-daemon
+on property:sys.userdata_is_ready=1
+    start ril-daemon
 
 on property:rild.rild1_ready_to_start=true
     start ril-daemon1
@@ -143,3 +156,7 @@ service kmemleak_debug /system/bin/sh /system/etc/kmemleak.debug.sh
 
 on property:persist.sys.kmemleak.debug=1
     start kmemleak_debug
+
+on property:ro.build.type=eng
+    mkdir /data/hwcdump 0755 system system
+    restorecon_recursive /data/hwcdump

@@ -11,7 +11,7 @@ on post-fs
 on post-fs-data
 
 on early-boot
-	service HwCamCfgSvr /system/bin/HwCamCfgSvr hi6250 DALLAS
+	service HwCamCfgSvr /vendor/bin/HwCamCfgSvr hi6250 DALLAS
 	class main
 	user media
 	group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm system dsm

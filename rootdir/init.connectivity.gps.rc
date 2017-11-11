@@ -22,11 +22,11 @@ on boot
 
     chmod 660 /dev/ttyAMA3
 
-    service gpsdaemon /system/bin/gpsdaemon
+    service gpsdaemon /vendor/bin/gpsdaemon
     class main
     oneshot
 
-    service gpsd_47531  /system/bin/glgps47531 -c /data/gps/gpsconfig.xml
+    service gpsd_47531  /vendor/bin/glgps47531 -c /data/gps/gpsconfig.xml
     socket gps seqpacket 660 root root
     class main
     user root
@@ -34,14 +34,14 @@ on boot
     oneshot
     disabled
 
-    service gpsdcl_47531  /system/bin/glgps47531cl -c /data/gps/gpsconfig.xml
+    service gpsdcl_47531  /vendor/bin/glgps47531cl -c /data/gps/gpsconfig.xml
     socket gps seqpacket 660 root root
     class main
     user root
     group system
     disabled
 
-    service gpsd_4752  /system/bin/glgps4752 -c /data/gps/gpsconfig.xml
+    service gpsd_4752  /vendor/bin/glgps4752 -c /data/gps/gpsconfig.xml
     socket gps seqpacket 660 root root
     class main
     user root

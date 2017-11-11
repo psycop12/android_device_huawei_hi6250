@@ -23,7 +23,7 @@ on init
     chown system system /dev/cpuctl
     chown system system /dev/cpuctl/tasks
 
-    write /sys/module/block2mtd/parameters/block2mtd /dev/block/mmcblk0p7
+    write /sys/module/hisi_nve/parameters/nve /dev/block/bootdevice/by-name/nvme
     mount /tmp /tmp tmpfs
     wait /dev/nve0
     chmod 0640 /dev/nve0
@@ -31,10 +31,11 @@ on init
 
 
 on fs
-    wait /dev/block/platform/hi_mci.0/by-name/oeminfo
-    start oeminfo_nvm  
-    wait /dev/block/platform/hi_mci.0/by-name/system
-    mount ext4 /dev/block/platform/hi_mci.0/by-name/splash2 /splash2 wait rw nosuid nodev context=u:object_r:splash2_data_file:s0
+    wait /dev/block/bootdevice/by-name/oeminfo
+    start oeminfo_nvm
+    wait /dev/block/bootdevice/by-name/system
+    wait /dev/block/bootdevice/by-name/vendor
+    mount ext4 /dev/block/bootdevice/by-name/splash2 /splash2 wait rw nosuid nodev context=u:object_r:splash2_data_file:s0
     restorecon /splash2
     chmod 775 /splash2
     chown root system /splash2
@@ -76,18 +77,21 @@ on firmware_mounts_complete
    rm /dev/.booting
    
 on property:androidboot.start_services=true
-    wait /dev/block/platform/hi_mci.0/by-name/system
-    mount ext4 /dev/block/platform/hi_mci.0/by-name/system /newsys wait ro
-    mount ext4 /dev/block/platform/hi_mci.0/by-name/cache /cache
-    wait /dev/block/platform/hi_mci.0/by-name/userdata
-    mount f2fs /dev/block/platform/hi_mci.0/by-name/userdata /data nosuid nodev noatime discard,inline_data,inline_xattr
-    mount ext4 /dev/block/platform/hi_mci.0/by-name/userdata /data nosuid nodev noatime wait crypt discard,noauto_da_alloc,mblk_io_submit,data=ordered
-    wait /dev/block/platform/hi_mci.0/by-name/cust
-    mount ext4 /dev/block/platform/hi_mci.0/by-name/cust /cust wait ro
+    wait /dev/block/bootdevice/by-name/system
+    mount squashfs /dev/block/bootdevice/by-name/system /newsys wait ro
+    mount ext4 /dev/block/bootdevice/by-name/system /newsys wait ro
+    mount ext4 /dev/block/bootdevice/by-name/product /product wait ro
+    mount ext4 /dev/block/bootdevice/by-name/vendor /vendor wait ro
+    mount ext4 /dev/block/bootdevice/by-name/cache /cache
+    wait /dev/block/bootdevice/by-name/userdata
+    mount f2fs /dev/block/bootdevice/by-name/userdata /data nosuid nodev noatime discard,inline_data,inline_xattr
+    mount ext4 /dev/block/bootdevice/by-name/userdata /data nosuid nodev noatime wait crypt discard,noauto_da_alloc,mblk_io_submit,data=ordered
+    wait /dev/block/bootdevice/by-name/cust
+    mount ext4 /dev/block/bootdevice/by-name/cust /cust wait ro
     write /sys/class/android_usb/android0/iManufacturer ${ro.product.manufacturer}
     write /sys/class/android_usb/android0/iProduct ${ro.product.model}
-    mount ext4 /dev/block/platform/hi_mci.0/by-name/dsp /dsp:0
-    mount ext4 /dev/block/platform/hi_mci.0/by-name/splash2 /splash2 wait rw nosuid nodev context=u:object_r:splash2_data_file:s0
+    mount ext4 /dev/block/bootdevice/by-name/dsp /dsp:0
+    mount ext4 /dev/block/bootdevice/by-name/splash2 /splash2 wait rw nosuid nodev context=u:object_r:splash2_data_file:s0
     restorecon /splash2
     chmod 775 /splash2
     chown root system /splash2
@@ -101,7 +105,7 @@ on property:androidboot.start_services=true
 on property:recovery.start_all_srv=true
     trigger cust_parse_action
 
-    trigger load_all_props_action
+    trigger load_system_props_action
 
     setprop sys.system.serv run
     start logd
@@ -137,10 +141,20 @@ service teecd /sbin/teecd
     group root
     seclabel u:r:tee:s0
 
+service vold_recovery /system/bin/vold \
+        --blkid_context=u:r:blkid:s0 --blkid_untrusted_context=u:r:blkid_untrusted:s0 \
+        --fsck_context=u:r:fsck:s0 --fsck_untrusted_context=u:r:fsck_untrusted:s0
+    class core
+    socket vold stream 0660 root mount
+    socket cryptd stream 0660 root mount
+    socket cryptd2 stream 0660 root mount
+    ioprio be 2
+    writepid /dev/cpuset/foreground/tasks
+
 on property:ro.board.platform=hi6250
     start teecd
 
-on property:sys.usb.config=none
+on property:sys.usb.config=none && property:sys.usb.configfs=0
     stop adbd
     stop hdbd
     write /sys/class/android_usb/android0/enable 0
@@ -148,7 +162,7 @@ on property:sys.usb.config=none
     write /sys/devices/virtual/android_usb/android0/port_mode 1
     setprop sys.usb.state ${sys.usb.config}
 
-on property:sys.usb.config=manufacture,adb
+on property:sys.usb.config=manufacture,adb && property:sys.usb.configfs=0
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 12d1
     write /sys/class/android_usb/android0/idProduct 107e
@@ -163,7 +177,7 @@ on property:sys.usb.config=manufacture,adb
     start hdbd
     setprop sys.usb.state ${sys.usb.config}
 
-on property:sys.usb.config=mass_storage
+on property:sys.usb.config=mass_storage && property:sys.usb.configfs=0
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 12d1
     write /sys/class/android_usb/android0/idProduct 1037
@@ -190,8 +204,8 @@ on property:ro.debuggable=1
 on property:sys.system.serv=run
     class_start server
     setprop sys.system.serv up
-service atcmdserver  /system/bin/atcmdserver
-    class server
+service atcmdserver  /vendor/bin/atcmdserver
+    class server_atcmdserver
     user root
     oneshot
     disabled
@@ -201,10 +215,11 @@ service oeminfo_nvm /sbin/oeminfo_nvm_server
     ioprio rt 4
     seclabel u:r:oeminfo_nvm:s0
 
-service hw_ueventd /system/bin/hw_ueventd
+service hw_ueventd /sbin/hw_ueventd
     class server
     user root
     disabled
+    seclabel u:r:hw_ueventd:s0
 
 service logctl_service /sbin/logctl_service -m 2
     class server
@@ -218,14 +233,14 @@ service logcat_service /sbin/logctl_service -m 2 -t 1
     oneshot
     seclabel u:r:hisilogcat:s0
 
-service fac_log_service /system/bin/factory_log_service -m 2
+service fac_log_service /system/vendor/bin/factory_log_service -m 2
     class server
     user root
     disabled
     oneshot
     seclabel u:r:hisilogcat:s0
 
-service modemlogcat  /system/bin/modemlogcat_lte -l
+service modemlogcat  /vendor/bin/modemlogcat_lte -l
     class server
     disabled
     oneshot
@@ -246,13 +261,13 @@ service kmsglogcat /sbin/kmsgcat -r 4096 -z 2 -n 2 -f /splash2/kmsg_log
     user root
     seclabel u:r:hisilogcat:s0
 
-service chargelogcat /system/bin/chargelogcat -r 2048 -n 2 -z 2 -t 5 -p /splash2/
+service chargelogcat /system/vendor/bin/chargelogcat -r 2048 -n 2 -z 2 -t 5 -p /splash2/
     class server
     user root
     disabled
     seclabel u:r:hisilogcat:s0
 
-service sleeplogcat /system/bin/sleeplogcat -t 10 -p /data/android_logs/
+service sleeplogcat /system/vendor/bin/sleeplogcat -t 10 -p /data/android_logs/
     class server
     user root
     disabled
@@ -273,3 +288,21 @@ service logctl_srv_updt /sbin/logctl_service -m 3
 
 on property:recovery.start_all_srv=false
     start logctl_srv_updt
+
+on apply_file_decryption
+    mount f2fs /dev/block/bootdevice/by-name/userdata /data nosuid nodev noatime discard,inline_data,inline_xattr
+    wait /dev/block/bootdevice/by-name/userdata
+    check_file_encrypt
+    setprop vold.crypto_unencrypt_updatedir /data/update
+    umount /data
+
+on property:factory.recovery.prepare=start
+
+
+    setprop factory.recovery.prepare end
+
+on property:vold.status=start
+    exec /system/bin/vdc --wait cryptfs enablefilecrypto
+    init_user0
+    unlock_user0_key
+    setprop vold.status end
