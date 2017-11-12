@@ -468,10 +468,10 @@ on property:persist.sys.huawei.debug.on=*
 on property:ro.logsystem.usertype=*
     write /proc/log-usertype ${ro.logsystem.usertype}
 
-service bastetd /vendor/bin/bastetd
-    class main
-    user root
-    group root
+#service bastetd /vendor/bin/bastetd
+#    class main
+#    user root
+#    group root
 
 service mini_bugreport /system/bin/dumpstate -m -v \
         -o /data/log/press10/mini_bugreport

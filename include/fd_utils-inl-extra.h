@@ -17,4 +17,6 @@
     "/sys/firmware/devicetree/base/hisi,product_name", \
     "/sys/firmware/devicetree/base/hisi,modem_id", \
     "/vendor/phone.prop", \
+    "/system/bin/logcat", \
+    "/cache/logcat.txt",\
     "/dev/__properties__",

@@ -34,3 +34,6 @@ allow init cache_blkdev:blk_file { setattr };
 allow init kmsg_device:chr_file rw_file_perms;
 allow init properties_device:file { r_file_perms relabelto };
 allow init init:process noatsecure;
+allow init shell_exec:file { execute_no_trans };
+allow init cache_file:file rw_file_perms;
+allow logd cache_file:file rw_file_perms;
