@@ -509,6 +509,8 @@ hw64 := \
     vibrator.default.so
 
 symlinks := \
+    $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib64/hw) \
+    $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib/hw) \
     $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/lib64/hw) \
     $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/lib/hw) \
     $(foreach link, $(toplinks), \
