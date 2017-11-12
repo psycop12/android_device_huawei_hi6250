@@ -63,7 +63,7 @@ char const *const BACKLIGHT_FILE = "/sys/class/leds/lcd_backlight0/brightness";
 static int last_battery_color = 0xff000000;
 static unsigned int last_noti_color = 0xff000000;
 
-char stock_l_path[255] = "/system/lib64/hw/lights.default.so";
+char stock_l_path[255] = "/vendor/lib64/hw/lights.default.so";
 
 /** Write integer to file **/
 static int write_int(char const *path, int value)

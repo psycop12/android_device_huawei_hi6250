@@ -470,7 +470,6 @@ hw := \
     hw_ioflowmeter.default.so \
     keystore.default.so \
     keystore.hi6250.so \
-    lights.default.so \
     local_time.default.so \
     memtrack.hi6250.so \
     power.default.so \
@@ -500,7 +499,6 @@ hw64 := \
     hw_ioflowmeter.default.so \
     keystore.default.so \
     keystore.hi6250.so \
-    lights.default.so \
     local_time.default.so \
     memtrack.hi6250.so \
     power.default.so \
