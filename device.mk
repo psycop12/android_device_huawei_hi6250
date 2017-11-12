@@ -64,12 +64,13 @@ PRODUCT_PACKAGES += \
     audio.r_submix.default
 
 # Hardware
-#PRODUCT_PACKAGES += \
-#    power.hi6250 \
-#    hwcomposer.hi6250 \
-#    libcopybit_wrapper \
-#    lights.hi6250 \
-#    sensors.hi6250
+PRODUCT_PACKAGES += \
+    power.hi6250 \
+    hwcomposer.hi6250 \
+    libcopybit_wrapper \
+    lights.hi6250 \
+    sensors.hi6250 \
+    emui5_vendor_symlinks
 
 # Shim libs
 #PRODUCT_PACKAGES += \

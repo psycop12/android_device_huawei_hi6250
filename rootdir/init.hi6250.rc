@@ -28,6 +28,7 @@ on early-boot
 
     mkdir /mnt/media_rw 0750 media_rw media_rw
     mkdir /data/samba 0755 media_rw media_rw
+    mkdir /hwvendor
 
 on early-boot
     service hivwserver /vendor/bin/hivwserver
