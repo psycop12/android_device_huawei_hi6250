@@ -1,4 +1,4 @@
-
+import /init.recovery.hi6250.usb.rc
 import /init.bootstage.rc
 import /init.rphone.rc
 import /init.${ro.hardware}.factory.rc
@@ -224,9 +224,9 @@ on fs
     mkdir /patch_hw 0775 system system
     export ANDROID_STORAGE ""
 
-
+    wait /dev/block/platform/hi_mci.0/by-name/system
     mount_all /fstab.${ro.hardware}
-
+    start timer
     chown root root /sec_storage
     chmod 600 /sec_storage
 
@@ -653,6 +653,11 @@ on property:sys.boot_completed=1
     start check_system
 
 service bugreport /system/bin/dumpstate -d -p -B -o /data/data/com.android.shell/files/bugreports/bugreport
+    class main
+    disabled
+    oneshot
+
+service timer /sbin/timer.sh
     class main
     disabled
     oneshot

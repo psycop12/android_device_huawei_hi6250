@@ -41,6 +41,7 @@ PRODUCT_PACKAGES += \
 ADDITIONAL_DEFAULT_PROPERTIES += \
     ro.zygote=zygote64_32 \
     ro.secure=0 \
-	sys.usb.configfs=1 \
-	sys.usb.controller=hisi-usb-otg
+    ro.adb.secure=0 \
+    sys.usb.configfs=1 \
+    sys.usb.controller=hisi-usb-otg
 

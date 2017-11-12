@@ -29,7 +29,7 @@ TARGET_USES_64_BIT_BINDER := true
 TARGET_USES_HISI_DTIMAGE := true
 TARGET_SUPPORTS_32_BIT_APPS := true
 TARGET_SUPPORTS_64_BIT_APPS := true
-ANDROID_64 :=t rue
+ANDROID_64 :=true
 
 # 1st Arch
 TARGET_ARCH := arm64
@@ -65,7 +65,7 @@ TARGET_ARM_TYPE := arm64
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Init
-TARGET_INIT_VENDOR_LIB := libhuawei_init
+#TARGET_INIT_VENDOR_LIB := libhuawei_init
 
 # RIL
 BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/

@@ -14,7 +14,7 @@ on early-boot
 	service HwCamCfgSvr /vendor/bin/HwCamCfgSvr hi6250 DALLAS
 	class main
 	user media
-	group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm system dsm
+	group audio camera inet net_bt net_bt_admin net_bw_acct drmrpc mediadrm system
 
 on early-boot
     service tui-daemon /system/bin/tui_daemon

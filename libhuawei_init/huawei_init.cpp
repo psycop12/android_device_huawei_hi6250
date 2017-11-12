@@ -33,7 +33,7 @@
 #define BASE "/sys/firmware/devicetree/base/"
 #define PRODUCT_PATH BASE"hisi,product_name"
 #define MODEM_ID_PATH BASE"hisi,modem_id"
-#define PHONE_PROP_PATH "/system/phone.prop"
+#define PHONE_PROP_PATH "/vendor/phone.prop"
 #define BOARDID_PRODUCT_PROP "ro.boardid.product"
 #define PRODUCT_MODEL_PROP "ro.product.model"
 
@@ -89,7 +89,7 @@ void vendor_load_default_properties() {
 
     /* All P9-Lite needs this */
     if(!strncmp(model,"VNS", 3)) 
-	set_property(BOARDID_PRODUCT_PROP,"51312");
+	set_property(BOARDID_PRODUCT_PROP,"51316");
     /* All Honor 5c/Honor 7 lite needs this */
     if(!strncmp(model, "NEM", 3) || !strncmp(model, "NMO", 3))
 	set_property(BOARDID_PRODUCT_PROP, "4871");
