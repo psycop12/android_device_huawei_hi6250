@@ -509,20 +509,20 @@ hw64 := \
     vibrator.default.so
 
 symlinks := \
-    $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib64/hw) \
-    $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib/hw) \
-    $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/lib64/hw) \
-    $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/lib/hw) \
+    $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib64/hw 2> /dev/null) \
+    $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib/hw 2> /dev/null) \
+    $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/lib64/hw 2> /dev/null) \
+    $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/lib/hw 2> /dev/null) \
     $(foreach link, $(toplinks), \
-    $(shell ln -s /hwvendor/$(link) $(PRODUCT_OUT)/system/vendor/$(link))) \
+    $(shell ln -s /hwvendor/$(link) $(PRODUCT_OUT)/system/vendor/$(link) 2> /dev/null)) \
     $(foreach link, $(liblinks), \
-    $(shell ln -s /hwvendor/lib/$(link) $(PRODUCT_OUT)/system/vendor/lib/$(link))) \
+    $(shell ln -s /hwvendor/lib/$(link) $(PRODUCT_OUT)/system/vendor/lib/$(link) 2> /dev/null)) \
     $(foreach link, $(lib64links), \
-    $(shell ln -s /hwvendor/lib64/$(link) $(PRODUCT_OUT)/system/vendor/lib64/$(link))) \
+    $(shell ln -s /hwvendor/lib64/$(link) $(PRODUCT_OUT)/system/vendor/lib64/$(link) 2> /dev/null)) \
     $(foreach link, $(hw), \
-    $(shell ln -s /hwvendor/lib/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib/hw/$(link))) \
+    $(shell ln -s /hwvendor/lib/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib/hw/$(link) 2> /dev/null)) \
     $(foreach link, $(hw64), \
-    $(shell ln -s /hwvendor/lib64/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib64/hw/$(link)))
+    $(shell ln -s /hwvendor/lib64/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib64/hw/$(link) 2> /dev/null))
 
 
 include $(CLEAR_VARS)
