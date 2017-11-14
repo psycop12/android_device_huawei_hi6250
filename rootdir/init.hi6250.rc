@@ -22,6 +22,7 @@ on early-boot
     mkdir /mnt/media_rw 0750 media_rw media_rw
     mkdir /data/samba 0755 media_rw media_rw
     mkdir /hwvendor
+    symlink /dev/block/platform/hi_mci.0 /dev/block/bootdevice
 
 on early-boot
     service hivwserver /vendor/bin/hivwserver
