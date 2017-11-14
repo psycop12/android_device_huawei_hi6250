@@ -78,6 +78,7 @@ SIM_COUNT := 2
 USE_OPENGL_RENDERER := true
 TARGET_HARDWARE_3D := true
 BOARD_EGL_CFG := device/huawei/hi6250/egl.cfg
+HWUI_COMPILE_SYMBOLS := true
 
 # Surfaceflinger
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 6
