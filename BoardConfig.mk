@@ -67,6 +67,9 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 # Init
 #TARGET_INIT_VENDOR_LIB := libhuawei_init
 
+# Linker
+LD_SHIM_LIBS := '/hwvendor/lib/hw/audio.primary.hisi.so|libshim.so'
+
 # RIL
 BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
 SIM_COUNT := 2

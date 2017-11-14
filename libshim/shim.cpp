@@ -1,5 +1,5 @@
 #define LOG_TAG "libshim"
-
+#if 0
 #include <cutils/log.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -8,9 +8,10 @@
 #include <media/stagefright/MediaBufferGroup.h>
 #include <media/IMediaSource.h>
 #include <media/stagefright/MediaSource.h>
-
+#endif
 extern "C" {
 
+#if 0
 /* liblog */
 extern int __hi_log_print(){ return 0; }
 extern int __android_janklog_print() { return 0; }
@@ -26,11 +27,12 @@ extern void exif_entry_gps_initialize(ExifEntry * e, ExifTag tag)
 
 /* libcutils */
 extern void atrace_async_begin_body_HwCam(const char* name,int32_t cookie) {}
-
+#endif
 /* libaudio_route */
 extern int pop_seq_init(){return 0;};
 extern int pop_seq_set(){return 0;};
-
+extern int force_flush_set() { return 0;};
+#if 0
 /* wpa_supplicant_hisi */
 extern int __android_log_vprint(int prio, const char *tag, const char *fmt, va_list ap) {return 0;}
 extern int __chr_printLog(){return 0;}
@@ -60,5 +62,5 @@ extern bool _ZNK7android11MediaSource11ReadOptions14getNonBlockingEv(void * obj)
     android::IMediaSource::ReadOptions *rop = static_cast<android::IMediaSource::ReadOptions *>(obj);
     return rop->getNonBlocking();
 }
-
+#endif
 }

@@ -16,16 +16,16 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_C_INCLUDES += \
-    external/libexif \
-    frameworks/av
+#LOCAL_C_INCLUDES += \
+#    external/libexif \
+#    frameworks/av
 
 LOCAL_MODULE := libshim
 LOCAL_SRC_FILES := shim.cpp
-LOCAL_SHARED_LIBRARIES := liblog libexif libmedia libstagefright_foundation
+#LOCAL_SHARED_LIBRARIES := liblog libexif libmedia libstagefright_foundation
 
-ifeq ($(TARGET_PRODUCT), aosp_hi6250)
-LOCAL_CFLAGS += -DAOSP
-endif
+#ifeq ($(TARGET_PRODUCT), aosp_hi6250)
+#LOCAL_CFLAGS += -DAOSP
+#endif
 
 include $(BUILD_SHARED_LIBRARY)
