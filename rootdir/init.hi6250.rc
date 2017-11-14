@@ -1,10 +1,4 @@
-import /init.recovery.hi6250.usb.rc
-import /init.bootstage.rc
-import /init.rphone.rc
-import /init.${ro.hardware}.factory.rc
-
 import /init.hisi.rc
-
 import /init.audio.rc
 import /init.device.rc
 import /init.extmodem.rc
@@ -12,11 +6,10 @@ import /init.manufacture.rc
 import /init.performance.rc
 import /init.platform.rc
 import /init.protocol.rc
-import /init.trace.rc
 import /init.connectivity.rc
 import /init.${ro.boardid.product}.rc
+import /init.hi6250.usb.rc
 import /init.post-fs-data.rc
-
 import /init.balong_modem.rc
 import /init.tee.rc
 
