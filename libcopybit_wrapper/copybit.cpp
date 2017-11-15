@@ -71,9 +71,11 @@ struct copybit_context_t {
 };
 
 //#define DEBUG
-
-char stock_cb_path[] = "/system/lib64/hw/copybit.real.so";
-
+#if defined(__aarch64__)
+char stock_cb_path[] = "/vendor/lib64/hw/copybit.real.so";
+#else
+char stock_cb_path[] = "/vendor/lib/hw/copybit.real.so";
+#endif
 static int open_copybit(const struct hw_module_t* module, const char* name,
                         struct hw_device_t** device);
 
