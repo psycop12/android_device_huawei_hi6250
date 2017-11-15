@@ -68,7 +68,7 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 #TARGET_INIT_VENDOR_LIB := libhuawei_init
 
 # Linker
-LD_SHIM_LIBS := '/hwvendor/lib/hw/audio.primary.hisi.so|libshim.so'
+LD_SHIM_LIBS := '/hwvendor/lib/hw/audio.primary.hisi.so|libshim.so:/hwvendor/lib64/hwcam/hwcam.hi6250.m.VENUS.so|libshim_libui.so:/hwvendor/lib64/hwcam/hwcam.hi6250.m.VENUS.so|libshim.so:/hwvendor/lib64/libcamera_algo.so|libshim_libui.so'
 
 # RIL
 BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
