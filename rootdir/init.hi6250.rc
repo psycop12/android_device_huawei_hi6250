@@ -22,7 +22,6 @@ on early-boot
     mkdir /mnt/media_rw 0750 media_rw media_rw
     mkdir /data/samba 0755 media_rw media_rw
     mkdir /hwvendor
-    symlink /dev/block/platform/hi_mci.0 /dev/block/bootdevice
 
 on early-boot
     service hivwserver /vendor/bin/hivwserver
@@ -31,6 +30,7 @@ on early-boot
     group audio inet net_bt net_bt_admin net_bw_acct system
 
 on init
+    symlink /dev/block/platform/hi_mci.0 /dev/block/bootdevice
     verity_load_state
 
     chown system system /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
