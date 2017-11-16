@@ -22,7 +22,7 @@ $(call inherit-product, build/target/product/full_base_telephony.mk)
 $(call inherit-product, build/target/product/languages_full.mk)
 
 # Blobs
-# $(call inherit-product, vendor/huawei/hi6250/vendor.mk)
+$(call inherit-product, vendor/huawei/hi6250/vendor.mk)
 
 # 64 bit
 $(call inherit-product, build/target/product/core_64_bit.mk)
