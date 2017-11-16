@@ -123,7 +123,7 @@
 /system/bin/gnss_engine_hisi	u:object_r:gnss_exec:s0
 /system/bin/gnss_control_hisi	u:object_r:gnss_exec:s0
 /system/bin/gnss_supl20clientd_hisi	u:object_r:gnss_exec:s0
-/system/bin/wpa_supplicant_hisi	u:object_r:wpa_exec:s0
+/vendor/bin/wpa_supplicant_hisi	u:object_r:wpa_hisi_exec:s0
 /vendor/bin/hivwserver		u:object_r:hivwserver_exec:s0
 
 # gps

@@ -228,7 +228,6 @@ liblinks := \
     libwma9voice.so \
     libwmv8.so \
     libwmv9.so \
-    libwpa_client.so \
     libxmodemgpsrpc.so \
     egl \
     hwcam \
@@ -444,7 +443,6 @@ lib64links := \
     libwifi_factory_test.so \
     libwifi_factory_test_hisi.so \
     libwifi_wapi_hisi.so \
-    libwpa_client.so \
     libwpa_client_hisi.so \
     libxmodemgpsrpc.so \
     egl \
@@ -510,6 +508,7 @@ custom := \
     $(shell ln -s /hwvendor/lib64/hw/gps.hisi.default.so $(PRODUCT_OUT)/system/vendor/lib64/hw/gps.hisi.so)
     $(shell ln -s /hwvendor/lib64/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib64/hw/copybit.real.so)
     $(shell ln -s /hwvendor/lib/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib/hw/copybit.real.so)
+    $(shell ln -s /hwvendor/lib64/hw/libwpa_client_hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libwpa_client.so))
 
 symlinks := \
     $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib64/hw 2> /dev/null) \
