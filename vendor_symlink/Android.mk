@@ -72,7 +72,6 @@ liblinks := \
     libbigdatamng.so \
     libbinderwrapper.so \
     libbt-vendor-hisi.so \
-    libbt-vendor.so \
     libbt_factory_test.so \
     libbt_factory_test_hisi.so \
     libc++.so \
@@ -280,7 +279,6 @@ lib64links := \
     libbigdatamng.so \
     libbinderwrapper.so \
     libbt-vendor-hisi.so \
-    libbt-vendor.so \
     libbt_factory_test.so \
     libbt_factory_test_hisi.so \
     libc++.so \
@@ -454,7 +452,6 @@ hw := \
     audio.primary.hisi.so \
     audio.r_submix.default.so \
     audio.usb.default.so \
-    bluetooth.default.so \
     camera.hi6250.so \
     displaycaps.default.so \
     fingerprint.hi6250.so \
@@ -509,6 +506,8 @@ custom := \
     $(shell ln -s /hwvendor/lib64/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib64/hw/copybit.real.so)
     $(shell ln -s /hwvendor/lib/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib/hw/copybit.real.so)
     $(shell ln -s /hwvendor/lib64/hw/libwpa_client_hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libwpa_client.so))
+    $(shell ln -s /hwvendor/lib64/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libbt-vendor.so))
+    $(shell ln -s /hwvendor/lib/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib/libbt-vendor.so))
 
 symlinks := \
     $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib64/hw 2> /dev/null) \
