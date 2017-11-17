@@ -73,11 +73,8 @@ PRODUCT_PACKAGES += \
     emui5_vendor_symlinks
 
 # Shim libs
-#PRODUCT_PACKAGES += \
-#    libshim \
-#    libshim_icu \
-#    libshim_camera \
-#    libshim_algo
+PRODUCT_PACKAGES += \
+    libshim
 
 # Hack for adb
 PRODUCT_COPY_FILES += \
