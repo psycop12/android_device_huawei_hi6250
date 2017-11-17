@@ -479,7 +479,6 @@ hw64 := \
     audio.primary.hisi.so \
     audio.r_submix.default.so \
     audio.usb.default.so \
-    bluetooth.default.so \
     camera.hi6250.so \
     displaycaps.default.so \
     fingerprint.hi6250.so \
@@ -501,17 +500,6 @@ hw64 := \
     sound_trigger.primary.default.so \
     vibrator.default.so
 
-custom := \
-    $(shell ln -s /hwvendor/lib64/hw/gps.hisi.default.so $(PRODUCT_OUT)/system/vendor/lib64/hw/gps.hisi.so 2> /dev/null) \
-    $(shell ln -s /hwvendor/lib64/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib64/hw/copybit.real.so 2> /dev/null) \
-    $(shell ln -s /hwvendor/lib/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib/hw/copybit.real.so 2> /dev/null) \
-    $(shell ln -s /hwvendor/lib64/hw/libwpa_client_hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libwpa_client.so 2> /dev/null) \
-    $(shell ln -s /hwvendor/lib64/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libbt-vendor.so 2> /dev/null) \
-    $(shell ln -s /hwvendor/lib/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib/libbt-vendor.so 2> /dev/null) \
-    $(shell ln -s /hwvendor/bin/rild $(PRODUCT_OUT)/system/bin/rild 2> /dev/null)
-    $(shell ln -s /hwvendor/lib/libril.so $(PRODUCT_OUT)/system/vendor/lib/libril.so 2> /dev/null)
-    $(shell ln -s /hwvendor/lib64/libril.so $(PRODUCT_OUT)/system/vendor/lib64/libril.so 2> /dev/null)
-
 symlinks := \
     $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib64/hw 2> /dev/null) \
     $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib/hw 2> /dev/null) \
@@ -527,7 +515,19 @@ symlinks := \
     $(shell ln -s /hwvendor/lib/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib/hw/$(link) 2> /dev/null)) \
     $(foreach link, $(hw64), \
     $(shell ln -s /hwvendor/lib64/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib64/hw/$(link) 2> /dev/null)) \
-    $(custom)
+    $(shell mkdir -p $(PRODUCT_OUT)/system/bin) \
+    $(shell mkdir -p $(PRODUCT_OUT)/system/etc) \
+    $(shell ln -s /hwvendor/lib64/hw/gps.hisi.default.so $(PRODUCT_OUT)/system/vendor/lib64/hw/gps.hisi.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib64/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib64/hw/copybit.real.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib/hw/copybit.real.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib64/hw/libwpa_client_hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libwpa_client.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib64/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libbt-vendor.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib/libbt-vendor.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/bin/rild $(PRODUCT_OUT)/system/bin/rild 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib/libril.so $(PRODUCT_OUT)/system/vendor/lib/libril.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib64/libril.so $(PRODUCT_OUT)/system/vendor/lib64/libril.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/bin/wpa_cli_hisi $(PRODUCT_OUT)/system/bin/wpa_cli 2> /dev/null) \
+    $(shell ln -s /hwvendor/etc/wifi $(PRODUCT_OUT)/system/etc/wifi 2> /dev/null)
 
 
 include $(CLEAR_VARS)
