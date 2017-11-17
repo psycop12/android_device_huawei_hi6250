@@ -16,6 +16,7 @@
 
 
 toplinks := \
+    bin \
     app \
     build.prop \
     etc \
