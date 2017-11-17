@@ -101,7 +101,8 @@ void vendor_load_default_properties() {
      * ro.boardid.product will not be set so the camera will not work.
      */
 }
-static void load_modem_props() {
+
+void vendor_load_system_properties() {
     int fd = -1,retval = 0,on = 0;
     FILE * pf;
     char buff[255];
@@ -115,16 +116,25 @@ static void load_modem_props() {
      * The modem id is not characters, so convert to hex.
      */
     size_t size = read(fd, buff, 254);
-    klog_write(0,"modemid = 0X%X%X%X%X%X\n", buff[0], buff[1],buff[2],buff[3],buff[4]);
-    sprintf(modemid, "[0X%X%X%X%X%X]:\n", buff[0], buff[1],buff[2],buff[3],buff[4]);
+    sprintf(modemid, "0X%X%X%X%X%X", buff[0], buff[1],buff[2],buff[3],buff[4]);
     close(fd);
+    /* Meticulus:
+     * Strange, my modem id is not in phone.prop?
+     */
+    if(!strcmp(modemid, "0X3B412004"))
+	sprintf(modemid, "%s", "0X3B412000");
+
+    klog_write(0,"huawei_init modemid = %s\n", modemid);
+    sprintf(buff, "[%s]:\n",modemid);
+    sprintf(modemid, "%s", buff);
+
     pf = fopen(PHONE_PROP_PATH, "r");
     if(pf < 0) {
 	klog_write(0, "huawei_init: Couldn't read phone.prop?");
 	return;
     }
-    char * linebuf;
-    size = 0;
+    char *linebuf = NULL;
+    size = PROP_NAME_MAX + PROP_VALUE_MAX + 2;
     /* Meticulus:
      * Loop through the prop file and look for the modem id.
      * Once found, set all props until you get empty line
@@ -140,27 +150,17 @@ static void load_modem_props() {
 	    break;
 	}
 	else if(on) {
-            /* Meticulus: Convert 'new line' to endof char * */
-	    char *eol = strstr(linebuf, "\n");
-	    eol[0] = '\0';
-            /* Meticulus: Convert '=' to 'end of char * */
-	    char *eq = strstr(linebuf, "=");
-	    eq[0] = '\0';
-	    char *value = (char *)eq + 1;
-	    if(!strcmp("persist.radio.multisim.config", linebuf)) {
-		value = "single";
-	    }
-	    set_property(linebuf, value);
+            linebuf[strlen(linebuf) -1] = '\0';
+	    char *key = strtok(linebuf, "=");
+	    char *value = strtok(NULL,"=");
+	    klog_write(0, "huawei_init: key='%s' value='%s'\n", key, value);
+	    set_property(key, value);
 	}
-	linebuf = NULL;
-	size = 0;
     }
     fclose(pf);
     if(!on) {
-	klog_write(0, "huaei_init: modemid '%s' was not found in phone.prop",modemid);
+	klog_write(0, "huawei_init: modemid '%s' was not found in phone.prop",modemid);
     }
-}
-void vendor_load_system_properties() {
-    load_modem_props();
+
 }
 
