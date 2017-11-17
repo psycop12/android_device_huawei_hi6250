@@ -89,13 +89,21 @@ void vendor_load_default_properties() {
     /* All P9-Lite needs this */
     if(!strncmp(model,"VNS", 3)) 
 	set_property(BOARDID_PRODUCT_PROP,"51316");
+    /* All Berlin needs this */
+    if(!strncmp(model, "BLN", 3))
+	set_property(BOARDID_PRODUCT_PROP, "61202");
+    /* All Prague needs this */
+    if(!strncmp(model, "PRA", 3))
+	set_property(BOARDID_PRODUCT_PROP, "61285");
+    /* All Warsaw needs this */
+    if(!strncmp(model, "WAS", 3))
+	set_property(BOARDID_PRODUCT_PROP, "61457");
     /* All Honor 5c/Honor 7 lite needs this */
     if(!strncmp(model, "NEM", 3) || !strncmp(model, "NMO", 3))
-	set_property(BOARDID_PRODUCT_PROP, "4871");
-
-    /* These have renamed model */
-    if(!strcmp(model, "NMO-L21"))
-	model = "NEM-L51"; 
+	set_property(BOARDID_PRODUCT_PROP, "4873");
+    /* Dallas? */
+    if(!strncmp(model, "DAL", 3))
+	set_property(BOARDID_PRODUCT_PROP, "6198");
 
     /* if a match is not found the values in the build.prop will be used.
      * ro.boardid.product will not be set so the camera will not work.
