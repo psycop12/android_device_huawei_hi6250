@@ -16,7 +16,6 @@
 #define PATH_WHITELIST_EXTRA_H \
     "/sys/firmware/devicetree/base/hisi,product_name", \
     "/sys/firmware/devicetree/base/hisi,modem_id", \
+    "/hwvendor/phone.prop", \
     "/vendor/phone.prop", \
-    "/system/bin/logcat", \
-    "/cache/logcat.txt",\
     "/dev/__properties__",
