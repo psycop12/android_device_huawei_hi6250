@@ -221,8 +221,9 @@ on fs
 
     wait /dev/block/platform/hi_mci.0/by-name/system
     mount_all /fstab.${ro.hardware}
-    class_start core
-    class_start main
+#    class_start core
+#    class_start main
+#    class_start late_start
     chown root root /sec_storage
     chmod 600 /sec_storage
 
