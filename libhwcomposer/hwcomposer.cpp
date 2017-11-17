@@ -18,6 +18,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <hardware/hardware.h>
+#include <utils/ThreadDefs.h>
 #include <utils/Timers.h>
 #include <errno.h>
 #include <fcntl.h>
