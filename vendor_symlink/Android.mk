@@ -502,12 +502,15 @@ hw64 := \
     vibrator.default.so
 
 custom := \
-    $(shell ln -s /hwvendor/lib64/hw/gps.hisi.default.so $(PRODUCT_OUT)/system/vendor/lib64/hw/gps.hisi.so)
-    $(shell ln -s /hwvendor/lib64/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib64/hw/copybit.real.so)
-    $(shell ln -s /hwvendor/lib/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib/hw/copybit.real.so)
-    $(shell ln -s /hwvendor/lib64/hw/libwpa_client_hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libwpa_client.so))
-    $(shell ln -s /hwvendor/lib64/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libbt-vendor.so))
-    $(shell ln -s /hwvendor/lib/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib/libbt-vendor.so))
+    $(shell ln -s /hwvendor/lib64/hw/gps.hisi.default.so $(PRODUCT_OUT)/system/vendor/lib64/hw/gps.hisi.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib64/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib64/hw/copybit.real.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib/hw/copybit.hi6250.so $(PRODUCT_OUT)/system/vendor/lib/hw/copybit.real.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib64/hw/libwpa_client_hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libwpa_client.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib64/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib64/libbt-vendor.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/lib/libbt-vendor-hisi.so $(PRODUCT_OUT)/system/vendor/lib/libbt-vendor.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/bin/rild $(PRODUCT_OUT)/system/bin/rild 2> /dev/null)
+    $(shell ln -s /hwvendor/lib/libril.so $(PRODUCT_OUT)/system/vendor/lib/libril.so 2> /dev/null)
+    $(shell ln -s /hwvendor/lib64/libril.so $(PRODUCT_OUT)/system/vendor/lib64/libril.so 2> /dev/null)
 
 symlinks := \
     $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib64/hw 2> /dev/null) \

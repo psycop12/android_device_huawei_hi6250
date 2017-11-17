@@ -109,7 +109,6 @@ on data_not_ready
 
 
 service ril-daemon /system/bin/rild
-    disabled
     class core
     socket rild stream 660 root radio
     socket rild-ims stream 660 root radio
