@@ -1,0 +1,35 @@
+From 4e93c77ed0589ac6e323aa2cf9c26bb9494cc5b3 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Fri, 17 Nov 2017 18:39:09 -0600
+Subject: [PATCH] wpa_supplicant: don't build wpa_cli
+
+Change-Id: I13c54ef64e7d6dea2f5c4c369ac9fac770567e5e
+---
+ wpa_supplicant/Android.mk | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/wpa_supplicant/Android.mk b/wpa_supplicant/Android.mk
+index d4841ad..0da296c 100644
+--- a/wpa_supplicant/Android.mk
++++ b/wpa_supplicant/Android.mk
+@@ -1550,7 +1550,7 @@ LDO=$(CC)
+ endif
+ 
+ ########################
+-
++ifeq (0,1)
+ include $(CLEAR_VARS)
+ LOCAL_MODULE := wpa_cli
+ LOCAL_MODULE_TAGS := debug
+@@ -1559,7 +1559,7 @@ LOCAL_CFLAGS := $(L_CFLAGS)
+ LOCAL_SRC_FILES := $(OBJS_c)
+ LOCAL_C_INCLUDES := $(INCLUDES)
+ include $(BUILD_EXECUTABLE)
+-
++endif
+ # This needs QMI artifacts to be built
+ ifneq ($(QCPATH),)
+ 
+-- 
+2.7.4
+

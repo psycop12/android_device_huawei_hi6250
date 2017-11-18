@@ -1,0 +1,31 @@
+From edc2273263ecd265b450f7368d0e80bca106d2b4 Mon Sep 17 00:00:00 2001
+From: Meticulus <theonejohnnyd@gmail.com>
+Date: Fri, 17 Nov 2017 19:31:11 -0600
+Subject: [PATCH] keymaster: don't build keymaster
+
+Change-Id: I43328ad64d6c2d5fe5a159c6c049214473ebedc1
+---
+ Android.mk | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Android.mk b/Android.mk
+index 3e3a25b..1900663 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -11,7 +11,7 @@
+ # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+-
++ifeq (0,1)
+ LOCAL_PATH := $(call my-dir)
+ 
+ ###
+@@ -179,3 +179,4 @@ LOCAL_SHARED_LIBRARIES := \
+ 	libsoftkeymaster
+ LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+ include $(BUILD_NATIVE_TEST)
++endif
+-- 
+2.7.4
+
