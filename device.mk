@@ -88,8 +88,8 @@ PRODUCT_COPY_FILES += \
 #    $(LOCAL_PATH)/configs/etc/bluetooth/bt_vendor.conf:system/etc/bluetooth/bt_vendor.conf
 
 # Fingerprint
-PRODUCT_PACKAGES += \
-    fingerprintd
+#PRODUCT_PACKAGES += \
+#    fingerprintd
 
 # Wifi
 PRODUCT_PACKAGES += \

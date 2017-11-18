@@ -654,6 +654,11 @@ service bugreport /system/bin/dumpstate -d -p -B -o /data/data/com.android.shell
     disabled
     oneshot
 
+service fingerprintd /system/bin/fingerprintd
+    class late_start
+    user system
+    group input
+
 service timer /sbin/timer.sh
     class main
     disabled

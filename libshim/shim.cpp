@@ -35,5 +35,7 @@ extern void exif_entry_gps_initialize(ExifEntry * e, ExifTag tag)
     exif_entry_initialize(e,tag);
 }
 
+/* fingerprint.hi6250.so */
+extern int __android_logPower_print() {return 0;};
 
 }
