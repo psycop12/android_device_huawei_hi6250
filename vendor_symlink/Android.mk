@@ -467,8 +467,6 @@ hw := \
     keystore.hi6250.so \
     local_time.default.so \
     memtrack.hi6250.so \
-    power.default.so \
-    power.hi6250.so \
     sensorcaps.default.so \
     sensorhub.default.so \
     sound_trigger.primary.default.so \
@@ -494,8 +492,6 @@ hw64 := \
     keystore.hi6250.so \
     local_time.default.so \
     memtrack.hi6250.so \
-    power.default.so \
-    power.hi6250.so \
     sensorcaps.default.so \
     sensorhub.default.so \
     sound_trigger.primary.default.so \
