@@ -526,6 +526,7 @@ symlinks := \
     $(shell ln -s /hwvendor/bin/wpa_cli_hisi $(PRODUCT_OUT)/system/bin/wpa_cli 2> /dev/null) \
     $(shell ln -s /hwvendor/etc/wifi $(PRODUCT_OUT)/system/etc/wifi 2> /dev/null) \
     $(shell ln -s /hwvendor/bin/gatekeeperd $(PRODUCT_OUT)/system/bin/gatekeeperd 2> /dev/null) \
+    $(shell ln -s /hwvendor/bin/keystore $(PRODUCT_OUT)/system/bin/keystore 2> /dev/null) \
     $(shell ln -s /hwvendor/lib64/libkeymaster_messages.so $(PRODUCT_OUT)/system/lib64/libkeymaster_messages.so 2> /dev/null) \
     $(shell ln -s /hwvendor/lib64/libkeymaster1.so $(PRODUCT_OUT)/system/lib64/libkeymaster1.so 2> /dev/null) \
     $(shell ln -s /hwvendor/lib64/libkeystore_binder.so $(PRODUCT_OUT)/system/lib64/libkeystore_binder.so 2> /dev/null) \
