@@ -474,6 +474,9 @@ on boot
 	chown nfc nfc /sys/nfc/nfc_activated_se_info
 	chmod 0664 /sys/nfc/nfc_activated_se_info
 
+        chown nfc nfc /dev/pn544
+        chmod 0664 /dev/pn544
+
 
     chown system system /sys/class/camerafs/node/thermal_meter
     chmod 664 /sys/class/camerafs/node/thermal_meter
