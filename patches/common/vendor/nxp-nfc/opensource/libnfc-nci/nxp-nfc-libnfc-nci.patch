@@ -1,19 +1,38 @@
-From c936cd11eae56f6dd2e9426e00eb87d0422e668c Mon Sep 17 00:00:00 2001
+From 20d1f5f1eb075ee2fb5fe24d13404a51a93d6673 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Sun, 19 Nov 2017 10:39:06 -0600
+Date: Sun, 19 Nov 2017 14:25:05 -0600
 Subject: [PATCH] "nxp-nfc-libnfc-nci _______________________________
 
-*Previous From a14ea96c8cf2ae114d3500e2218345eaadabfd5a Mon Sep 17 00:00:00 2001
+*Previous From c936cd11eae56f6dd2e9426e00eb87d0422e668c Mon Sep 17 00:00:00 2001
 *Previous From: Meticulus <theonejohnnyd@gmail.com>
-*Previous Date: Fri, 3 Mar 2017 07:33:40 -0600
-*Previous Subject: [PATCH] nxp-nfc-libnfc-nci
+*Previous Date: Sun, 19 Nov 2017 10:39:06 -0600
+*Previous Subject: [PATCH] "nxp-nfc-libnfc-nci _______________________________
 *
-*Change-Id: I7ec88fb2d59b262ca7a756e859ba66355aad4da7"
+**Previous From a14ea96c8cf2ae114d3500e2218345eaadabfd5a Mon Sep 17 00:00:00 2001
+**Previous From: Meticulus <theonejohnnyd@gmail.com>
+**Previous Date: Fri, 3 Mar 2017 07:33:40 -0600
+**Previous Subject: [PATCH] nxp-nfc-libnfc-nci
+**
+**Change-Id: I7ec88fb2d59b262ca7a756e859ba66355aad4da7""
 ---
- src/nfc/nfc/nfc_main.c | 2 +-
- src/nfc/nfc/nfc_ncif.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ src/adaptation/NfcAdaptation.cpp | 2 +-
+ src/nfc/nfc/nfc_main.c           | 2 +-
+ src/nfc/nfc/nfc_ncif.c           | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
+diff --git a/src/adaptation/NfcAdaptation.cpp b/src/adaptation/NfcAdaptation.cpp
+index 79a152b..6829737 100644
+--- a/src/adaptation/NfcAdaptation.cpp
++++ b/src/adaptation/NfcAdaptation.cpp
+@@ -723,7 +723,7 @@ void NfcAdaptation::DownloadFirmware ()
+     HalOpen (HalDownloadFirmwareCallback, HalDownloadFirmwareDataCallback);
+     mHalOpenCompletedEvent.wait ();
+     mHalOpenCompletedEvent.unlock();
+-#if (NXP_EXTNS == TRUE)
++#if (NXP_EXTNS == FALSE)
+     /* Send a CORE_RESET and CORE_INIT to the NFCC. This is required because when calling
+      * HalCoreInitialized, the HAL is going to parse the conf file and send NCI commands
+      * to the NFCC. Hence CORE-RESET and CORE-INIT have to be sent prior to this.
 diff --git a/src/nfc/nfc/nfc_main.c b/src/nfc/nfc/nfc_main.c
 index 9358be0..5726445 100644
 --- a/src/nfc/nfc/nfc_main.c
