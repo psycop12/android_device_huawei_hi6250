@@ -93,7 +93,7 @@ PRODUCT_COPY_FILES += \
 
 # Wifi
 PRODUCT_PACKAGES += \
-    hostapd
+    hostapd_cli
 
 # NFC
 PRODUCT_PACKAGES += \

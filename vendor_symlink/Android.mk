@@ -523,6 +523,7 @@ symlinks := \
     $(shell ln -s /hwvendor/bin/rild $(PRODUCT_OUT)/system/bin/rild 2> /dev/null) \
     $(shell ln -s /hwvendor/lib/libril.so $(PRODUCT_OUT)/system/vendor/lib/libril.so 2> /dev/null) \
     $(shell ln -s /hwvendor/lib64/libril.so $(PRODUCT_OUT)/system/vendor/lib64/libril.so 2> /dev/null) \
+    $(shell ln -s /hwvendor/bin/hostapd_hisi $(PRODUCT_OUT)/system/bin/hostapd 2> /dev/null) \
     $(shell ln -s /hwvendor/bin/wpa_cli_hisi $(PRODUCT_OUT)/system/bin/wpa_cli 2> /dev/null) \
     $(shell ln -s /hwvendor/etc/wifi $(PRODUCT_OUT)/system/etc/wifi 2> /dev/null) \
     $(shell ln -s /hwvendor/bin/gatekeeperd $(PRODUCT_OUT)/system/bin/gatekeeperd 2> /dev/null) \
