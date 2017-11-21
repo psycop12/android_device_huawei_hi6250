@@ -91,7 +91,10 @@ def FullOTA_InstallBegin(info):
   info.script.AppendExtra('ui_print("                   http://meticulus.co.vu          ");');
   info.script.AppendExtra('ui_print("                                                   ");');
   info.script.AppendExtra('ui_print("                   Our Thanks to:                  ");');
-  info.script.AppendExtra('ui_print("                   dady8889 @ Github               ");');
+  info.script.AppendExtra('ui_print("                   dady8889                        ");');
+  info.script.AppendExtra('ui_print("                   felix-development               ");');
+  info.script.AppendExtra('ui_print("                   HassanMirza01                   ");');
+  info.script.AppendExtra('ui_print("                   petya230                        ");');
 
 def FullOTA_InstallEnd(info):
   info.script.AppendExtra('package_extract_dir("override", "/system");')
