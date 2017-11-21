@@ -87,6 +87,7 @@ BOARD_RIL_CLASS := ../../../device/huawei/hi6250/ril/
 SIM_COUNT := 2
 BOARD_PROVIDES_RILD := true
 BOARD_PROVIDES_LIBRIL := true
+BOARD_PROVIDES_LIBREFERENCE_RIL := true
 
 # Graphics
 USE_OPENGL_RENDERER := true
