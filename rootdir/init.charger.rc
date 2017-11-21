@@ -68,7 +68,7 @@ service ueventd /sbin/ueventd
     critical
     seclabel u:r:ueventd:s0
 
-service charger /sbin/healthd -p
+service charger /sbin/healthd -c
     class charger
     critical
     seclabel u:r:healthd:s0
@@ -111,45 +111,11 @@ service teecd /sbin/teecd
     group root
     seclabel u:r:tee:s0
 
-service logctl_service /sbin/logctl_service -m 1
-    class late_start
-    user root
-    group system
-    oneshot
-    seclabel u:r:hisilogcat:s0
-
-service logcat_service /sbin/logctl_service -m 1 -t 1
-    class late_start
-    user root
-    group system
-    oneshot
-    seclabel u:r:hisilogcat:s0
-
 service shlogd /system/vendor/bin/shs
     class late_start
     user root
     group system
     disabled
-
-service chargelogcat /system/vendor/bin/chargelogcat -r 4096 -n 5 -z 4 -t 5 -p /data/log/charge-log/
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service kmsglogcat /sbin/kmsgcat -r 4096 -z 5 -n 5 -f /data/log/android_logs/kmsgcat-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
-
-service chargemonitor /system/vendor/bin/chargemonitor
-    class late_start
-    user root
-    group system
-    seclabel u:r:hisilogcat:s0
 
 service atcmdserver  /vendor/bin/atcmdserver
     disabled

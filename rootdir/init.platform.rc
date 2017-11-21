@@ -32,8 +32,8 @@ on fs
 on post-fs
     sys_wp_init_action
 
-on charger
-    class_start core
+#on charger
+#    class_start core
 
 on post-fs-data
 

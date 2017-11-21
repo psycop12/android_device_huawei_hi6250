@@ -12,6 +12,7 @@ import /init.hi6250.usb.rc
 import /init.post-fs-data.rc
 import /init.balong_modem.rc
 import /init.tee.rc
+import /init.charger.rc
 
 on early-boot
     write /sys/block/dm-0/queue/read_ahead_kb 2048
