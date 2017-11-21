@@ -45,18 +45,13 @@ extern "C" int property_get(char *key, char* value, const char *dvalue);
 
 static void set_property(char *key, char *value) {
     int error;
-    error = __system_property_add(key,strlen(key),value,strlen(value));
-    if(error) {
-	klog_write(0, "huawei_init: Could not set %s to %s error %d\n",key,value,error);
-    }
-}
-
-static void update_property(char *key, char *value) {
-    int error;
     prop_info* pi = (prop_info*) __system_property_find(key);
-    error = __system_property_update(pi,value,strlen(value));
+    if(pi)	
+        error = __system_property_update(pi,value,strlen(value));
+    else
+    	error = __system_property_add(key,strlen(key),value,strlen(value));
     if(error) {
-	klog_write(0, "huawei_init: Could not update %s to %s error %d\n",key,value,error);
+	klog_write(0, "huawei_init: Could not update or set %s to %s error %d\n",key,value,error);
     }
 }
 
@@ -110,7 +105,44 @@ void vendor_load_default_properties() {
      */
 }
 
-void vendor_load_system_properties() {
+static void load_product_props() {
+    char prod_prop_path[255];
+    char *linebuf = NULL;
+    size_t size = PROP_NAME_MAX + PROP_VALUE_MAX + 2;
+    sprintf(prod_prop_path, "/product/hw_oem/%s/prop/local.prop",model);
+    FILE *fd = fopen(prod_prop_path, "r");
+    if(fd < 0) {
+	klog_write(0, "huawei_init: Couldn't read %s?", prod_prop_path);
+	return;
+    }
+    while(getline(&linebuf, &size, fd) > -1) {
+	/* Meticulus skip empty lines and comments */
+	if(linebuf[0] == '\n' || linebuf[0] == '#')
+	    continue;
+
+        linebuf[strlen(linebuf) -1] = '\0';
+	char *key = strtok(linebuf, "=");
+	char *value = strtok(NULL,"=");
+	/* Meticulus:
+	 * According to VNS-L21 prop file, Real model name
+	 * is stored in 'marketing_name' so use this for
+	 * ro.product.model.
+	 */
+	if(!strcmp(key, PRODUCT_MODEL_PROP)) {
+	   continue;
+	} else if(!strcmp(key, "ro.frp.pst")) {
+	   continue;
+	} else if(!strcmp(key, "ro.config.marketing_name")) {
+	   set_property(PRODUCT_MODEL_PROP, value);
+	   klog_write(0, "huawei_init: key='%s' value='%s'\n", key, value);
+	} else {
+	   set_property(key,value);
+	   klog_write(0, "huawei_init: key='%s' value='%s'\n", key, value);
+	}
+   }
+}
+
+static void load_modem_props() {
     int fd = -1,retval = 0,on = 0;
     FILE * pf;
     char buff[255];
@@ -169,6 +201,10 @@ void vendor_load_system_properties() {
     if(!on) {
 	klog_write(0, "huawei_init: modemid '%s' was not found in phone.prop",modemid);
     }
+}
 
+void vendor_load_system_properties() {
+    load_modem_props();
+    load_product_props();
 }
 
