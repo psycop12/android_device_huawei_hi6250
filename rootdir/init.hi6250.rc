@@ -490,16 +490,6 @@ on boot
     chown system system /sys/kernel/rcc/full_clean_size
     chown system system /sys/kernel/rcc/stat
 
-on data_ready
-    start telemntncat
-
-service telemntncat /vendor/bin/dmesgcat -i /proc/telemntn -e b -r 10240 -z 3 -n 1 -f /data/hisi_logs/running_trace/telemntncat-log
-    class late_start
-    user root
-    group system
-    disabled
-
-
 on post-fs-data
     mkdir /splash2/sim 0775 root system
     mkdir /splash2/sim/offlinelogs 0775 root system
@@ -561,15 +551,6 @@ service goldeneye /system/bin/goldeneye
     class main
     user root
     group root
-
-
-
-service kmsgcat_cp /sbin/kmsgcat -r 4096 -n 25 -i /dev/cshell_log -f /data/log/cp_log/modemlog/modemkmsg-log
-    class late_start
-    user root
-    group system
-    disabled
-    seclabel u:r:hisilogcat:s0
 
 service defragd /system/vendor/bin/defragd
     class late_start
@@ -644,15 +625,6 @@ on property:persist.sys.huawei.debug.on=1
 chown system audio /dev/voice_proxy_vowifi
 chmod 0660 /dev/voice_proxy_vowifi
 
-
-service check_system /sbin/hw_crit_service_sys
-    class main
-    oneshot
-    seclabel u:r:check_system:s0
-
-on property:sys.boot_completed=1
-    start check_system
-
 service bugreport /system/bin/dumpstate -d -p -B -o /data/data/com.android.shell/files/bugreports/bugreport
     class main
     disabled
@@ -662,9 +634,4 @@ service fingerprintd /system/bin/fingerprintd
     class late_start
     user system
     group input
-
-service timer /sbin/timer.sh
-    class main
-    disabled
-    oneshot
 

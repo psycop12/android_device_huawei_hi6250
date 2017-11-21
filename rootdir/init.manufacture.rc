@@ -117,7 +117,3 @@ service data_cleanner /vendor/bin/data_cleaner
     class core
     oneshot
 
-#service check_hota /system/bin/sh /system/etc/check_hota.sh
-#    class core
-#    oneshot
-#    seclabel u:r:check_hota:s0
