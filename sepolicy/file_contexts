@@ -125,11 +125,11 @@
 /system/bin/gnss_supl20clientd_hisi	u:object_r:gnss_exec:s0
 /vendor/bin/wpa_supplicant_hisi	u:object_r:wpa_hisi_exec:s0
 /vendor/bin/hivwserver		u:object_r:hivwserver_exec:s0
-/vendor/bin/tlogcat		u:object_r:hisilogcat:s0
-/sbin/logctl_service		u:object_r:hisilogcat:s0
-/system/vendor/bin/pmom_cat     u:object_r:hisilogcat:s0
-/system/vendor/bin/hilogcat	u:object_r:hisilogcat:s0
-/system/vendor/bin/factory_log_service u:object_r:hisilogcat:s0
+/vendor/bin/tlogcat		u:object_r:hisilogcat_exec:s0
+/sbin/logctl_service		u:object_r:hisilogcat_exec:s0
+/system/vendor/bin/pmom_cat     u:object_r:hisilogcat_exec:s0
+/system/vendor/bin/hilogcat	u:object_r:hisilogcat_exec:s0
+/system/vendor/bin/factory_log_service u:object_r:hisilogcat_exec:s0
 
 # gps
 /system/bin/gpsdaemon		u:object_r:gpsdaemon_exec:s0
@@ -200,3 +200,6 @@
 
 # devicetree
 /sys/firmware/devicetree(/.*?)  u:object_r:kernel_devicetree:s0
+
+# frp
+/dev/block/platform/hi_mci.0/by-name/frp u:object_r:frp_block_device:s0
