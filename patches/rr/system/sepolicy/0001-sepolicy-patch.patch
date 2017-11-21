@@ -1,18 +1,35 @@
-From 8539e734007d85aecf161d605363981fe291b65b Mon Sep 17 00:00:00 2001
+From b60cd8cc340768870a36d728c597d13cca07a290 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Fri, 27 Oct 2017 04:55:27 -0500
+Date: Mon, 20 Nov 2017 16:18:21 -0600
 Subject: [PATCH] "0001-sepolicy-patch _______________________________
 
-*Previous From b469cd826322cec0d92188c9790ca3dec2c3e557 Mon Sep 17 00:00:00 2001
+*Previous From 969ca1349dc6f0bba2c8ec460b16fae3ff40277c Mon Sep 17 00:00:00 2001
 *Previous From: Meticulus <theonejohnnyd@gmail.com>
-*Previous Date: Sat, 8 Apr 2017 15:52:17 -0500
-*Previous Subject: [PATCH] 0001-sepolicy-patch
+*Previous Date: Mon, 20 Nov 2017 16:11:28 -0600
+*Previous Subject: [PATCH] "0001-sepolicy-patch _______________________________
 *
-*Change-Id: I62d72022d19714ac8a719d22bc651a3348dabe94"
+**Previous From 6a99fa248ca73a1f4153ac63df7fb3818f7e3c82 Mon Sep 17 00:00:00 2001
+**Previous From: Meticulus <theonejohnnyd@gmail.com>
+**Previous Date: Mon, 20 Nov 2017 10:52:30 -0600
+**Previous Subject: [PATCH] "0001-sepolicy-patch _______________________________
+**
+***Previous From 8539e734007d85aecf161d605363981fe291b65b Mon Sep 17 00:00:00 2001
+***Previous From: Meticulus <theonejohnnyd@gmail.com>
+***Previous Date: Fri, 27 Oct 2017 04:55:27 -0500
+***Previous Subject: [PATCH] "0001-sepolicy-patch _______________________________
+***
+****Previous From b469cd826322cec0d92188c9790ca3dec2c3e557 Mon Sep 17 00:00:00 2001
+****Previous From: Meticulus <theonejohnnyd@gmail.com>
+****Previous Date: Sat, 8 Apr 2017 15:52:17 -0500
+****Previous Subject: [PATCH] 0001-sepolicy-patch
+****
+****Change-Id: I62d72022d19714ac8a719d22bc651a3348dabe94""""
 ---
  app.te    |  2 +-
  domain.te | 21 +++++++++++----------
- 2 files changed, 12 insertions(+), 11 deletions(-)
+ init.te   |  2 +-
+ logd.te   |  2 +-
+ 4 files changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/app.te b/app.te
 index ca0cba3..7e3a52f 100644
@@ -76,6 +93,32 @@ index 0bcb687..4893cbe 100644
  # do not grant anything greater than r_file_perms and relabelfrom unlink
  # to installd
  neverallow installd system_data_file:file ~{ r_file_perms relabelfrom unlink };
+diff --git a/init.te b/init.te
+index 9bc78d1..3d4d6ea 100644
+--- a/init.te
++++ b/init.te
+@@ -304,7 +304,7 @@ neverallow init shell_data_file:lnk_file read;
+ neverallow init app_data_file:lnk_file read;
+ 
+ # init should never execute a program without changing to another domain.
+-neverallow init { file_type fs_type }:file execute_no_trans;
++#neverallow init { file_type fs_type }:file execute_no_trans;
+ 
+ # Init never adds or uses services via service_manager.
+ neverallow init service_manager_type:service_manager { add find };
+diff --git a/logd.te b/logd.te
+index bc97a37..ae84ca9 100644
+--- a/logd.te
++++ b/logd.te
+@@ -60,7 +60,7 @@ neverallow logd { app_data_file system_data_file }:dir_file_class_set write;
+ 
+ # logd is not allowed to write anywhere other than /data/misc/logd, and then
+ # only on userdebug or eng builds
+-neverallow logd { file_type -logd_tmpfs userdebug_or_eng(` -misc_logd_file -coredump_file ') }:file { create write append };
++#neverallow logd { file_type -logd_tmpfs userdebug_or_eng(` -misc_logd_file -coredump_file ') }:file { create write append };
+ 
+ # logpersist is only allowed on userdebug/eng builds
+ neverallow { domain userdebug_or_eng(`-logd -shell -dumpstate') } misc_logd_file:file no_rw_file_perms;
 -- 
 2.7.4
 
