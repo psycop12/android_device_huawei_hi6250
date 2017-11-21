@@ -448,7 +448,6 @@ lib64links := \
     hwcam
 
 hw := \
-    audio.a2dp.default.so \
     audio.primary.default.so \
     audio.primary.hisi.so \
     audio.r_submix.default.so \
@@ -473,7 +472,6 @@ hw := \
     vibrator.default.so
 
 hw64 := \
-    audio.a2dp.default.so \
     audio.primary.default.so \
     audio.primary.hisi.so \
     audio.r_submix.default.so \
