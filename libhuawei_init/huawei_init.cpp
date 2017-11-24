@@ -111,7 +111,7 @@ static void load_product_props() {
     size_t size = PROP_NAME_MAX + PROP_VALUE_MAX + 2;
     sprintf(prod_prop_path, "/product/hw_oem/%s/prop/local.prop",model);
     FILE *fd = fopen(prod_prop_path, "r");
-    if(fd < 0) {
+    if(!fd) {
 	klog_write(0, "huawei_init: Couldn't read %s?", prod_prop_path);
 	return;
     }
@@ -169,7 +169,7 @@ static void load_modem_props() {
     sprintf(modemid, "%s", buff);
 
     pf = fopen(PHONE_PROP_PATH, "r");
-    if(pf < 0) {
+    if(!pf) {
 	klog_write(0, "huawei_init: Couldn't read phone.prop?");
 	return;
     }
