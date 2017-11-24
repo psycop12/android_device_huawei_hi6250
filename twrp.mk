@@ -17,7 +17,7 @@
 # TWRP Recovery defines
 DEVICE_RESOLUTION := 1080x1920
 TW_THEME := portrait_mdpi
-TW_CUSTOM_BATTERY_PATH := "/sys/devices/battery.5/power_supply/Battery" 
+TW_CUSTOM_BATTERY_PATH := "/sys/devices/platform/battery/power_supply/Battery" 
 TARGET_USERIMAGES_USE_EXT4 := true
 RECOVERY_SDCARD_ON_DATA := true
 TW_INTERNAL_STORAGE_PATH := "/data/media"
@@ -35,18 +35,13 @@ TW_CRYPTO_FS_FLAGS := "0x00000406"
 TW_CRYPTO_KEY_LOC := "footer"
 TW_EXCLUDE_SUPERSU := false
 TW_EXTRA_LANGUAGES := true
-
+TW_INCLUDE_CRYPTO := true
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
 
-ifeq ($(TW_EMUI4_SUPPORT), true)
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/recovery/stock.twrp.fstab:recovery/root/etc/stock.twrp.fstab \
 	$(LOCAL_PATH)/recovery/fstabSwitcher:recovery/root/sbin/fstabSwitcher \
 	$(LOCAL_PATH)/recovery/fstab.hi6250.stock:recovery/root/fstab.hi6250.stock
 
-# EMUI 4.X Recovery Blobs
-$(call inherit-product, vendor/huawei/hi6250/emui4x_recovery.mk)
-
-endif

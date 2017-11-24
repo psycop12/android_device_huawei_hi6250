@@ -39,15 +39,6 @@ PRODUCT_PACKAGES += \
 
 # Meticulus Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := device/huawei/hi6250
-
-ifeq ($(TARGET_PRODUCT), omni_hi6250)
-# TWRP EMUI4.X Support
-TW_EMUI4_SUPPORT := true
-
-# Meticulus Recovery Extras
-$(call inherit-product, vendor/huawei/hi6250/meticulus_recovery.mk)
-
-endif ## USER eq meticulus
 else
 $(shell cd prebuilts/build-tools && git checkout linux-x86/bin/ninja)
 endif

@@ -537,7 +537,6 @@ symlinks := \
 
 
 include $(CLEAR_VARS)
-LOCAL_PATH := $(call my-dir)
 LOCAL_MODULE := emui5_vendor_symlinks
 LOCAL_MODULE_TAGS := optional
 LOCAL_REQUIRED_MODULES := $(symlinks)

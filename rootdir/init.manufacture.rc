@@ -64,9 +64,6 @@ on early-boot
 on boot
 
 
-
-
-
 service atcmdserver  /vendor/bin/atcmdserver
     class main
     disabled
@@ -92,15 +89,6 @@ on charger
 service goldeneye /system/bin/goldeneye
     class main
     user root
-
-service check_root /sbin/check_root
-    class main
-    oneshot
-    seclabel u:r:check_root:s0
-
-
-on property:sys.boot_completed=1
-    start check_root
 
 on property:ro.runmode=factory
     chmod 0775 /data/media/0/Music
