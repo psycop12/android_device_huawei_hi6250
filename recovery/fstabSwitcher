@@ -76,6 +76,7 @@ is_cyanogen() {
 		/sbin/setprop ro.crypto.state encrypted
 		/sbin/setprop ro.crypto.type block
 		wait_umounted /system
+		ln -s /system/etc/native_packages.bin /res/native_packages.xml
 		/sbin/setprop sys.stock 1
 	fi
 }

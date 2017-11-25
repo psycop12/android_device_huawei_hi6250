@@ -1,9 +1,6 @@
 import /init.recovery.huawei.rc
 import /init.recovery.hi6250.usb.rc
 
-on early-init
-    start fstabSwitcher
-
 on property:sys.stock=1
     start teecd
     start volisnotd
