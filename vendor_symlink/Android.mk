@@ -19,13 +19,202 @@ toplinks := \
     bin \
     app \
     build.prop \
-    etc \
     firmware \
     framework \
     media \
     phone.prop \
     usr \
     xbin
+
+etclinks := \
+    accelpackages.xml \
+    audio \
+    audio_policy.conf \
+    blkcg_init.sh \
+    bluetooth \
+    camera \
+    cfg_berlin_al10_hisi.ini \
+    cfg_berlin_al20_hisi.ini \
+    cfg_berlin_al30_hisi.ini \
+    cfg_berlin_al40_hisi.ini \
+    cfg_berlin_dl00_hisi.ini \
+    cfg_berlin_l21_hisi.ini \
+    cfg_berlin_l21l_hisi.ini \
+    cfg_berlin_l22_hisi.ini \
+    cfg_berlin_l23l_hisi.ini \
+    cfg_berlin_l24_hisi.ini \
+    cfg_berlin_tl00a_hisi.ini \
+    cfg_berlin_tl00_hisi.ini \
+    cfg_berlin_tl10_hisi.ini \
+    cfg_nemo_al10_hisi.ini \
+    cfg_nemo_al30_hisi.ini \
+    cfg_nemo_al60_hisi.ini \
+    cfg_nemo_cl00_hisi.ini \
+    cfg_nemo_l21e_hisi.ini \
+    cfg_nemo_l21_hisi.ini \
+    cfg_nemo_l22e_hisi.ini \
+    cfg_nemo_l22_hisi.ini \
+    cfg_nemo_l23_hisi.ini \
+    cfg_nemo_tl00h_hisi.ini \
+    cfg_nemo_tl00_hisi.ini \
+    cfg_nemo_ul10_hisi.ini \
+    cfg_prague_al00_hisi.ini \
+    cfg_prague_l21_hisi.ini \
+    cfg_prague_l22_hisi.ini \
+    cfg_prague_l23_hisi.ini \
+    cfg_prague_l31_hisi.ini \
+    cfg_prague_tl00_hisi.ini \
+    cfg_prague_tl10_hisi.ini \
+    cfg_venus_dl00_hisi.ini \
+    cfg_venus_l21_hisi.ini \
+    cfg_venus_l22_hisi.ini \
+    cfg_venus_l23_hisi.ini \
+    cfg_venus_l31_hisi.ini \
+    cfg_venus_l53_hisi.ini \
+    cfg_venus_tl00_hisi.ini \
+    cfg_warsaw_al00_hisi.ini \
+    cfg_warsaw_l03t_hisi.ini \
+    cfg_warsaw_lx1a_hisi.ini \
+    cfg_warsaw_lx1_hisi.ini \
+    cfg_warsaw_lx2_hisi.ini \
+    cfg_warsaw_lx2j_hisi.ini \
+    cfg_warsaw_lx3_hisi.ini \
+    cfg_warsaw_tl00_hisi.ini \
+    chargemonitor_config.xml \
+    charger \
+    cloud \
+    component_version.txt \
+    decodebitmap.xml \
+    device_monitor_for_nff.conf \
+    device_state_monitor.conf \
+    dhcpcd \
+    factory_modem.cfg \
+    geoloc.conf \
+    gnss \
+    goldeneye_config.xml \
+    hosts \
+    hsmConfig \
+    HwFrameworkNormalization.xml \
+    ikedconfig \
+    init \
+    media_codecs_google_audio.xml \
+    media_codecs_google_telephony.xml \
+    media_codecs_google_video.xml \
+    media_codecs_performance.xml \
+    media_codecs.xml \
+    media_profiles.xml \
+    mkshrc \
+    modemConfig \
+    native_packages.xml \
+    NOTICE.html.gz \
+    NOTICE.txt \
+    permissions \
+    public.libraries.txt \
+    recovery.fstab \
+    security \
+    sws \
+    topazhp.cfg \
+    tp_test_parameters \
+    unrm_file_list.conf \
+    vdec_atlas.cfg \
+    verify_keys \
+    vold.fstab \
+    wifi \
+    xml \
+    accelpackages.xml \
+    audio \
+    audio_policy.conf \
+    blkcg_init.sh \
+    bluetooth \
+    camera \
+    cfg_berlin_al10_hisi.ini \
+    cfg_berlin_al20_hisi.ini \
+    cfg_berlin_al30_hisi.ini \
+    cfg_berlin_al40_hisi.ini \
+    cfg_berlin_dl00_hisi.ini \
+    cfg_berlin_l21_hisi.ini \
+    cfg_berlin_l21l_hisi.ini \
+    cfg_berlin_l22_hisi.ini \
+    cfg_berlin_l23l_hisi.ini \
+    cfg_berlin_l24_hisi.ini \
+    cfg_berlin_tl00a_hisi.ini \
+    cfg_berlin_tl00_hisi.ini \
+    cfg_berlin_tl10_hisi.ini \
+    cfg_nemo_al10_hisi.ini \
+    cfg_nemo_al30_hisi.ini \
+    cfg_nemo_al60_hisi.ini \
+    cfg_nemo_cl00_hisi.ini \
+    cfg_nemo_l21e_hisi.ini \
+    cfg_nemo_l21_hisi.ini \
+    cfg_nemo_l22e_hisi.ini \
+    cfg_nemo_l22_hisi.ini \
+    cfg_nemo_l23_hisi.ini \
+    cfg_nemo_tl00h_hisi.ini \
+    cfg_nemo_tl00_hisi.ini \
+    cfg_nemo_ul10_hisi.ini \
+    cfg_prague_al00_hisi.ini \
+    cfg_prague_l21_hisi.ini \
+    cfg_prague_l22_hisi.ini \
+    cfg_prague_l23_hisi.ini \
+    cfg_prague_l31_hisi.ini \
+    cfg_prague_tl00_hisi.ini \
+    cfg_prague_tl10_hisi.ini \
+    cfg_venus_dl00_hisi.ini \
+    cfg_venus_l21_hisi.ini \
+    cfg_venus_l22_hisi.ini \
+    cfg_venus_l23_hisi.ini \
+    cfg_venus_l31_hisi.ini \
+    cfg_venus_l53_hisi.ini \
+    cfg_venus_tl00_hisi.ini \
+    cfg_warsaw_al00_hisi.ini \
+    cfg_warsaw_l03t_hisi.ini \
+    cfg_warsaw_lx1a_hisi.ini \
+    cfg_warsaw_lx1_hisi.ini \
+    cfg_warsaw_lx2_hisi.ini \
+    cfg_warsaw_lx2j_hisi.ini \
+    cfg_warsaw_lx3_hisi.ini \
+    cfg_warsaw_tl00_hisi.ini \
+    chargemonitor_config.xml \
+    charger \
+    cloud \
+    component_version.txt \
+    decodebitmap.xml \
+    device_monitor_for_nff.conf \
+    device_state_monitor.conf \
+    dhcpcd \
+    factory_modem.cfg \
+    geoloc.conf \
+    gnss \
+    goldeneye_config.xml \
+    hosts \
+    hsmConfig \
+    HwFrameworkNormalization.xml \
+    ikedconfig \
+    init \
+    media_codecs_google_audio.xml \
+    media_codecs_google_telephony.xml \
+    media_codecs_google_video.xml \
+    media_codecs_performance.xml \
+    media_codecs.xml \
+    media_profiles.xml \
+    mkshrc \
+    modemConfig \
+    native_packages.xml \
+    NOTICE.html.gz \
+    NOTICE.txt \
+    permissions \
+    public.libraries.txt \
+    recovery.fstab \
+    security \
+    sws \
+    topazhp.cfg \
+    tp_test_parameters \
+    unrm_file_list.conf \
+    vdec_atlas.cfg \
+    verify_keys \
+    vold.fstab \
+    wifi \
+    xml
 
 liblinks := \
     libAntiTheftService.so \
@@ -498,8 +687,10 @@ hw64 := \
 symlinks := \
     $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib64/hw 2> /dev/null) \
     $(shell rm -rf $(PRODUCT_OUT)/system/vendor/lib/hw 2> /dev/null) \
+    $(shell rm -rf $(PRODUCT_OUT)/system/vendor/etc 2> /dev/null) \
     $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/lib64/hw 2> /dev/null) \
     $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/lib/hw 2> /dev/null) \
+    $(shell mkdir -p $(PRODUCT_OUT)/system/vendor/etc 2> /dev/null) \
     $(foreach link, $(toplinks), \
     $(shell ln -s /hwvendor/$(link) $(PRODUCT_OUT)/system/vendor/$(link) 2> /dev/null)) \
     $(foreach link, $(liblinks), \
@@ -510,6 +701,8 @@ symlinks := \
     $(shell ln -s /hwvendor/lib/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib/hw/$(link) 2> /dev/null)) \
     $(foreach link, $(hw64), \
     $(shell ln -s /hwvendor/lib64/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib64/hw/$(link) 2> /dev/null)) \
+    $(foreach link, $(etclinks), \
+    $(shell ln -s /hwvendor/vendor/etc/$(link) $(PRODUCT_OUT)/system/vendor/etc/$(link) 2> /dev/null)) \
     $(shell mkdir -p $(PRODUCT_OUT)/system/bin) \
     $(shell mkdir -p $(PRODUCT_OUT)/system/etc) \
     $(shell ln -s /hwvendor/lib64/hw/gps.hisi.default.so $(PRODUCT_OUT)/system/vendor/lib64/hw/gps.hisi.so 2> /dev/null) \
