@@ -112,7 +112,7 @@ static void load_product_props() {
     sprintf(prod_prop_path, "/product/hw_oem/%s/prop/local.prop",model);
     FILE *fd = fopen(prod_prop_path, "r");
     if(!fd) {
-	klog_write(0, "huawei_init: Couldn't read %s?", prod_prop_path);
+	klog_write(0, "huawei_init: Couldn't read %s?\n", prod_prop_path);
 	return;
     }
     while(getline(&linebuf, &size, fd) > -1) {
@@ -149,7 +149,7 @@ static void load_modem_props() {
     char modemid[255];
     fd = open(MODEM_ID_PATH, O_RDONLY);
     if(fd < 0 ) {
-	klog_write(0, "huawei_init: Couldn't get modem id?");
+	klog_write(0, "huawei_init: Couldn't get modem id?\n");
 	return;
     }
     /* Meticulus:
@@ -170,7 +170,7 @@ static void load_modem_props() {
 
     pf = fopen(PHONE_PROP_PATH, "r");
     if(!pf) {
-	klog_write(0, "huawei_init: Couldn't read phone.prop?");
+	klog_write(0, "huawei_init: Couldn't read phone.prop?\n");
 	return;
     }
     char *linebuf = NULL;
@@ -181,7 +181,7 @@ static void load_modem_props() {
      */
     while(getline(&linebuf, &size, pf) > -1) {
 	if(!strcmp(linebuf, modemid)) {
-	    klog_write(0, "huawei_init: Found! %s",linebuf);
+	    klog_write(0, "huawei_init: Found! %s\n",linebuf);
 	    on = 1;
 	    continue;	
 	}
@@ -199,7 +199,7 @@ static void load_modem_props() {
     }
     fclose(pf);
     if(!on) {
-	klog_write(0, "huawei_init: modemid '%s' was not found in phone.prop",modemid);
+	klog_write(0, "huawei_init: modemid '%s' was not found in phone.prop\n",modemid);
     }
 }
 
