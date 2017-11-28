@@ -9,6 +9,7 @@ import /init.protocol.rc
 import /init.connectivity.rc
 import /init.${ro.boardid.product}.rc
 import /init.hi6250.usb.rc
+import /init.hisi.usb.rc
 import /init.post-fs-data.rc
 import /init.balong_modem.rc
 import /init.tee.rc
