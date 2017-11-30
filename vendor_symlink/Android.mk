@@ -329,7 +329,6 @@ liblinks := \
     libkeystore-engine.so \
     libkeystore_binder.so \
     libl2_test.so \
-    liblog.so \
     libmax98925.so \
     libmdnssd.so \
     libmemtrack.so \
@@ -549,7 +548,6 @@ lib64links := \
     libkeystore-engine.so \
     libkeystore_binder.so \
     libl2_test.so \
-    liblog.so \
     liblogwrap.so \
     libmax98925.so \
     libmdnssd.so \
@@ -702,7 +700,7 @@ symlinks := \
     $(foreach link, $(hw64), \
     $(shell ln -s /hwvendor/lib64/hw/$(link) $(PRODUCT_OUT)/system/vendor/lib64/hw/$(link) 2> /dev/null)) \
     $(foreach link, $(etclinks), \
-    $(shell ln -s /hwvendor/vendor/etc/$(link) $(PRODUCT_OUT)/system/vendor/etc/$(link) 2> /dev/null)) \
+    $(shell ln -s /hwvendor/etc/$(link) $(PRODUCT_OUT)/system/vendor/etc/$(link) 2> /dev/null)) \
     $(shell mkdir -p $(PRODUCT_OUT)/system/bin) \
     $(shell mkdir -p $(PRODUCT_OUT)/system/etc) \
     $(shell ln -s /hwvendor/lib64/hw/gps.hisi.default.so $(PRODUCT_OUT)/system/vendor/lib64/hw/gps.hisi.so 2> /dev/null) \
