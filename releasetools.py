@@ -95,6 +95,7 @@ def FullOTA_InstallBegin(info):
   info.script.AppendExtra('ui_print("                   felix-development               ");');
   info.script.AppendExtra('ui_print("                   HassanMirza01                   ");');
   info.script.AppendExtra('ui_print("                   petya230                        ");');
+  info.script.AppendExtra('ui_print("                                                   ");');
 
 def FullOTA_InstallEnd(info):
   info.script.AppendExtra('package_extract_dir("override", "/system");')
