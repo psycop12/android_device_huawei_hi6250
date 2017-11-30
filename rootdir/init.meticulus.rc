@@ -1,0 +1,8 @@
+# init for Meticulus Development's Extras
+
+service meticulus_otg /sbin/metiotgd
+    class late_start
+    user root
+    group root
+    seclabel u:r:metiotg:s0
+
