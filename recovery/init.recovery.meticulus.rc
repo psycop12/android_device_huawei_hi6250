@@ -1,2 +1,9 @@
 on init
   write /sys/touchscreen/easy_wakeup_gesture 1
+  start meticulus_otg
+
+service meticulus_otg /sbin/metiotgd
+    user root
+    disabled
+    oneshot
+    seclabel u:r:recovery:s0
