@@ -37,6 +37,7 @@
 #define PRODUCT_MODEL_PROP "ro.product.model"
 
 static char *model = "hi6250";
+static char dsdsorig[PROP_VALUE_MAX];
 
 extern "C" int __system_property_add(char *key,int ksize,char * value,int vsize);
 extern "C" const prop_info * __system_property_find(const char * name);
@@ -164,7 +165,7 @@ static void load_modem_props() {
     if(!strcmp(modemid, "0X3B412004"))
 	sprintf(modemid, "%s", "0X3B412000");
 
-    klog_write(0,"huawei_init modemid = %s\n", modemid);
+    klog_write(0,"huawei_init: modemid = %s\n", modemid);
     sprintf(buff, "[%s]:\n",modemid);
     sprintf(modemid, "%s", buff);
 
@@ -206,5 +207,34 @@ static void load_modem_props() {
 void vendor_load_system_properties() {
     load_modem_props();
     load_product_props();
+    /* Meticulus:
+     * Save this, in case we need to revert to 'whatever'
+     * was in phone.prop
+     */
+    property_get("persist.dsds.enabled", dsdsorig,"dsds");
 }
 
+static void check_single_sim() {
+    /* Meticulus:
+     * If they have hit the switch for single sim
+     * Set these additional single sim properties to
+     * make ril work. Based on fix discovered by
+     * Konstantin Krstic
+     */
+    char buff[PROP_VALUE_MAX];
+
+    property_get("persist.radio.multisim.config", buff, "none");
+    if(!strcmp(buff, "single")) {
+	klog_write(0, "huawei_init: Manual switch to single sim.\n");
+	set_property("persist.dsds.enabled", "false");
+	set_property("ro.config.client_number", "1");
+	set_property("ro.config.modem_number", "1");
+    } else {
+	set_property("persist.dsds.enabled", dsdsorig);	
+    }
+
+}
+
+void vendor_load_persist_properties() {
+    check_single_sim();
+}
