@@ -1,20 +1,26 @@
-From 41db2ec4e7477de3ac472470e3ef3f56a65c084e Mon Sep 17 00:00:00 2001
+From f5397762c334f8fa4e234963829f905a664c7c48 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Sat, 24 Dec 2016 23:43:28 -0600
-Subject: [PATCH] 0001-init-vendor-stubs
+Date: Fri, 1 Dec 2017 16:17:50 -0600
+Subject: [PATCH] "0001-init-vendor-stubs-boot-critical
+ _______________________________
 
-Change-Id: I31679a326358efa3962ed18bbc128e379fbe6c46
+*Previous From 41db2ec4e7477de3ac472470e3ef3f56a65c084e Mon Sep 17 00:00:00 2001
+*Previous From: Meticulus <theonejohnnyd@gmail.com>
+*Previous Date: Sat, 24 Dec 2016 23:43:28 -0600
+*Previous Subject: [PATCH] 0001-init-vendor-stubs
+*
+*Change-Id: I31679a326358efa3962ed18bbc128e379fbe6c46"
 ---
- init/property_service.cpp |  5 ++++-
+ init/property_service.cpp |  5 +++--
  init/vendor_init.cpp      | 12 +++++++++++-
  init/vendor_init.h        |  4 +++-
- 3 files changed, 18 insertions(+), 3 deletions(-)
+ 3 files changed, 17 insertions(+), 4 deletions(-)
 
 diff --git a/init/property_service.cpp b/init/property_service.cpp
-index 8644329..d9e69cd 100644
+index fc14796..e46bbb5 100644
 --- a/init/property_service.cpp
 +++ b/init/property_service.cpp
-@@ -483,6 +483,7 @@ static void load_persistent_properties() {
+@@ -575,6 +575,7 @@ static void load_persistent_properties() {
  
  void property_load_boot_defaults() {
      load_properties_from_file(PROP_PATH_RAMDISK_DEFAULT, NULL);
@@ -22,19 +28,24 @@ index 8644329..d9e69cd 100644
  }
  
  static void load_override_properties() {
-@@ -551,9 +552,11 @@ void load_system_props() {
+@@ -595,6 +596,7 @@ void load_persist_props(void) {
+     load_override_properties();
+     /* Read persistent properties after all default values have been loaded. */
+     load_persistent_properties();
++    vendor_load_persist_properties();
+ }
+ 
+ void load_recovery_id_prop() {
+@@ -643,8 +645,7 @@ void load_system_props() {
      /* update with vendor-specific property runtime
       * overrides
       */
 -    vendor_load_properties();
-+    vendor_load_persist_properties();
- 
-     load_recovery_id_prop();
-+
+-
 +    vendor_load_system_properties();
+     load_recovery_id_prop();
  }
  
- void start_property_service() {
 diff --git a/init/vendor_init.cpp b/init/vendor_init.cpp
 index 41a263b..8099a91 100644
 --- a/init/vendor_init.cpp
@@ -73,5 +84,5 @@ index 9491bc4..8a70124 100644
  extern int vendor_handle_control_message(const std::string& msg, const std::string& name);
  #endif /* __INIT_VENDOR__H__ */
 -- 
-1.9.1
+2.7.4
 
