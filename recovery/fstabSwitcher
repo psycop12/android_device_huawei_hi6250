@@ -65,6 +65,14 @@ is_cyanogen() {
 		mecho "Fstab Mode CyanogenMod"
 		wait_umounted /system
 		/sbin/setprop sys.stock 0
+	elif [[ $( cat /system/build.prop | grep -c 'ro.build.id=Elite ROM') -gt 0 ]]; then
+		mecho "Fstab Mode EliteROM"
+		sed 's/0090CA/CA0026/g' < /twres/splash.xml > /twres/nsplash.xml
+		cp /twres/nsplash.xml /twres/splash.xml
+		sed 's/0090CA/CA0026/g' < /twres/ui.xml > /twres/nui.xml
+		cp /twres/nui.xml /twres/ui.xml
+		wait_unmounted /system
+		/sbin/setprop sys.stock 0
 	else
 		mecho "Fstab Mode Stock"
 		switch_fstab

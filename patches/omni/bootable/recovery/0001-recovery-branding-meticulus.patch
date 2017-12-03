@@ -1,39 +1,47 @@
-From d08e61c372d36726196ac92ef2ed5acbe3b64f81 Mon Sep 17 00:00:00 2001
+From 6a9f0a66ad16a1a6d958bf7cbb16e7717c573e90 Mon Sep 17 00:00:00 2001
 From: Meticulus <theonejohnnyd@gmail.com>
-Date: Wed, 29 Nov 2017 07:44:27 -0600
+Date: Sat, 2 Dec 2017 09:06:28 -0600
 Subject: [PATCH] "0001-recovery-branding-meticulus
  _______________________________
 
-*Previous From b96bc265afae844692384e8b0df05c22d49e4889 Mon Sep 17 00:00:00 2001
+*Previous From d08e61c372d36726196ac92ef2ed5acbe3b64f81 Mon Sep 17 00:00:00 2001
 *Previous From: Meticulus <theonejohnnyd@gmail.com>
-*Previous Date: Sun, 18 Jun 2017 12:46:17 -0500
+*Previous Date: Wed, 29 Nov 2017 07:44:27 -0600
 *Previous Subject: [PATCH] "0001-recovery-branding-meticulus
 *_______________________________
 *
-**Previous From 41e0c6c7d3e7fec1d291c8359ef2461e0966b9aa Mon Sep 17 00:00:00 2001
+**Previous From b96bc265afae844692384e8b0df05c22d49e4889 Mon Sep 17 00:00:00 2001
 **Previous From: Meticulus <theonejohnnyd@gmail.com>
-**Previous Date: Sat, 17 Jun 2017 09:15:23 -0500
-**Previous Subject: [PATCH] "0001-recovery-branding _______________________________
+**Previous Date: Sun, 18 Jun 2017 12:46:17 -0500
+**Previous Subject: [PATCH] "0001-recovery-branding-meticulus
+**_______________________________
 **
-***Previous From 05ec3c74ba2901e5b95538b671259c9f9d51b815 Mon Sep 17 00:00:00 2001
+***Previous From 41e0c6c7d3e7fec1d291c8359ef2461e0966b9aa Mon Sep 17 00:00:00 2001
 ***Previous From: Meticulus <theonejohnnyd@gmail.com>
-***Previous Date: Sat, 17 Jun 2017 09:07:24 -0500
+***Previous Date: Sat, 17 Jun 2017 09:15:23 -0500
 ***Previous Subject: [PATCH] "0001-recovery-branding _______________________________
 ***
-****Previous From f07a3f49e20baec2d01d4558811e672d7f80019c Mon Sep 17 00:00:00 2001
+****Previous From 05ec3c74ba2901e5b95538b671259c9f9d51b815 Mon Sep 17 00:00:00 2001
 ****Previous From: Meticulus <theonejohnnyd@gmail.com>
-****Previous Date: Sat, 17 Jun 2017 08:58:28 -0500
+****Previous Date: Sat, 17 Jun 2017 09:07:24 -0500
 ****Previous Subject: [PATCH] "0001-recovery-branding _______________________________
 ****
-*****Previous From 2da3835662d527bd718619b1c13bad70066e8eef Mon Sep 17 00:00:00 2001
+*****Previous From f07a3f49e20baec2d01d4558811e672d7f80019c Mon Sep 17 00:00:00 2001
 *****Previous From: Meticulus <theonejohnnyd@gmail.com>
-*****Previous Date: Thu, 21 Jul 2016 09:49:37 -0500
-*****Previous Subject: [PATCH] recovery branding
-*****""""
+*****Previous Date: Sat, 17 Jun 2017 08:58:28 -0500
+*****Previous Subject: [PATCH] "0001-recovery-branding _______________________________
+*****
+******Previous From 2da3835662d527bd718619b1c13bad70066e8eef Mon Sep 17 00:00:00 2001
+******Previous From: Meticulus <theonejohnnyd@gmail.com>
+******Previous Date: Thu, 21 Jul 2016 09:49:37 -0500
+******Previous Subject: [PATCH] recovery branding
+******""""
+**
+**Change-Id: I102f4bee38dc75d48fd7994e2d2874c4d71f9a01"
 *
-*Change-Id: I102f4bee38dc75d48fd7994e2d2874c4d71f9a01"
+*Change-Id: I0db8cf10b3cff8fb27b84689325bc8582487c19a"
 
-Change-Id: I0db8cf10b3cff8fb27b84689325bc8582487c19a
+Change-Id: I87a374f3b6f0978f5f8d2f15ee520c4e4c2436d9
 ---
  data.cpp                      | 1 +
  gui/theme/common/portrait.xml | 7 +++----
@@ -75,14 +83,14 @@ index f163bea..52ebeec 100644
  			<button style="main_button">
  				<placement x="%indent%" y="%row2a_y%"/>
 diff --git a/variables.h b/variables.h
-index bcf228c..6e77498 100644
+index bcf228c..f13ed41 100644
 --- a/variables.h
 +++ b/variables.h
 @@ -18,6 +18,8 @@
  #define _VARIABLES_HEADER_
  
  #define TW_MAIN_VERSION_STR       "3.1.1"
-+#define MD_VERSION_STR              "5.1"
++#define MD_VERSION_STR              "5.2"
 +#define MD_VERSION_VAR              "md_version"
  #define TW_VERSION_STR TW_MAIN_VERSION_STR TW_DEVICE_VERSION
  
