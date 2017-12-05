@@ -17,7 +17,8 @@ on init
 	chown media media /dev/ear_pa
 	chmod 0660 /dev/soundtrigger_dma_drv
 	chown media media /dev/soundtrigger_dma_drv
-
+	chmod 0660 /dev/tas2560
+	chown media media /dev/tas2560
 on early-fs
 
 on fs
