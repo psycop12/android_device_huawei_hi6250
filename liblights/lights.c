@@ -61,9 +61,12 @@ char const *const BLUE_DELAYON_FILE = "/sys/class/leds/blue/delay_on";
 char const *const BLUE_DELAYOFF_FILE = "/sys/class/leds/blue/delay_off";
 
 char const *const BACKLIGHT_FILE = "/sys/class/leds/lcd_backlight0/brightness";
+char const *const BACKLIGHT_MAX_FILE = "/sys/class/leds/lcd_backlight0/max_brightness";
 
 static int last_battery_color = 0xff000000;
 static unsigned int last_noti_color = 0xff000000;
+
+static int max_brightness = 255;
 
 char stock_l_path[255] = "/vendor/lib64/hw/lights.default.so";
 
@@ -92,7 +95,10 @@ static int rgb_to_brightness(struct light_state_t const * state) {
 
 	unsigned int brightness = ((77 * ((state->color >> 16) & 0x00ff))
 	                           + (150 * ((state->color >> 8) & 0x00ff)) + (29 * (state->color & 0x00ff))) >> 8;
-	return brightness;
+	if(max_brightness == 4095)
+		return brightness * 16;
+	else
+		return brightness;
 
 }
 
@@ -247,6 +253,17 @@ static int close_lights(struct light_device_t *dev)
 	return 0;
 }
 
+static void read_max_brightness() {
+    int fd = -1;
+    char buff[255];
+    fd = open(BACKLIGHT_MAX_FILE, O_RDONLY);
+    if(!fd) {
+	return;
+    }
+    if(read(fd,buff, 255))
+	max_brightness = atoi(buff);
+}
+
 /** Open a new instance of a lights device using name */
 static int open_lights(const struct hw_module_t *module, char const *name, struct hw_device_t **device)
 {
@@ -286,7 +303,7 @@ static int open_lights(const struct hw_module_t *module, char const *name, struc
 	dev->set_light = set_light;
 
 	*device = (struct hw_device_t *)dev;
-
+	read_max_brightness();
 	return 0;
 }
 
