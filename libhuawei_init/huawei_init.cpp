@@ -110,6 +110,8 @@ static void load_product_props() {
     char prod_prop_path[255];
     char *linebuf = NULL;
     size_t size = PROP_NAME_MAX + PROP_VALUE_MAX + 2;
+    if(!strcmp(model, "WAS-LX3"))
+	model = "WAS-L23";
     sprintf(prod_prop_path, "/product/hw_oem/%s/prop/local.prop",model);
     FILE *fd = fopen(prod_prop_path, "r");
     if(!fd) {
