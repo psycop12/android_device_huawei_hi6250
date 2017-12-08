@@ -30,7 +30,8 @@
 #include <hardware/hardware.h>
 #include <hardware/power.h>
 
-#include "hi6250.h"
+#include "venus.h"
+#include "warsaw.h"
 
 //#define DEBUG
 
@@ -41,6 +42,8 @@
 #endif
 
 #define STOCK_PROP "persist.sys.stock_power_HAL"
+#define BASE "/sys/firmware/devicetree/base/"
+#define PRODUCT_PATH BASE"hisi,product_name"
 
 static hw_module_t *stock_power_module;
 extern int load_stock_power(char *path, hw_module_t **pHmi);
@@ -49,12 +52,15 @@ static char stock_p_path[255] = "/system/lib64/hw/power.default.so";
 
 static int stock_power = 0;
 static int low_power = 0;
+static struct power_profile power_save;
+static struct power_profile balanced;
+static struct power_profile performance;
 static struct power_profile * profile = &performance; 
 static struct power_profile * sel_profile = &performance;
 
 static void write_string(const char * path, const char * value) {
     int fd = open(path, O_WRONLY);
-	if(!fd) { ALOGE("Unable to open to %s", path); return;}
+	if(fd == -1 ) { ALOGE("Unable to open to %s", path); return;}
 
 	unsigned long bytes_written = write(fd, value, strlen(value));
 
@@ -68,6 +74,8 @@ static void write_string(const char * path, const char * value) {
 
 static void power_init(struct power_module *module)
 {
+    int fd = -1;
+    char model[255];
     stock_power = property_get_bool(STOCK_PROP,false) ? 1 : 0;
     if(stock_power) {
 	ALOGI("%s is set. Loading Stock Power HAL...", STOCK_PROP);
@@ -83,6 +91,29 @@ static void power_init(struct power_module *module)
 	return ((power_module_t *)stock_power_module)->init((power_module_t *)stock_power_module);
     }
     ALOGI("init");
+
+    fd = open(PRODUCT_PATH, O_RDONLY);
+    if(fd < 0) {
+        ALOGE("Could not read model! using VNS");
+        sprintf(model,"VNS-L21");
+    } else {
+        if(read(fd,model,255) < 1) {
+            ALOGE("Could not read model! using VNS");
+            sprintf(model,"VNS-L21");
+        }
+    }
+    if(!strncmp(model, "WAS", 3)) {
+        power_save = warsaw_power_save;
+        balanced = warsaw_balanced;
+        performance = warsaw_performance;
+    } else {
+        power_save = venus_power_save;
+        balanced = venus_balanced;
+        performance = venus_performance;
+    }
+    profile = &performance;
+    sel_profile = &performance;
+
     write_string(CPU0_FREQ_MAX_PATH,(*profile).cpu0_freq_max);
     write_string(CPU0_FREQ_MIN_PATH,(* profile).cpu0_freq_low);
     write_string(CPU4_FREQ_MAX_PATH,(*profile).cpu4_freq_max);
@@ -95,7 +126,6 @@ static void power_init(struct power_module *module)
     write_string(DDR_FREQ_POLL_PATH,"50\n");
     write_string(GPU_ANIM_BOOST_F_PATH,(*profile).gpu_freq_boost);
     write_string(GPU_HISPEED_F_PATH,(*profile).gpu_freq_max);
-
 }
 
 static void power_set_interactive(struct power_module *module, int on) {
@@ -240,6 +270,11 @@ static void power_hint(struct power_module *module, power_hint_t hint,
 		DEBUG_LOG("POWER_HINT_LOW_POWER %d", var);
 		power_hint_low_power(var);
 		break;
+	case POWER_HINT_LAUNCH:
+		DEBUG_LOG("POWER_HINT_LAUNCH");
+		if(!low_power)
+		    power_hint_interactive(0);
+		break;
 #ifndef AOSP
 	case POWER_HINT_CPU_BOOST:
 		if(data != NULL)
@@ -247,11 +282,6 @@ static void power_hint(struct power_module *module, power_hint_t hint,
 		DEBUG_LOG("POWER_HINT_CPU_BOOST %d", var);
 		if(!low_power)
 		    power_hint_cpu_boost(var);
-		break;
-	case POWER_HINT_LAUNCH:
-		DEBUG_LOG("POWER_HINT_LAUNCH");
-		if(!low_power)
-		    power_hint_interactive(0);
 		break;
 #endif
 #ifdef CMEXTRAS
