@@ -81,3 +81,24 @@ persist.sys.stock_power_HAL=false
 #
 #i
 persist.sys.strictmode.disable=true
+
+
+#
+# RIL for PRA-WAS variants
+#
+persist.dsds.enabled=false
+persist.radio.modem.cap=09A9C
+rild.libpath=/vendor/lib64/libbalong-ril.so
+rild.libpath1=/vendor/lib64/libbalong-ril-1.so
+rild.libargs1=-m modem1
+rild.libargs=-m modem0
+rild.rild1_ready_to_start=false
+ro.config.dsds_mode=umts_gsm
+ro.config.hw_dsda=false
+ro.config.hw_save_pin=true
+ro.config.modem_number=2
+ro.config.client_number=2
+ro.config.default_commril_mode=ULG_MODE
+ro.config.is_start_commril=true
+ro.multi.rild=false
+ro.telephony.default_network=9
