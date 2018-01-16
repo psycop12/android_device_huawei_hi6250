@@ -46,31 +46,6 @@ umount() {
 	fi
 }
 
-printheader() {
-mecho '                                        '
-mecho '            .:+syyhhhhyyo+:.            '
-mecho '        `/sdddyo+/::::/+oyddhs:`        '
-mecho '      -sddy+-              -+yddo.      '
-mecho '    .yddo.                    .odds.    '
-mecho '   /dds`   .-`            `-.   `sdd/   '
-mecho '  odd/    sddd/          /ddds    /ddo  '
-mecho ' +dd:     hdddd/        /ddddh     :dd+ '
-mecho '.ddo      hddddd/      :dddddh      odd.'
-mecho 'odd`      hdd+hdd:    :ddh+ddh      `ddo'
-mecho 'ydh       hdd/`hdd:  :ddh`/ddh       hdy'
-mecho 'ydh       hdd/ `hdd:-ddh` /ddh       hdy'
-mecho 'odd`      hdd/  .hddddh.  /ddh      `ddo'
-mecho '-dd+      hdd/   .hddh.   /ddh      +dd-'
-mecho ' odd-     hdd/    `//`    /ddh     -ddo '
-mecho '  sdd:    ydd:            :ddy    :dds  '
-mecho '   +ddo`   .`              `.   `odd+   '
-mecho '    .yddo.                    .oddy-    '
-mecho '      -sddy+-              -/ydds:      '
-mecho '        `/sdddyo+/::::/+oyddds/`        '
-mecho '            .:+syyhhhhyys+/.            '
-mecho '                                        '
-}
-
 clearscreen() {
     I=0
     while true
